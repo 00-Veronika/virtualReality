@@ -34,6 +34,8 @@ namespace virtualReality.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             
             Console.WriteLine("eeeeeee");
+            Console.WriteLine("eeeeeee");
+            Console.WriteLine("eeeeeee");
         }
         
     }

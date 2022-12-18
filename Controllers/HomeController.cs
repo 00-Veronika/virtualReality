@@ -17,12 +17,16 @@ namespace virtualReality.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
             return View();
         }
-
+        [HttpGet]
+        public IActionResult Details()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

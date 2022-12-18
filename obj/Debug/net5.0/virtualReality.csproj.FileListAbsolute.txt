@@ -32,3 +32,4 @@ C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\virtualReality.pdb
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\virtualReality.genruntimeconfig.cache
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\virtualReality.csproj.CopyComplete
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Home\details.cshtml.g.cs

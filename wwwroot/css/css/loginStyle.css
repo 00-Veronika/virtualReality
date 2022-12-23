@@ -8,6 +8,7 @@ body {
 *{
     box-sizing: border-box;
 }
+
 .container{
     width: 500px;
     background: #fff;
@@ -88,7 +89,6 @@ body {
     text-shadow: none;
     display: inline-block;
     text-align: start;
-    appearance: auto;
     box-sizing: border-box;
     align-items: center;
     white-space: pre;

@@ -70,4 +70,9 @@
     <None Include="wwwroot\css\vendor\jquery\jquery.slim.min.map" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

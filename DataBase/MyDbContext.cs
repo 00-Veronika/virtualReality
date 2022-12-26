@@ -1,21 +1,36 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EntityFrameworkSample;
+using virtualReality.ViewModels;
+using virtualReality.Entities;
+using Microsoft.Extensions.Options;
 
 namespace EntityFrameworkSample
 {
     public class MyDbContext : DbContext
     {
-        public DbSet<User>Users { get; set; }
+
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Games> Games { get; set; }
+        public DbSet<GameToType>GameToTypes { get; set; }
+        public DbSet<Genre>Genre { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+        public DbSet<Pictures>Pictures { get; set; }
+        public object Configuration { get; private set; }
+
         public MyDbContext()
         {
-            Users = this.Set<User>();
+            Users = this.Set<Users>();
         }
-        protected override void OnConfiguring(DbContextOptions Builder optionBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=localhost; DataBase= VirtualRealityDb;");
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+                {
+                    optionsBuilder.UseSqlServer("Server=localhost;Database=virtualRealityDb;Trusted_Connection=True;");
+
+                }
     }
 }

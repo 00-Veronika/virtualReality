@@ -24,7 +24,5 @@ namespace virtualReality.ViewModels
             [DisplayName("Email: ")]
             [Required(ErrorMessage = "*This field is Required!")]
             public string Email { get; set; }
-
-
     }
 }

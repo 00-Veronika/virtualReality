@@ -1,4 +1,4 @@
-﻿
+﻿@model virtualReality.ViewModels.LoginVM
 @{
     Layout = "/Views/Shared/_Site.cshtml";
     ViewData["title"] = "Login";
@@ -6,25 +6,41 @@
 }
 
 <div class="col-lg-8" style="margin: 120px auto;">
-    <form id="contact">
+    <form action="/Home/Login" method="post" id="contact">
         <div class="row">
-            <label class="label" for="username">Username</label>
-            <input type="text" class="input" id="username" name="username" placeholder="Enter your name" required="required" />
+            <div class="label" for="username">
+                @Html.LabelFor(m => m.Username)
+            </div>
+            <div class="input" id="username" name="username" required="required">
+                @Html.TextBoxFor(m => m.Username)
+            </div>
+            <div class="input">@Html.ValidationMessageFor(m => m.Username)</div>
         </div>
         <div class="row">
-            <label class="label" for="password">Password</label>
-            <input type="password" class="input" id="password" name="password" placeholder="Enter your password" required="required" />
+            <div class="label" for="password">@Html.LabelFor(m => m.Password)</div>
+            <div class="input" id="password" name="password" required="required">
+                @Html.TextBoxFor(m => m.Password)
+            </div>
+            <div class="input">@Html.ValidationMessageFor(m => m.Password)</div>
         </div>
         <div class="row">
-            <label class="label" for="phone" id="labelTel">Phone</label>
-            <input type="tel" class="input" id="phone" name="telephone" placeholder="Enter your phone number" required="required" pattern="[0-9]{3}-[0-9{3}-[0-9]{4}" />
+            <div class="label" for="phone" id="labelTel">@Html.LabelFor(m => m.Phone)</div>
+            <div class="input" id="phone" name="telephone" required="required" pattern="[0-9]{3}-[0-9{3}-[0-9]{4}">
+                @Html.TextBoxFor(m => m.Phone)
+            </div>
+            <div class="input">@Html.ValidationMessageFor(m => m.Phone)</div>
         </div>
         <div class="row">
-            <label class="label" for="email" id="labelEmail">Email</label> <br>
-            <input type="email" class="input" id="em" name="email" placeholder="Enter your Email" required="required" />
+        <div class="label" for="email" id="labelEmail">@Html.LabelFor(m => m.Email)</div> <br>
+        <div class="input" id="em" name="email" required="required">
+            @Html.TextBoxFor(m => m.Email)
+        </div>
+        <div class="input">
+            @Html.ValidationMessageFor(m => m.Email)
+            </div>
         </div>
         <div class="col-lg-8">
-            <span class="label">Choose Gender</span>
+            <label class="label">Choose Gender</label>
             <div>
                 <select class="selection" name="gender" id="gender">
                     <option value="Female">Female</option>
@@ -32,20 +48,9 @@
                     <option value="Not defined">Gender</option>
                 </select>
             </div>
-            <div class="col-lg-4">
-                <span class="label">Choose your role</span>
-                <div>
-                    <select class="selection" name="role" id="role">
-                        <option value="Manchester">Admin</option>
-                        <option value="London">Customer</option>
-                        <option value="New York">Seller</option>
-                    </select>
-                </div>
-            </div>
             <div>
                 <button class="btn col-lg-6" type="submit" style="background:rgba(125,90,254,1)  25%;">Log in</button>
             </div>
         </div>
     </form>
 </div>
-

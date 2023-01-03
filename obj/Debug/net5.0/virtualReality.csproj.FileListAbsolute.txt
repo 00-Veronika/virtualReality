@@ -31,7 +31,6 @@ C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\virtualReality.csproj.CopyComplete
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Home\details.cshtml.g.cs
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Shared\_Site.cshtml.g.cs
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\Humanizer.dll
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
@@ -64,8 +63,9 @@ C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Home\Registration.cshtml.g.cs
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\virtualReality.csproj.AssemblyReference.cache
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\virtualReality.StaticWebAssets.xml
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\virtualReality.StaticWebAssets.Pack.cache
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\msbuild.virtualReality.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\msbuild.build.virtualReality.props

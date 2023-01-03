@@ -1,0 +1,48 @@
+﻿@model virtualReality.ViewModels.RegistrationVM
+@{
+    Layout = "/Views/Shared/_Site.cshtml";
+    ViewData["title"] = "Registration";
+
+}
+
+<div class="col-lg-8" style="margin: 120px auto;">
+    <form action="/Home/Registration" method="post" id="contact">
+        <div class="row">
+            <div class="label" for="username">
+                @Html.LabelFor(m => m.Username)
+            </div>
+            <div class="input" id="username" name="username" required="required">
+                @Html.TextBoxFor(m => m.Username)
+            </div>
+            <div class="input">@Html.ValidationMessageFor(m => m.Username)</div>
+        </div>
+        <div class="row">
+            <div class="label" for="password">@Html.LabelFor(m => m.Password)</div>
+            <div class="input" id="password" name="password" required="required">
+                @Html.TextBoxFor(m => m.Password)
+            </div>
+            <div class="input">@Html.ValidationMessageFor(m => m.Password)</div>
+        </div>
+        <div class="row">
+            <div class="label" for="phone" id="labelTel">@Html.LabelFor(m => m.Phone)</div>
+            <div class="input" id="phone" name="telephone" required="required" pattern="[0-9]{3}-[0-9{3}-[0-9]{4}">
+                @Html.TextBoxFor(m => m.Phone)
+            </div>
+            <div class="input">@Html.ValidationMessageFor(m => m.Phone)</div>
+        </div>
+        <div class="row">
+        <div class="label" for="email" id="labelEmail">@Html.LabelFor(m => m.Email)</div> <br>
+        <div class="input" id="em" name="email" required="required">
+            @Html.TextBoxFor(m => m.Email)
+        </div>
+        <div class="input">
+            @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div>
+                <button class="btn col-lg-6" type="submit" style="background:rgba(125,90,254,1)  25%;">Register</button>
+            </div>
+        </div>
+    </form>
+</div>

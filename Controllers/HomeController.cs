@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EntityFrameworkSample;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProjectManagement.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using virtualReality.Entities;
 using virtualReality.Models;
+using virtualReality.ViewModels;
 
 namespace virtualReality.Controllers
 {
@@ -33,9 +37,40 @@ namespace virtualReality.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Registration()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            if (HttpContext.Session.GetObject<Users>("loggedUser") != null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login(LoginVM model)
+        {
+            if (!this.ModelState.IsValid)
+                return View(model);
+
+            MyDbContext context = new MyDbContext();
+            Users loggedUser = context.Users.Where(u => u.username == model.Username &&
+                                                       u.password == model.Password)
+                                           .FirstOrDefault();
+            if (loggedUser == null)
+            {
+                this.ModelState.AddModelError("authError", "Invalid username or password!");
+                return View(model);
+            }
+
+            HttpContext.Session.SetObject("loggedUser", loggedUser);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

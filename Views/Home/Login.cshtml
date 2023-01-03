@@ -18,38 +18,13 @@
         </div>
         <div class="row">
             <div class="label" for="password">@Html.LabelFor(m => m.Password)</div>
-            <div class="input" id="password" name="password" required="required">
-                @Html.TextBoxFor(m => m.Password)
-            </div>
-            <div class="input">@Html.ValidationMessageFor(m => m.Password)</div>
-        </div>
-        <div class="row">
-            <div class="label" for="phone" id="labelTel">@Html.LabelFor(m => m.Phone)</div>
-            <div class="input" id="phone" name="telephone" required="required" pattern="[0-9]{3}-[0-9{3}-[0-9]{4}">
-                @Html.TextBoxFor(m => m.Phone)
-            </div>
-            <div class="input">@Html.ValidationMessageFor(m => m.Phone)</div>
-        </div>
-        <div class="row">
-        <div class="label" for="email" id="labelEmail">@Html.LabelFor(m => m.Email)</div> <br>
-        <div class="input" id="em" name="email" required="required">
-            @Html.TextBoxFor(m => m.Email)
-        </div>
-        <div class="input">
-            @Html.ValidationMessageFor(m => m.Email)
+            <div class="input"  id="password" name="password" required="required">
+                @Html.PasswordFor(m => m.Password)
             </div>
         </div>
         <div class="col-lg-8">
-            <label class="label">Choose Gender</label>
             <div>
-                <select class="selection" name="gender" id="gender">
-                    <option value="Female">Female</option>
-                    <option value="Male">Male</option>
-                    <option value="Not defined">Gender</option>
-                </select>
-            </div>
-            <div>
-                <button class="btn col-lg-6" type="submit" style="background:rgba(125,90,254,1)  25%;">Log in</button>
+                <button value="Login" class="btn col-lg-6" type="submit" style="background:rgba(125,90,254,1)  25%;">Login</button>
             </div>
         </div>
     </form>

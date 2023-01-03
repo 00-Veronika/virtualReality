@@ -21,7 +21,6 @@ namespace EntityFrameworkSample
         public DbSet<Genre>Genre { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<Pictures>Pictures { get; set; }
-        public object Configuration { get; private set; }
 
         public MyDbContext()
         {
@@ -30,6 +29,19 @@ namespace EntityFrameworkSample
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=localhost;Database=virtualRealityDb;Trusted_Connection=True;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Users>().HasData(
+                new Users()
+                {
+                    Id = 1,
+                    username = "nikiv",
+                    password = "nikipass",
+                    firstName = "Nikola",
+                    lastName = "Valchanov"
+                });
         }
     }
 }

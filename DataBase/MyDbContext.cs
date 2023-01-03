@@ -28,9 +28,8 @@ namespace EntityFrameworkSample
             Users = this.Set<Users>();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-                {
-                    optionsBuilder.UseSqlServer("Server=localhost;Database=virtualRealityDb;Trusted_Connection=True;");
-
-                }
+        {
+            optionsBuilder.UseSqlServer("Server=localhost;Database=virtualRealityDb;Trusted_Connection=True;");
+        }
     }
 }

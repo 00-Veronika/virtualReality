@@ -12,8 +12,7 @@ namespace virtualReality.Entities
         public string url { get; set; }
         public int games_Id { get; set; }
 
-        [ForeignKey(nameof(game))]
-
+        [ForeignKey(nameof(games_Id))]
         public Games game { get; set; }
 
     }

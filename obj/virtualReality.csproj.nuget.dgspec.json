@@ -64,10 +64,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.13, )"
-            },
-            "Microsoft.Extensions.Options": {
-              "target": "Package",
-              "version": "[7.0.0, )"
             }
           },
           "imports": [

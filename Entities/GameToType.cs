@@ -12,11 +12,11 @@ namespace virtualReality.Entities
        public int games_Id { get; set; }
        public int genre_Id { get; set; }
 
-       [ForeignKey(nameof(game))]
+       [ForeignKey(nameof(games_Id))]
 
        public Games game { get; set; }
 
-       [ForeignKey(nameof(genre))]
+       [ForeignKey(nameof(genre_Id))]
        public Genre genre { get; set; }
     }
 }

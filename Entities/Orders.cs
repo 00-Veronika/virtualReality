@@ -9,7 +9,7 @@ namespace virtualReality.Entities
     public class Orders
     {
         public int Id { get; set; }
-        public string user_Id { get; set; }
+        public int user_Id { get; set; }
         public int genre_Id { get; set; }
 
         [ForeignKey(nameof(user_Id))]

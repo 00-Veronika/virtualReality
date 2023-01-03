@@ -2,7 +2,7 @@
 
 namespace virtualReality.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,6 +12,8 @@ namespace virtualReality.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     releaseDate = table.Column<int>(type: "int", nullable: false)
                 },
@@ -116,6 +118,11 @@ namespace virtualReality.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "email", "firstName", "lastName", "password", "phoneNumber", "username" },
+                values: new object[] { 1, null, "Nikola", "Valchanov", "nikipass", null, "nikiv" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GameToTypes_games_Id",

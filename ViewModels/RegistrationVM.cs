@@ -8,6 +8,15 @@ namespace virtualReality.ViewModels
 {
     public class RegistrationVM
     {
+
+        [DisplayName("First Name: ")]
+        [Required(ErrorMessage = "*This field is Required!")]
+        public string FirstName { get; set; }
+
+        [DisplayName("Last Name: ")]
+        [Required(ErrorMessage = "*This field is Required!")]
+        public string LastName { get; set; }
+
         [DisplayName("Username: ")]
         [Required(ErrorMessage = "*This field is Required!")]
         public string Username { get; set; }

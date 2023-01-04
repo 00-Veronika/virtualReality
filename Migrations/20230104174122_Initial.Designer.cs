@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace virtualReality.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230103172017_Initial")]
+    [Migration("20230104174122_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,12 +131,6 @@ namespace virtualReality.Migrations
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("firstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("password")
                         .HasColumnType("nvarchar(max)");
 
@@ -154,8 +148,6 @@ namespace virtualReality.Migrations
                         new
                         {
                             Id = 1,
-                            firstName = "Nikola",
-                            lastName = "Valchanov",
                             password = "nikipass",
                             username = "nikiv"
                         });

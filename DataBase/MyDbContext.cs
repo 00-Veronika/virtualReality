@@ -39,8 +39,7 @@ namespace EntityFrameworkSample
                     Id = 1,
                     username = "nikiv",
                     password = "nikipass",
-                    firstName = "Nikola",
-                    lastName = "Valchanov"
+                    
                 });
         }
     }

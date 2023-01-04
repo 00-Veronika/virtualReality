@@ -129,12 +129,6 @@ namespace virtualReality.Migrations
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("firstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("password")
                         .HasColumnType("nvarchar(max)");
 
@@ -152,8 +146,6 @@ namespace virtualReality.Migrations
                         new
                         {
                             Id = 1,
-                            firstName = "Nikola",
-                            lastName = "Valchanov",
                             password = "nikipass",
                             username = "nikiv"
                         });

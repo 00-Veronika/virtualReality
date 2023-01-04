@@ -14,7 +14,7 @@ namespace virtualReality.Controllers
         
         public IActionResult Index()
         {
-            EntityFrameworkSample.MyDbContext context = new MyDbContext();
+            MyDbContext context = new MyDbContext();
 
             AllUsersVM model = new AllUsersVM();
             model.Items = context.Users.ToList();
@@ -43,14 +43,12 @@ namespace virtualReality.Controllers
             Users item = new Users();
             item.username = model.Username;
             item.password = model.Password;
-            item.firstName = model.FirstName;
-            item.lastName = model.LastName;
 
             MyDbContext context = new MyDbContext();
             context.Users.Add(item);
             context.SaveChanges();
 
-            return RedirectToAction("Index", "Users");
+            return RedirectToAction("Home", "Login");
         }
               [HttpGet]
               public IActionResult Edit(int id)
@@ -62,8 +60,6 @@ namespace virtualReality.Controllers
                   model.Id = item.Id;
                   model.Username = item.username;
                   model.Password = item.password;
-                  model.FirstName = item.firstName;
-                  model.LastName = item.lastName;
 
                   return View(model);
               }
@@ -76,8 +72,6 @@ namespace virtualReality.Controllers
 
                   item.username = model.Username;
                   item.password = model.Password;
-                  item.firstName = model.FirstName;
-                  item.lastName = model.LastName;
 
                   return RedirectToAction("Index", "Users");
               }

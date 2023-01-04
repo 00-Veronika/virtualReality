@@ -1,4 +1,4 @@
-﻿@model virtualReality.ViewModels.RegistrationVM
+﻿@model virtualReality.ViewModels.UsersVM.CreateVM
 @{
     Layout = "/Views/Shared/_Site.cshtml";
     ViewData["title"] = "Registration";
@@ -41,7 +41,7 @@
         </div>
         <div class="col-lg-8">
             <div>
-                <button class="btn col-lg-6" type="submit" style="background:rgba(125,90,254,1)  25%;">Register</button>
+                <button class="btn col-lg-6" type="submit" value="Save" href="/Home/Login" style="background:rgba(125,90,254,1)  25%;">Register</button>
             </div>
         </div>
     </form>

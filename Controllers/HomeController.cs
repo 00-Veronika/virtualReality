@@ -1,13 +1,13 @@
 ﻿using EntityFrameworkSample;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ProjectManagement.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using virtualReality.Entities;
+using virtualReality.Extensions;
 using virtualReality.Models;
 using virtualReality.ViewModels;
 
@@ -35,13 +35,6 @@ namespace virtualReality.Controllers
         {
             return View();
         }
-
-        [HttpGet]
-        public IActionResult Registration()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -69,6 +62,45 @@ namespace virtualReality.Controllers
             }
 
             HttpContext.Session.SetObject("loggedUser", loggedUser);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Registration(RegistrationVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                return View();
+            }
+
+            MyDbContext context = new MyDbContext();
+            Users item = new Users();
+            item.username = model.Username;
+            item.password = model.Password;
+            item.email = model.Email;
+            item.phoneNumber = model.Phone;
+
+            context.Users.Add(item);
+            context.SaveChanges();
+
+            return RedirectToAction("Login", "Home");
+        }
+
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            if (this.HttpContext.Session.GetObject<Users>("loggedUser") == null)
+                return RedirectToAction("Index", "Home");
+
+            this.HttpContext.Session.Remove("loggedUser");
 
             return RedirectToAction("Index", "Home");
         }

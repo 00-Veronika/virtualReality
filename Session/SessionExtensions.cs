@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace ProjectManagement.Extensions
+namespace virtualReality.Extensions
 {
     public static class SessionExtensions
     {

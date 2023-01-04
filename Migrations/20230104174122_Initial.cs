@@ -41,8 +41,6 @@ namespace virtualReality.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    firstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    lastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -121,8 +119,8 @@ namespace virtualReality.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "email", "firstName", "lastName", "password", "phoneNumber", "username" },
-                values: new object[] { 1, null, "Nikola", "Valchanov", "nikipass", null, "nikiv" });
+                columns: new[] { "Id", "email", "password", "phoneNumber", "username" },
+                values: new object[] { 1, null, "nikipass", null, "nikiv" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GameToTypes_games_Id",

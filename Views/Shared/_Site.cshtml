@@ -44,10 +44,14 @@
                             <li>
                                 <a href="/Home/details"> Item Details </a>
                             </li>
-                            @if (loggedUser != null)
+                           
+                            @if (loggedUser != null && loggedUser.username == "nikiv")
                             {
                                 <li>
                                     <a href="/Home/Logout"> Logout </a>
+                                </li>
+                                <li>
+                                    <a href="/Games/Index"></a>
                                 </li>
                             }
                             else

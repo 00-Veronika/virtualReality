@@ -18,5 +18,6 @@ namespace virtualReality.Entities
 
        [ForeignKey(nameof(genre_Id))]
        public Genre genre { get; set; }
+
     }
 }

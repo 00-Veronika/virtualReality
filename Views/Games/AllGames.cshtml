@@ -3,7 +3,7 @@
 
 @{
     this.ViewData["title"] = "Games";
-    this.Layout = "/Views/Shared/_Layout.cshtml";
+    this.Layout = "/Views/Shared/_Site.cshtml";
 
 }
 
@@ -18,16 +18,17 @@
 
             <div class="col-md-3 mb-4">
                 <div class="card" style="width: 16rem;">
-                 
+
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Price: @item.Price USD.</h6>
                         <h6 class="card-subtitle mb-2 text-muted">
-                            Actors:
-                            @if (item.Genre != null)
+                            Genres:
+                            @if (Model.Genres != null)
                             {
-                                @foreach (Genre genre in Model.Items)
+                                foreach (var genre in Model.Genres)
                                 {
+
                                     <span>@genre.name</span>
                                 }
                             }
@@ -39,6 +40,7 @@
     </div>
 
 </div>
+
 
 
 

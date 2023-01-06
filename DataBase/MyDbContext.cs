@@ -41,6 +41,17 @@ namespace EntityFrameworkSample
                     password = "nikipass",
                     
                 });
+
+            //modelBuilder.Entity<Games>().HasData(
+            //    new Games()
+            //    {
+            //        Id = 1,
+            //        Name = "test",
+            //        Price = 10,
+            //        Genre = "testGenre",
+            //        manufacturer = "epicgames",
+            //        releaseDate = 2023
+            //    });
         }
     }
 }

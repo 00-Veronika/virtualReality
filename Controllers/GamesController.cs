@@ -13,14 +13,15 @@ namespace virtualReality.Controllers
     public class GamesController : Controller
     {
         // GET: GamesController
-        public IActionResult Index(GamesVM model)
+        public ActionResult AllGames(AllGamesVM model)
         {
             MyDbContext context = new MyDbContext();
 
+            model.Items = context.Games.ToList();
+
             foreach (Games game in model.Items)
             {
-                game.Genre = context.GameToTypes.Where(i => i.games_Id == game.Id).Select( x => x.genre).ToString();
-                game.Genre.ToList();
+                model.Genres = context.GameToTypes.Where(i => i.games_Id == game.Id).Select(x => x.genre).ToList();
             }
 
 

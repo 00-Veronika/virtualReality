@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using virtualReality.Entities;
+using virtualReality.Extensions;
 using virtualReality.ViewModels.GamesVM;
+
 
 namespace virtualReality.Controllers
 {
@@ -35,7 +37,8 @@ namespace virtualReality.Controllers
         }
 
         // GET: GamesController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Create(CreateVM model)
         {
             return View();
         }

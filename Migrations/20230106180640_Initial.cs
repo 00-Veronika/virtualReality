@@ -14,6 +14,7 @@ namespace virtualReality.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     releaseDate = table.Column<int>(type: "int", nullable: false)
                 },

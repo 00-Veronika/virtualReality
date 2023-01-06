@@ -38,7 +38,7 @@ namespace virtualReality.Controllers
 
         public IActionResult Games()
         {
-            return RedirectToAction("Index", "Games");
+            return RedirectToAction("AllGames", "Games");
         }
         [HttpGet]
         public IActionResult Login()

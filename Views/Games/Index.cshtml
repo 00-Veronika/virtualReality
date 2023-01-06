@@ -13,7 +13,7 @@
 <div class="container mt-4">
     <div class="row">
 
-        @foreach (Games item in Model.Items)
+        @foreach (var item in Model.Items)
         {
 
             <div class="col-md-3 mb-4">
@@ -26,10 +26,10 @@
                             Actors:
                             @if (item.Genre != null)
                             {
-                                @*@foreach (Genre genre in item.manufacturer)
+                                @foreach (Genre genre in Model.Items)
                                 {
-                                    <span>@game.manufacturer</span>
-                                }*@
+                                    <span>@genre.name</span>
+                                }
                             }
                         </h6>
                     </div>

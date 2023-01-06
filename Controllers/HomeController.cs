@@ -35,6 +35,11 @@ namespace virtualReality.Controllers
         {
             return View();
         }
+
+        public IActionResult Games()
+        {
+            return RedirectToAction("Index", "Games");
+        }
         [HttpGet]
         public IActionResult Login()
         {

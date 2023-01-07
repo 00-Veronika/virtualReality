@@ -1,13 +1,13 @@
 ﻿@using virtualReality.Entities
-@model virtualReality.ViewModels.GamesVM.CreateVM
+@model virtualReality.ViewModels.GamesVM.GamesVM
 
 @{
-    this.ViewData["title"] = "Games";
+    this.ViewData["title"] = "Edit Games";
     this.Layout = "/Views/Shared/_Site.cshtml";
 
 }
 <div class="col-lg-8" style="margin: 120px auto;">
-    <form action="/Games/Create" method="post" id="contact">
+    <form action="/Games/Edit" method="post" id="contact">
         <div class="row">
             <div class="label" for="name">
                 @Html.LabelFor(m => m.Name)
@@ -46,9 +46,8 @@
         </div>
         <div class="col-lg-8">
             <div>
-                <button  action="Create" asp-for="Create" class="btn col-lg-6" type="submit" value="Save" href="/Games/Create" style="background:rgba(125,90,254,1)  25%;">Create</button>
+                <button action="Edit" asp-for="Edit" class="btn col-lg-6" type="submit" value="Save" href="/Games/Edit" style="background:rgba(125,90,254,1)  25%;">Edit</button>
             </div>
         </div>
     </form>
 </div>
-

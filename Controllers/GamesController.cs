@@ -38,24 +38,35 @@ namespace virtualReality.Controllers
 
         // GET: GamesController/Create
         [HttpGet]
-        public IActionResult Create(CreateVM model)
+        public IActionResult Create()
         {
-            return View();
+            Users loggedUser = this.HttpContext.Session.GetObject<Users>("loggedUser");
+
+            CreateVM model = new CreateVM();
+           
+            return View(model);
         }
+
 
         // POST: GamesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(CreateVM model)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            Users loggedUser = this.HttpContext.Session.GetObject<Users>("loggedUser");
+          
+            MyDbContext context = new MyDbContext();
+
+            Games item = new Games();
+            item.Name = model.Name;
+            item.Genre = model.Genre;
+            item.Price = model.Price;
+            item.manufacturer = model.Manufacturer;
+            item.releaseDate = model.ReleaseDate;
+
+            context.Games.Add(item);
+            context.SaveChanges();
+
+            return RedirectToAction("AllGames", "Games");
         }
 
         // GET: GamesController/Edit/5

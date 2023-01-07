@@ -6,23 +6,17 @@
     this.Layout = "/Views/Shared/_Site.cshtml";
 
 }
-
-<a class="btn btn-success mt-3" href="/Games/Create">Add Games</a>
-
-
 <div class="container mt-4">
-    <div class="row">
-
+    <div class="container mb-2" >
         @foreach (var item in Model.Items)
         {
 
-            <div class="col-md-3 mb-4">
+            <div class="col-lg-8" style="margin: 50px auto; justify-content: start;">
                 <div class="card" style="width: 16rem;">
-
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
+                    <div class="card-body" style="border-color: #8c52f1;">
+                        <h5 class="card-title" style="color: #8c52f1;">@item.Name</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Price: @item.Price USD.</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">
+                        <h6 class="card-subtitle mb-2 text-muted" >
                             Genres:
                             @if (Model.Genres != null)
                             {
@@ -34,13 +28,13 @@
                             }
 
                         </h6>
-                        <a href="/Games/Create">Add Games</a>
+                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="Games/Edit">Edit</a>
                     </div>
                 </div>
+                <a class="btn" style="color: #8c52f1; border-color: #8c52f1; margin:20px;" href="/Games/Create">Add Games</a>
             </div>
         }
     </div>
-
 </div>
 
 

@@ -7,16 +7,16 @@
 
 }
 <div class="container mt-4">
-    <div class="container mb-2" >
+    <div class="container mb-2">
         @foreach (var item in Model.Items)
         {
 
-            <div class="col-lg-8" style="margin: 50px auto; justify-content: start;">
+            <div class="col-lg-8" style="margin: 150px auto; justify-content: start;">
                 <div class="card" style="width: 16rem;">
                     <div class="card-body" style="border-color: #8c52f1;">
                         <h5 class="card-title" style="color: #8c52f1;">@item.Name</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Price: @item.Price USD.</h6>
-                        <h6 class="card-subtitle mb-2 text-muted" >
+                        <h6 class="card-subtitle mb-2 text-muted">
                             Genres:
                             @if (Model.Genres != null)
                             {
@@ -28,12 +28,20 @@
                             }
 
                         </h6>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Manufacturer:
+                            @item.manufacturer
+                        </h6>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Year of release:
+                            @item.releaseDate
+                        </h6>
                         <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="Games/Edit">Edit</a>
                     </div>
                 </div>
-                <a class="btn" style="color: #8c52f1; border-color: #8c52f1; margin:20px;" href="/Games/Create">Add Games</a>
             </div>
         }
+        <a class="btn" style="color: #8c52f1; border-color: #8c52f1; margin:20px;" href="/Games/Create">Add Games</a>
     </div>
 </div>
 

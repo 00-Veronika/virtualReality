@@ -10,6 +10,8 @@ using virtualReality.Entities;
 using virtualReality.Extensions;
 using virtualReality.Models;
 using virtualReality.ViewModels;
+using virtualReality.ViewModels.GenreVM;
+
 
 namespace virtualReality.Controllers
 {
@@ -40,6 +42,13 @@ namespace virtualReality.Controllers
         {
             return RedirectToAction("AllGames", "Games");
         }
+
+        [HttpGet]
+        public IActionResult Genres()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Login()
         {

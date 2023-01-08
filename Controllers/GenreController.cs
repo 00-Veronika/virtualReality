@@ -11,19 +11,19 @@ namespace virtualReality.Controllers
 {
     public class GenreController : Controller
     {
-        public IActionResult AllGenres(GenreVM model)
+        public ActionResult AllGenres(GenreVM model)
         {
 
             MyDbContext context = new MyDbContext();
 
             model.Items = context.Genre.ToList();
 
-            foreach (var genre in model.Items)
-            {
-                model.Items = context.GameToTypes.Where(i => i.genre_Id == genre.Id).Select(x => x.genre).ToList();
-            }
+            //foreach (var genre in model.Items)
+            //{
+            //    model.Items = context.GameToTypes.Where(i => i.genre_Id == genre.Id).Select(x => x.genre).ToList();
+            //}
 
-            return View();
+            return View(model);
         }
 
         [HttpGet]
@@ -44,7 +44,7 @@ namespace virtualReality.Controllers
 
             context.Genre.Add(genreToCreate);
             context.SaveChanges();
-            return View(model);
+            return RedirectToAction("AllGenres", "Genre");
         }
     }
 }

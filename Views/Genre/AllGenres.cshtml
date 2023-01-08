@@ -8,27 +8,26 @@
 
 <div class="container mt-4">
     <div class="container mb-2">
-        @foreach (var item in Model.Items)
+        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="./Create">Create new genre</a>
+        @if (Model?.Items != null)
         {
-            <div class="col-lg-8" style="margin: 150px auto; justify-content: start;">
-                <div class="card" style="width: 16rem;">
-                    <div class="card-body" style="border-color: #8c52f1;">
-                        <h2>Check out the genres</h2>
-                        Name:
-                        @if (Model.Items != null)
-                        {
-                            @foreach(var genre in Model.Items)
-                              {
-                        <span>@genre.name</span>
-                              }
-                        }
-                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="Games/Edit">Edit</a>
-                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="Games/Delete">Delete</a>
+            @foreach (var item in Model.Items)
+            {
+                @if (!string.IsNullOrEmpty(item.name))
+                {
+                    <div class="col-lg-8" style="margin: 150px auto; justify-content: start;">
+                        <div class="card" style="width: 16rem;">
+                            <div class="card-body" style="border-color: #8c52f1;">
+                                <h2>Check out the genres</h2>
+                                Name: @item.name
+                                <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="Games/Edit">Edit</a>
+                                <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="Games/Delete">Delete</a>
 
-                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="Genres/Create">Create new genre</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                }
+            }
         }
     </div>
 </div>

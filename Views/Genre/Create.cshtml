@@ -7,15 +7,19 @@
 }
 
 <div class="col-lg-8" style="margin: 120px auto;">
-    <form  method="post" id="contact">
+    <form action="/Genre/Create" method="post" id="contact">
         <div class="row">
             <div class="label" for="name">
                 @Html.LabelFor(m => m.Name)
             </div>
-            <div class="input" id="username" name="username" required="required">
-                @Html.TextBoxFor(m => m.Items)
+            <div class="input" name="name" required="required">
+                @Html.TextBoxFor(m => m.Name)
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div>
+                <button value="Create" class="btn col-lg-6" type="submit" style="background:rgba(125,90,254,1)  25%;">Create</button>
             </div>
         </div>
     </form>
-    <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="/Genre/AllGenres">Create</a>
 </div>

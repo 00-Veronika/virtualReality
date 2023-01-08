@@ -17,10 +17,10 @@ namespace EntityFrameworkSample
 
         public DbSet<Users> Users { get; set; }
         public DbSet<Games> Games { get; set; }
-        public DbSet<GameToType>GameToTypes { get; set; }
-        public DbSet<Genre>Genre { get; set; }
+        public DbSet<GameToType> GameToTypes { get; set; }
+        public DbSet<Genre> Genre { get; set; }
         public DbSet<Orders> Orders { get; set; }
-        public DbSet<Pictures>Pictures { get; set; }
+        public DbSet<Pictures> Pictures { get; set; }
 
         public MyDbContext()
         {

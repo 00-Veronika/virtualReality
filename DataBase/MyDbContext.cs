@@ -39,8 +39,15 @@ namespace EntityFrameworkSample
                     Id = 1,
                     username = "nikiv",
                     password = "nikipass",
-                    
+
                 });
+
+            
+            new Genre()
+            {
+                name = "horror",
+                Id = 1,
+            };
 
             //modelBuilder.Entity<Games>().HasData(
             //    new Games()
@@ -53,5 +60,6 @@ namespace EntityFrameworkSample
             //        releaseDate = 2023
             //    });
         }
+     
     }
 }

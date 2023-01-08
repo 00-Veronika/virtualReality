@@ -46,7 +46,7 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Genres()
         {
-            return View();
+            return RedirectToAction("AllGenres","Genre");
         }
 
         [HttpGet]

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using virtualReality.Entities;
 using virtualReality.ViewModels.GenreVM;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace virtualReality.Controllers
 {
@@ -44,6 +45,65 @@ namespace virtualReality.Controllers
 
             context.Genre.Add(genreToCreate);
             context.SaveChanges();
+            return RedirectToAction("AllGenres", "Genre");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            MyDbContext context = new MyDbContext();
+            Genre itemToDelete = context.Genre.Where(g => g.Id == id).FirstOrDefault();
+
+            if (itemToDelete != null)
+            {
+                context.Genre.Remove(itemToDelete);
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("AllGenres", "Genres");
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            MyDbContext context = new MyDbContext();
+            Genre itemToEdit = context.Genre.Where(g => g.Id == id).FirstOrDefault();
+
+            if (itemToEdit == null)
+            {
+                return RedirectToAction("AllGenres", "Genre");
+            }
+
+            GenreVM model = new GenreVM();
+            model.Id = itemToEdit.Id;
+            model.Name = itemToEdit.name;
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(GenreVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            MyDbContext context = new MyDbContext();
+            Genre itemToEdit = context.Genre.Where(g => g.Id == model.Id).FirstOrDefault();
+
+            if (itemToEdit == null)
+            {
+                return RedirectToAction("AllGenres", "Genre");
+            }
+
+            model.Id = itemToEdit.Id;
+            model.Name = itemToEdit.name;
+
+            context.Genre.Update(itemToEdit);
+            context.SaveChanges();
+
             return RedirectToAction("AllGenres", "Genre");
         }
     }

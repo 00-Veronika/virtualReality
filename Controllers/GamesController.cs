@@ -69,46 +69,71 @@ namespace virtualReality.Controllers
             return RedirectToAction("AllGames", "Games");
         }
 
-        // GET: GamesController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Delete(int id)
         {
-            return View();
+            MyDbContext context = new MyDbContext();
+            Games itemToDelete = context.Games.Where(g => g.Id == id).FirstOrDefault();
+
+            if (itemToDelete != null)
+            {
+                context.Games.Remove(itemToDelete);
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("AllGames", "Games");
         }
 
-        // POST: GamesController/Edit/5
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            MyDbContext context = new MyDbContext();
+            Games itemToEdit = context.Games.Where(g => g.Id == id).FirstOrDefault();
+
+            if (itemToEdit == null)
+            {
+                return RedirectToAction("AllGames", "Games");
+            }
+
+            EditGamesVM model = new EditGamesVM();
+            model.Id = itemToEdit.Id;
+            model.manufacturer = itemToEdit.manufacturer;
+            model.releaseDate = itemToEdit.releaseDate;
+            model.Genre = itemToEdit.Genre;
+            model.Price = itemToEdit.Price;
+            model.Name = itemToEdit.Name;
+
+            return View(model);
+        }
+
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(EditGamesVM model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return View(model);
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: GamesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            MyDbContext context = new MyDbContext();
+            Games itemToEdit = context.Games.Where(g => g.Id == model.Id).FirstOrDefault();
 
-        // POST: GamesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            if (itemToEdit == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AllGames", "Games");
             }
-            catch
-            {
-                return View();
-            }
+
+            model.Id = itemToEdit.Id;
+            model.manufacturer = itemToEdit.manufacturer;
+            model.releaseDate = itemToEdit.releaseDate;
+            model.Genre = itemToEdit.Genre;
+            model.Price = itemToEdit.Price;
+            model.Name = itemToEdit.Name;
+
+            context.Games.Update(itemToEdit);
+            context.SaveChanges();
+
+            return RedirectToAction("AllGames", "Games");
         }
     }
 }

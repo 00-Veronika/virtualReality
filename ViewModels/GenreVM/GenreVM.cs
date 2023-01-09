@@ -8,6 +8,7 @@ namespace virtualReality.ViewModels.GenreVM
 {
     public class GenreVM
     {
+        public int Id { get; set; }
         public List<Genre> Items { get; set; }
         public string Name { get; set; }
     }

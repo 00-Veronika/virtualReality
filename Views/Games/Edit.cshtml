@@ -1,5 +1,5 @@
 ﻿@using virtualReality.Entities
-@model virtualReality.ViewModels.GamesVM.GamesVM
+@model virtualReality.ViewModels.GamesVM.EditGamesVM
 
 @{
     this.ViewData["title"] = "Edit Games";
@@ -24,9 +24,9 @@
 
         </div>
         <div class="row">
-            <div class="label" for="Manufacturer" id="labelTel">@Html.LabelFor(m => m.Manufacturer)</div>
+            <div class="label" for="Manufacturer" id="labelTel">@Html.LabelFor(m => m.manufacturer)</div>
             <div class="input" id="phone" name="telephone" required="required">
-                @Html.TextBoxFor(m => m.Manufacturer)
+                @Html.TextBoxFor(m => m.manufacturer)
             </div>
 
         </div>
@@ -38,15 +38,15 @@
 
         </div>
         <div class="row">
-            <div class="label" for="ReleaseDate" id="labelEmail">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
+            <div class="label" for="ReleaseDate" id="labelEmail">@Html.LabelFor(m => m.releaseDate)</div> <br>
             <div class="input" id="em" name="email" required="required">
-                @Html.TextBoxFor(m => m.ReleaseDate)
+                @Html.TextBoxFor(m => m.releaseDate)
             </div>
 
         </div>
         <div class="col-lg-8">
             <div>
-                <button action="Edit" asp-for="Edit" class="btn col-lg-6" type="submit" value="Save" href="/Games/Edit" style="background:rgba(125,90,254,1)  25%;">Edit</button>
+                <button action="Edit" asp-for="Edit" class="btn col-lg-6" type="submit" value="Save" href="/Games/AllGames" style="background:rgba(125,90,254,1)  25%;">Edit</button>
             </div>
         </div>
     </form>

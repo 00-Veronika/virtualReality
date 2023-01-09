@@ -59,7 +59,7 @@ namespace virtualReality.Controllers
                 context.SaveChanges();
             }
 
-            return RedirectToAction("AllGenres", "Genres");
+            return RedirectToAction("AllGenres", "Genre");
         }
 
 
@@ -68,6 +68,7 @@ namespace virtualReality.Controllers
         {
             MyDbContext context = new MyDbContext();
             Genre itemToEdit = context.Genre.Where(g => g.Id == id).FirstOrDefault();
+            //itemToEdit = null;
 
             if (itemToEdit == null)
             {

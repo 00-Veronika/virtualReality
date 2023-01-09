@@ -73,3 +73,4 @@ C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\ref\virtualReality.dll
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\virtualReality.StaticWebAssets.xml
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\virtualReality.csproj.AssemblyReference.cache
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Genre\Edit.cshtml.g.cs

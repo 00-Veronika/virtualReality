@@ -17,16 +17,7 @@
                         <h5 class="card-title" style="color: #8c52f1;">@item.Name</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Price: @item.Price USD.</h6>
                         <h6 class="card-subtitle mb-2 text-muted">
-                            Genres:
-                            @if (Model.Genres != null)
-                            {
-                                foreach (var genre in Model.Genres)
-                                {
-
-                                    <span>@genre.name</span>
-                                }
-                            }
-
+                            Genre: @item.Genre
                         </h6>
                         <h6 class="card-subtitle mb-2 text-muted">
                             Manufacturer:
@@ -37,6 +28,7 @@
                             @item.releaseDate
                         </h6>
                         <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="/Games/Edit?id=@item.Id">Edit</a>
+                        <a class="btn btn-danger" style="color: #fff; margin:20px;" href="/Games/Delete?id=@item.Id">Delete</a>
                     </div>
                 </div>
             </div>

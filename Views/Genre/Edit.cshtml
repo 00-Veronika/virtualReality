@@ -1,0 +1,25 @@
+﻿@using virtualReality.Entities
+@model virtualReality.ViewModels.GenreVM.GenreVM
+
+@{
+    this.ViewData["title"] = "Edit Genre";
+    this.Layout = "/Views/Shared/_Site.cshtml";
+
+}
+<div class="col-lg-8" style="margin: 120px auto;">
+    <form action="/Genre/Edit" method="post" id="contact">
+        <div class="row">
+            <div class="label" for="name">
+                @Html.LabelFor(m => m.Name)
+            </div>
+            <div class="input" id="name" name="name" required="required">
+                @Html.TextBoxFor(m => m.Name)
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div>
+                <button class="btn col-lg-6" type="submit" value="Save"  style="background:rgba(125,90,254,1)  25%;">Edit</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -108,7 +108,7 @@ namespace virtualReality.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit(EditGamesVM model)
+        public IActionResult Edit(EditGamesVM model, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -116,19 +116,13 @@ namespace virtualReality.Controllers
             }
 
             MyDbContext context = new MyDbContext();
-            Games itemToEdit = context.Games.Where(g => g.Id == model.Id).FirstOrDefault();
+            Games itemToEdit = context.Games.Where(g => g.Id == id).FirstOrDefault();
 
-            if (itemToEdit == null)
-            {
-                return RedirectToAction("AllGames", "Games");
-            }
-
-            model.Id = itemToEdit.Id;
-            model.manufacturer = itemToEdit.manufacturer;
-            model.releaseDate = itemToEdit.releaseDate;
-            model.Genre = itemToEdit.Genre;
-            model.Price = itemToEdit.Price;
-            model.Name = itemToEdit.Name;
+            itemToEdit.manufacturer = model.manufacturer;
+            itemToEdit.releaseDate = model.releaseDate;
+            itemToEdit.Genre = model.Genre;
+            itemToEdit.Price = model.Price;
+            itemToEdit.Name = model.Name;
 
             context.Games.Update(itemToEdit);
             context.SaveChanges();

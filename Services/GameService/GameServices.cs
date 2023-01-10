@@ -58,7 +58,7 @@ namespace virtualReality.Services.GameService
                 var gameToTypes = new GameToType();
                 var gameToCreate = new Games()
                 {
-                    
+
                     Id = gamemodel.Id,
                     Name = gamemodel.Name,
                     manufacturer = gamemodel.manufacturer,
@@ -90,7 +90,7 @@ namespace virtualReality.Services.GameService
                 var TagToEdit = _context.Genre.FirstOrDefault(x => x.Id == getGenre.Id);
 
 
-                //CHECKS IF THERE's A Games TO EDIT
+                //CHECKS IF THERE's a Games TO EDIT
                 if (GamesToEdit != null)
                 {
                     var newpath = "";
@@ -110,7 +110,7 @@ namespace virtualReality.Services.GameService
 
                     //UPDATE
                     _context.Games.Update(GamesToEdit);
-                    
+
 
                     //UPDATE MANY TO MANY TABLE
                     if (GamesTagToEdit != null)
@@ -118,7 +118,7 @@ namespace virtualReality.Services.GameService
                         _context.GameToTypes.Remove(GamesTagToEdit);
                         _context.SaveChanges();
                         var GamesToTagUpdate = new GameToType();
-                        GamesToTagUpdate.genre_Id = TagToEdit.Id;    
+                        GamesToTagUpdate.genre_Id = TagToEdit.Id;
                         GamesToTagUpdate.games_Id = GamesToEdit.Id;
                         _context.GameToTypes.Add(GamesToTagUpdate);
                     }
@@ -137,8 +137,8 @@ namespace virtualReality.Services.GameService
             {
                 var orderToAdd = new Orders()
                 {
-                     Game_Id= getGames.Id,
-                    user_Id = userId,
+                    Game_Id = getGames.Id,
+                    //user_Id = userId,
                     Status = "Proccesing"
                 };
 
@@ -164,7 +164,7 @@ namespace virtualReality.Services.GameService
                 Price = x.Price,
                 Manufacturer = x.manufacturer,
                 ReleaseDate = x.releaseDate
-                
+
             };
         }
 
@@ -200,13 +200,13 @@ namespace virtualReality.Services.GameService
             var GetStatus = _context.Orders.FirstOrDefault(x => x.user_Id == userId);
             Games.order = GetStatus;
             var getGenre = _context.GameToTypes.FirstOrDefault(x => x.games_Id == Games.Id);
-            Games.Genre = _context.Genre.FirstOrDefault(x => x.Id == getGenre.genre_Id);
+            var Genre = _context.Genre.FirstOrDefault(x => x.Id == getGenre.genre_Id);
             var userName = _context.Users.FirstOrDefault(x => x.Id == userId).username;
 
             var newGames = new GamesVM()
             {
                 Id = Games.Id,
-                
+
                 Price = Games.Price,
                 url = Games.url.url,
                 order = Games.order,
@@ -258,7 +258,7 @@ namespace virtualReality.Services.GameService
             var image = _context.Pictures.FirstOrDefault(p => p.games_Id == Games.Id);
             return image;
         }
-       
+
         //GETS THE IMG TABLE COUNT
         private int GetImagesCount()
         {
@@ -404,7 +404,7 @@ namespace virtualReality.Services.GameService
             throw new NotImplementedException();
         }
 
-        public GamesVM GetGameByIdAndUserIdVM(int Id, string userId)
+        public GamesVM GetGameByIdAndUserIdVM(int Id, int userId)
         {
             throw new NotImplementedException();
         }

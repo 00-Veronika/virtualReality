@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using virtualReality.Entities;
 using virtualReality.ViewModels;
 using virtualReality.ViewModels.GamesVM;
@@ -22,27 +21,26 @@ namespace virtualReality.Services.OrderService
             _signInManager = signInManager;
         }
 
-        public void Delete(int Id)
+        public void Delete(int id)
         {
-            var Order = _context.Orders.FirstOrDefault(x => x.user_Id == Id);
-            _context.Orders.Remove(Order);
+            var order = _context.Orders.FirstOrDefault(x => x.user_Id == id);
+            _context.Orders.Remove(order);
             _context.SaveChanges();
         }
 
         public IEnumerable<Orders> GetAll()
         {
-            var Orders = _context.Orders.ToList();
-
-            return Orders;
+            var orders = _context.Orders.ToList();
+            return orders;
         }
 
-        public IEnumerable<Games> get_All_Ordered_Games()
+        public IEnumerable<Games> GetAllOrderedGames()
         {
-            var Orders = GetAll();
+            var orders = GetAll();
             List<Games> orderedGames = new List<Games>();
             using (var _gamesService = new GameService.GameServices(_context, _signInManager))
             {
-                foreach (var game in Orders)
+                foreach (var game in orders)
                 {
                     orderedGames.Add(_gamesService.GetGamesById(game.Game_Id));
                 }
@@ -51,18 +49,19 @@ namespace virtualReality.Services.OrderService
         }
 
 
-        public IEnumerable<OrderVM> getAllOrderForLoggedUser()
+        public IEnumerable<OrderVM> GetAllOrderForLoggedUser()
         {
-            var userId = getUserId();
+            var userId = GetUserId();
             var userOrders = _context.Orders.Select(MapToOrderVM()).Where(x => x.user_Id == userId).ToList();
 
             return userOrders;
         }
 
-        public IEnumerable<GamesVM> getUserOrderedShoes()
+        public IEnumerable<GamesVM> GetUserOrderedGames()
         {
-            var userOrders = getAllOrderForLoggedUser();
+            var userOrders = GetAllOrderForLoggedUser();
             List<GamesVM> orderedGames = new List<GamesVM>();
+
             using (var _gameService = new GameService.GameServices(_context, _signInManager))
             {
                 foreach (var game in userOrders)
@@ -70,49 +69,52 @@ namespace virtualReality.Services.OrderService
                     orderedGames.Add(_gameService.GetGameByIdAndUserIdVM(game.games_Id, game.user_Id));
                 }
             }
+
             return orderedGames;
         }
 
-        public IEnumerable<GamesVM> Get_All_Ordered_GamesVM()
+        public IEnumerable<GamesVM> GetAllOrderedGamesVM()
         {
-            var Orders = GetAll();
-            List<GamesVM> orderedShoes = new List<GamesVM>();
+            var orders = GetAll();
+            List<GamesVM> orderedGames = new List<GamesVM>();
+
             using (var _gameService = new GameService.GameServices(_context, _signInManager))
             {
-                foreach (var order in Orders)
+                foreach (var order in orders)
                 {
-                    orderedShoes.Add(_gameService.GetGameByIdAndUserIdVM(order.Game_Id, order.Id));
+                    orderedGames.Add(_gameService.GetGameByIdAndUserIdVM(order.Game_Id, order.Id));
                 }
             }
-            return orderedShoes;
+
+            return orderedGames;
         }
 
-        public Orders getOrderByShoe(Games game)
+        public Orders GetOrderByGames(Games game)
         {
             var order = _context.Orders.FirstOrDefault(x => x.Game_Id == game.Id);
             return order;
         }
 
-        public Orders getOrderById(int Id)
+        public Orders GetOrderById(int id)
         {
-            var order = _context.Orders.FirstOrDefault(x => x.Id == Id);
+            var order = _context.Orders.FirstOrDefault(x => x.Id == id);
             return order;
         }
-        public Orders getOrderByShoeVM(GamesVM game)
+        public Orders GetOrderByGamesVM(GamesVM game)
         {
             var order = _context.Orders.FirstOrDefault(x => x.Game_Id == game.Id);
             return order;
         }
 
-        public Orders getOrderByUserId(int userId)
+        public Orders GetOrderByUserId(int userId)
         {
             var order = _context.Orders.FirstOrDefault(x => x.user_Id == userId);
             return order;
         }
 
-        public void Edit(int Id, string status)
+        public void Edit(int id, string status)
         {
-            var gameStatusToEdit = _context.Orders.FirstOrDefault(x => x.user_Id == Id);
+            var gameStatusToEdit = _context.Orders.FirstOrDefault(x => x.user_Id == id);
             if (gameStatusToEdit != null)
             {
                 gameStatusToEdit.Status = status;
@@ -126,7 +128,7 @@ namespace virtualReality.Services.OrderService
             return x => new GamesVM()
             {
                 Id = x.Id,
-
+                Price = x.Price
                 
             };
         }
@@ -141,29 +143,17 @@ namespace virtualReality.Services.OrderService
             };
         }
 
-        private string getUserId()
+        private int GetUserId()
         {
-            return _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var id = _signInManager.Context.User.FindFirstValue("Id");
+            var result = int.TryParse(id, out int intId) ? intId : -1;
+            return result;
         }
 
-        public IEnumerable<GamesVM> get_All_Ordered_GamesVM()
+        public Orders GetOrderByGame(Games game)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<GamesVM> getUserOrderedGames()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Orders getOrderByGame(Games game)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Orders getOrderByGamesVM(GamesVM game)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using virtualReality.Entities;
 using virtualReality.ViewModels;
 using virtualReality.ViewModels.GamesVM;
 
 namespace virtualReality.Services.OrderService
 {
-    interface IOrderServices 
+    public interface IOrderServices 
     {
-        public void Delete(int Id);
-        public void Edit(int Id, string status);
-        public IEnumerable<Orders> GetAll();
-        public IEnumerable<Games> get_All_Ordered_Games();
-        public IEnumerable<GamesVM> Get_All_Ordered_GamesVM();
-        public IEnumerable<OrderVM> getAllOrderForLoggedUser();
-        public IEnumerable<GamesVM> getUserOrderedGames();
-        public Orders getOrderByGame(Games game);
-        public Orders getOrderByGamesVM(GamesVM game);
-        public Orders getOrderById(int Id);
-        public Orders getOrderByUserId(int userId);
+        void Delete(int id);
+        void Edit(int id, string status);
+        IEnumerable<Orders> GetAll();
+        IEnumerable<Games> GetAllOrderedGames();
+        IEnumerable<GamesVM> GetAllOrderedGamesVM();
+        IEnumerable<OrderVM> GetAllOrderForLoggedUser();
+        IEnumerable<GamesVM> GetUserOrderedGames();
+        Orders GetOrderByGame(Games game);
+        Orders GetOrderByGamesVM(GamesVM game);
+        Orders GetOrderById(int id);
+        Orders GetOrderByUserId(int userId);
     }
 }

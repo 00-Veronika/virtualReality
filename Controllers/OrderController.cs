@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using virtualReality.Services.OrderService;
 using virtualReality.Services.GameService;
+using virtualReality.Services.OrderService;
 using virtualReality.ViewModels.GamesVM;
 
 namespace virtualReality.Controllers
@@ -22,20 +20,20 @@ namespace virtualReality.Controllers
 
         public IActionResult AllUserOrders(GamesVM allOrderedGames)
         {
-            allOrderedGames.UserOrderedGames = _orderServices.getUserOrderedGames();
+            allOrderedGames.UserOrderedGames = _orderServices.GetUserOrderedGames();
             return View(allOrderedGames);
         }
 
         public IActionResult AllOrders(GamesVM allOrderedGames)
         {
-            allOrderedGames.OrderedGames = _orderServices.Get_All_Ordered_GamesVM();
+            allOrderedGames.OrderedGames = _orderServices.GetAllOrderedGamesVM();
             return View(allOrderedGames);
         }
 
         [HttpGet]
-        public IActionResult EditStatus(GamesVM game, string Id)
+        public IActionResult EditStatus(GamesVM game, int Id)
         {
-            var getCurrOrder = _orderServices.getOrderByUserId(Id);
+            var getCurrOrder = _orderServices.GetOrderByUserId(Id);
             game.Status = getCurrOrder.Status;
             game.userId = getCurrOrder.user_Id;
             game.Id = getCurrOrder.Game_Id;
@@ -46,10 +44,12 @@ namespace virtualReality.Controllers
         public IActionResult EditStatus(string Status)
         {
             List<string> value = Status.Split("+").ToList();
+
             if (ModelState.IsValid)
             {
-                _orderServices.Edit(value[1], value[0]);
+                _orderServices.Edit(0, " ");
             }
+
             return RedirectToAction(nameof(AllOrders));
         }
 

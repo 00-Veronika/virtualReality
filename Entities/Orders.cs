@@ -10,9 +10,11 @@ namespace virtualReality.Entities
     {
         public int Id { get; set; }
         public int user_Id { get; set; }
+        public int Game_Id { get; set; }
         public int genre_Id { get; set; }
 
         [ForeignKey(nameof(user_Id))]
         public Users User { get; set; }
+        public string Status { get; set; }
     }
 }

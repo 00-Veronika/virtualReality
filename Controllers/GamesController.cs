@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using virtualReality.Entities;
 using virtualReality.Extensions;
@@ -14,6 +16,9 @@ namespace virtualReality.Controllers
 {
     public class GamesController : Controller
     {
+
+        HttpWebResponse response = null;
+        HttpWebRequest request; 
         // GET: GamesController
         public ActionResult AllGames(AllGamesVM model)
         {
@@ -129,5 +134,120 @@ namespace virtualReality.Controllers
 
             return RedirectToAction("AllGames", "Games");
         }
+
+        private int GetImagesCount()
+        {
+            MyDbContext context = new MyDbContext();
+            var count = context.Pictures.Count();
+            return count;
+        }
+
+
+        //DOWNLOADS FILE IN SPECIFIED PATH FROM INTERNET WITH GIVEN URL
+        public string Stream(string link)
+        {
+      
+            try
+            {
+                request = (HttpWebRequest)WebRequest.Create(link);
+                request.Timeout = 1000;
+                request.AllowWriteStreamBuffering = false;
+                response = (HttpWebResponse)request.GetResponse();
+
+                Stream s = response.GetResponseStream();
+
+                //Write to disk
+                string fileName = $"{(GetImagesCount() + 1)}.png";
+                FileStream fs = new FileStream($"./wwwroot/Images/{fileName}", FileMode.Create, FileAccess.ReadWrite);
+
+                byte[] read = new byte[256];
+
+                int count = s.Read(read, 0, read.Length);
+
+                while (count > 0)
+
+                {
+                    fs.Write(read, 0, count);
+
+                    count = s.Read(read, 0, read.Length);
+
+                }
+                //Close everything
+
+                fs.Close();
+
+                s.Close();
+
+                response.Close();
+
+                return fileName;
+            }
+
+            catch (System.Net.WebException)
+
+            {
+                if (response != null)
+
+                    response.Close();
+                return null;
+            }
+        }
+
+        public string Stream(string link, int Id)
+        {
+            if (link == null)
+            {
+                return null;
+            }
+            else
+            {
+                try
+                {
+                    request = (HttpWebRequest)WebRequest.Create(link);
+                    request.Timeout = 1000;
+                    request.AllowWriteStreamBuffering = false;
+                    response = (HttpWebResponse)request.GetResponse();
+
+                    Stream s = response.GetResponseStream();
+
+                    //Write to disk
+                    string fileName = $"{Id}.png";
+                    FileStream fs = new FileStream($"./wwwroot/Images/{fileName}", FileMode.Create, FileAccess.ReadWrite);
+
+                    byte[] read = new byte[256];
+
+                    int count = s.Read(read, 0, read.Length);
+
+                    while (count > 0)
+
+                    {
+                        fs.Write(read, 0, count);
+                        count = s.Read(read, 0, read.Length);
+                    }
+                    //Close everything
+                    fs.Close();
+                    s.Close();
+                    response.Close();
+                    return fileName;
+                }
+                catch (System.Net.WebException)
+                {
+                    if (response != null)
+                        response.Close();
+                    return null;
+                }
+            }
+        }
+        public void StreamToReadAndDeleteFile(int Id)
+        {
+            string fileName = $"./wwwroot/Pictures/{Id}.png";
+
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+        }
+        
     }
 }
+

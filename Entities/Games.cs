@@ -15,6 +15,7 @@ namespace virtualReality.Entities
         public string Genre { get; set; }
         public string manufacturer { get; set; }
         public int releaseDate { get; set; }
-
+        public Pictures url { get; set; }
+        public Orders order { get; set; }
     }
 }

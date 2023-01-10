@@ -38,15 +38,19 @@
 
         </div>
         <div class="row">
-            <div class="label" for="ReleaseDate" id="labelEmail">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
+            <div class="label" for="ReleaseDate" id="ReleaseDate">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
             <div class="input" id="em" name="email" required="required">
                 @Html.TextBoxFor(m => m.ReleaseDate)
             </div>
-
+        </div>
+        <div class="row">
+            <div class="input" id="em" name="uri" required="required">
+                @Html.TextBoxFor(m => m.url)
+            </div>
         </div>
         <div class="col-lg-8">
             <div>
-                <button  action="Create" asp-for="Create" class="btn col-lg-6" type="submit" value="Save" href="/Games/Create" style="background:rgba(125,90,254,1)  25%;">Create</button>
+                <button action="Create" asp-for="Create" class="btn col-lg-6" type="submit" value="Save" href="/Games/Create" style="background:rgba(125,90,254,1)  25%;">Create</button>
             </div>
         </div>
     </form>

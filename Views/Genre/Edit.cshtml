@@ -8,6 +8,7 @@
 }
 <div class="col-lg-8" style="margin: 120px auto;">
     <form action="/Genre/Edit" method="post" id="contact">
+        @Html.HiddenFor(m => m.Id)
         <div class="row">
             <div class="label" for="name">
                 @Html.LabelFor(m => m.Name)

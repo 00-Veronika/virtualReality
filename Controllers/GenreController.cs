@@ -99,8 +99,8 @@ namespace virtualReality.Controllers
                 return RedirectToAction("AllGenres", "Genre");
             }
 
-            model.Id = itemToEdit.Id;
-            model.Name = itemToEdit.name;
+            itemToEdit.Id = model.Id;
+            itemToEdit.name = model.Name;
 
             context.Genre.Update(itemToEdit);
             context.SaveChanges();

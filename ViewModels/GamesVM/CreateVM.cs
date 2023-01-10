@@ -15,5 +15,6 @@ namespace virtualReality.ViewModels.GamesVM
         public decimal Price { get; set; }
         public string Manufacturer { get; set; }
         public int ReleaseDate { get; set; }
+        public string url { get; set; }
     }
 }

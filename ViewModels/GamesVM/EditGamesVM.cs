@@ -23,5 +23,8 @@ namespace virtualReality.ViewModels.GamesVM
 
         [Required(ErrorMessage = "*This field is required!")]
         public decimal Price{ get; set; }
+
+        [Required(ErrorMessage = "*This field is required!")]
+        public string url { get; set; }
     }
 }

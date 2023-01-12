@@ -19,7 +19,7 @@ namespace virtualReality.Services.GameService
         Genre GetTypeByGameVM(GamesVM shoe);
         Genre GetTypeByGame(Games game);
         Pictures GetImageByGame(Games game);
-        Pictures GetImageByGamesVM(Games game);
+       public Pictures GetImageByGamesVM(GamesVM game);
         List<GamesVM> GetAllGames();
         IEnumerable<GenreVM> GetAllTypes();
         Games GetGameById(int Id);

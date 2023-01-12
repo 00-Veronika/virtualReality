@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using virtualReality.Entities;
 using virtualReality.ViewModels;
 using virtualReality.ViewModels.GamesVM;
@@ -12,8 +13,8 @@ namespace virtualReality.Services.OrderService
         IEnumerable<Orders> GetAll();
         IEnumerable<Games> GetAllOrderedGames();
         IEnumerable<GamesVM> GetAllOrderedGamesVM();
-        IEnumerable<OrderVM> GetAllOrderForLoggedUser();
-        IEnumerable<GamesVM> GetUserOrderedGames();
+        IEnumerable<OrderVM> GetAllOrderForLoggedUser(HttpContext httpContext);
+        IEnumerable<GamesVM> GetUserOrderedGames(HttpContext httpContext);
         Orders GetOrderByGame(Games game);
         Orders GetOrderByGamesVM(GamesVM game);
         Orders GetOrderById(int id);

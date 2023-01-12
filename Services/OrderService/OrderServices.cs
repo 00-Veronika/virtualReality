@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkSample;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using virtualReality.Entities;
+using virtualReality.Extensions;
 using virtualReality.ViewModels;
 using virtualReality.ViewModels.GamesVM;
 
@@ -14,11 +16,9 @@ namespace virtualReality.Services.OrderService
     public class OrderServices : IOrderServices
     {
         private readonly MyDbContext _context;
-        private readonly SignInManager<Users> _signInManager;
-        public OrderServices(MyDbContext context, SignInManager<Users> signInManager)
+        public OrderServices(MyDbContext context)
         {
             _context = context;
-            _signInManager = signInManager;
         }
 
         public void Delete(int id)
@@ -38,7 +38,7 @@ namespace virtualReality.Services.OrderService
         {
             var orders = GetAll();
             List<Games> orderedGames = new List<Games>();
-            using (var _gamesService = new GameService.GameServices(_context, _signInManager))
+            using (var _gamesService = new GameService.GameServices(_context))
             {
                 foreach (var game in orders)
                 {
@@ -49,20 +49,20 @@ namespace virtualReality.Services.OrderService
         }
 
 
-        public IEnumerable<OrderVM> GetAllOrderForLoggedUser()
+        public IEnumerable<OrderVM> GetAllOrderForLoggedUser(HttpContext httpContext)
         {
-            var userId = GetUserId();
+            var userId = GetUserId(httpContext);
             var userOrders = _context.Orders.Select(MapToOrderVM()).Where(x => x.user_Id == userId).ToList();
 
             return userOrders;
         }
 
-        public IEnumerable<GamesVM> GetUserOrderedGames()
+        public IEnumerable<GamesVM> GetUserOrderedGames(HttpContext httpContext)
         {
-            var userOrders = GetAllOrderForLoggedUser();
+            var userOrders = GetAllOrderForLoggedUser(httpContext);
             List<GamesVM> orderedGames = new List<GamesVM>();
 
-            using (var _gameService = new GameService.GameServices(_context, _signInManager))
+            using (var _gameService = new GameService.GameServices(_context))
             {
                 foreach (var game in userOrders)
                 {
@@ -78,7 +78,7 @@ namespace virtualReality.Services.OrderService
             var orders = GetAll();
             List<GamesVM> orderedGames = new List<GamesVM>();
 
-            using (var _gameService = new GameService.GameServices(_context, _signInManager))
+            using (var _gameService = new GameService.GameServices(_context))
             {
                 foreach (var order in orders)
                 {
@@ -129,7 +129,7 @@ namespace virtualReality.Services.OrderService
             {
                 Id = x.Id,
                 Price = x.Price
-                
+
             };
         }
 
@@ -138,15 +138,15 @@ namespace virtualReality.Services.OrderService
             return x => new OrderVM()
             {
                 Id = x.Id,
-                user_Id= x.user_Id,
-                games_Id= x.Game_Id
+                user_Id = x.user_Id,
+                games_Id = x.Game_Id
             };
         }
 
-        private int GetUserId()
+        private int GetUserId(HttpContext HttpContext)
         {
-            var id = _signInManager.Context.User.FindFirstValue("Id");
-            var result = int.TryParse(id, out int intId) ? intId : -1;
+            var id = HttpContext.Session.GetObject<Users>("loggedUser").Id;
+            var result = int.TryParse(id.ToString(), out int intId) ? intId : -1;
             return result;
         }
 

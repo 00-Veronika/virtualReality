@@ -9,6 +9,9 @@ using System.Net;
 using System.Threading.Tasks;
 using virtualReality.Entities;
 using virtualReality.Extensions;
+using virtualReality.Services;
+using virtualReality.Services.GameService;
+using virtualReality.Services.OrderService;
 using virtualReality.ViewModels.GamesVM;
 
 
@@ -20,6 +23,15 @@ namespace virtualReality.Controllers
         HttpWebResponse response = null;
         HttpWebRequest request;
 
+        private readonly IGameServices gameService;
+        private readonly IOrderServices orderService;
+
+        public GamesController(IGameServices gameServices , IOrderServices orderServices)
+        {
+            this.gameService = gameServices;
+            this.orderService = orderServices;
+
+        }
         // GET: GamesController
         public ActionResult AllGames(AllGamesVM model)
         {
@@ -134,6 +146,50 @@ namespace virtualReality.Controllers
             context.SaveChanges();
 
             return RedirectToAction("AllGames", "Games");
+        }
+
+        public IActionResult AddToOrder(int id)
+        {
+            var getGame = gameService.GetGameById(id);
+            var orderExists = orderService.GetOrderByGame(getGame);
+            var getUserOrders = orderService.GetAllOrderForLoggedUser(HttpContext);
+            var error = @"<script language='javascript'>alert('Product is already added to cart'); </script>";
+            if (!getUserOrders.Any(x => x.user_Id == orderExists.user_Id))
+            {
+                gameService.AddToOrder(id);
+                return RedirectToAction(nameof(ShowCustomerShoes));
+            }
+            else
+            {
+                return RedirectToAction(nameof(ShowCustomerShoes), "Games", new { error });
+            }
+
+        }
+
+        public IActionResult ShowCustomerShoes(GamesVM gamemodel, string error)
+        {
+
+            gamemodel.OrderedGames = gameService.GetAllGames();
+            foreach (var game in gamemodel.OrderedGames)
+            {
+                
+                var GenreExists = gameService.GetTypeByGameVM(game).name;
+                if (GenreExists != null)
+                {
+                    game.Genre = GenreExists;
+                }
+                else
+                {
+                    game.Genre = "None";
+                }
+                game.url = gameService.GetImageByGamesVM(game).url;
+            }
+            if (error != null)
+            {
+                HttpContext.Response.WriteAsync(error);
+            }
+            return View("AllGames", gamemodel);
+
         }
     }
 }

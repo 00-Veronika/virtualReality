@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using virtualReality.Entities;
 using virtualReality.Extensions;
 using virtualReality.Models;
+using virtualReality.Services.GameService;
+using virtualReality.Services.OrderService;
 using virtualReality.ViewModels;
 using virtualReality.ViewModels.GenreVM;
 
@@ -17,12 +19,21 @@ namespace virtualReality.Controllers
 {
     public class HomeController : Controller
     {
+        private int counter = 0;
+        private readonly IOrderServices _orderServices;
+        private readonly IGameServices _gameServices;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, IOrderServices orderServices, IGameServices gameServices)
         {
             _logger = logger;
+            _orderServices = orderServices;
+            _gameServices = gameServices;
+
         }
+
+
         
         public IActionResult Index()
         {

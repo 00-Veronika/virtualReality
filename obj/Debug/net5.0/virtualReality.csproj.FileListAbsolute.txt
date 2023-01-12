@@ -72,9 +72,8 @@ C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Genre\Create.cshtml.g.cs
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\virtualReality.csproj.AssemblyReference.cache
 C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Genre\Edit.cshtml.g.cs
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\virtualReality.StaticWebAssets.Pack.cache
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\msbuild.virtualReality.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\msbuild.build.virtualReality.props
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.virtualReality.props
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.virtualReality.props
-C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\refint\virtualReality.dll
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\bin\Debug\net5.0\ref\virtualReality.dll
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\staticwebassets\virtualReality.StaticWebAssets.xml
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Order\AllOrders.cshtml.g.cs
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Order\AllUserOrders.cshtml.g.cs
+C:\Users\Veronika\Desktop\projectVirtualReality\virtualReality\obj\Debug\net5.0\Razor\Views\Order\EditStatus.cshtml.g.cs

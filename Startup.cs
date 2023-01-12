@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using virtualReality.Services.GameService;
+using virtualReality.Services.OrderService;
 
 namespace virtualReality
 {
@@ -28,6 +30,8 @@ namespace virtualReality
         {
             services.AddSession();
             services.AddControllersWithViews();
+            services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IGameServices, GameServices>();
             services.AddDbContext<MyDbContext>();
            
         }

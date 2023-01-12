@@ -20,7 +20,7 @@ namespace virtualReality.Controllers
 
         public IActionResult AllUserOrders(GamesVM allOrderedGames)
         {
-            allOrderedGames.UserOrderedGames = _orderServices.GetUserOrderedGames();
+            allOrderedGames.UserOrderedGames = _orderServices.GetUserOrderedGames(HttpContext);
             return View(allOrderedGames);
         }
 

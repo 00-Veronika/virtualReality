@@ -19,12 +19,11 @@ namespace virtualReality.Services.GameService
         HttpWebRequest request;
         HttpWebResponse response = null;
 
-        private readonly MyDbContext _context;
-        private readonly SignInManager<Users> _signInManager;
-        public GameServices(MyDbContext context, SignInManager<Users> signInManager)
+        public  readonly MyDbContext _context;
+       
+        public  GameServices(MyDbContext context)
         {
             _context = context;
-            _signInManager = signInManager;
         }
 
         public void Delete(int Id)
@@ -128,10 +127,10 @@ namespace virtualReality.Services.GameService
         }
 
         //ADD TO ORDER
-        public void AddToOrder(int Id)
+        public  void AddToOrder(int Id)
         {
             var getGames = GetGamesById(Id);
-            var userId = (_signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = _context.Users.FirstOrDefault(x => x.Id == Id);
 
             if (getGames != null && userId != null)
             {

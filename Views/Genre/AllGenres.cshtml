@@ -1,5 +1,5 @@
 ﻿@using virtualReality.Entities
-@model virtualReality.ViewModels.GenreVM.GenreVM
+@model virtualReality.ViewModels.GenreVM.AllOrdersVM
 
 @{
     this.ViewData["title"] = "Genres";
@@ -8,24 +8,26 @@
 
 <div class="container mt-4">
     <div class="container mb-2">
-        @if (Model?.Items != null)
+        @if (Model?.Genres != null)
         {
-            @foreach (var item in Model.Items)
+            @foreach (var genre in Model.Genres)
             {
-                @if (!string.IsNullOrEmpty(item.name))
+                @if (!string.IsNullOrEmpty(genre.Name))
                 {
                     <div class="col-lg-8" style="margin: 150px auto; justify-content: start;">
                         <div class="card" style="width: 16rem;">
                             <div class="card-body" style="border-color: #8c52f1;">
-                                <h2 style="color: #8c52f1">@item.name</h2>
-                                <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="./Edit?id=@item.Id">Edit</a>
-                                <a class="btn btn-danger" style="color: #fff; margin:20px;" href="./Delete?id=@item.Id">Delete</a>
+                                <h2 style="color: #8c52f1">@genre.Name</h2>
+                                <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="./Edit?id=@genre.Id">Edit</a>
+                                <a class="btn btn-danger" style="color: #fff; margin:20px;" href="./Delete?id=@genre.Id">Delete</a>
                             </div>
                         </div>
                     </div>
                 }
             }
         }
+    </div>
+    <div>
         <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="./Create">Create new genre</a>
     </div>
 </div>

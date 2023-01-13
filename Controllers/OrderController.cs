@@ -35,8 +35,8 @@ namespace virtualReality.Controllers
         {
             var getCurrOrder = _orderServices.GetOrderByUserId(Id);
             game.Status = getCurrOrder.Status;
-            game.userId = getCurrOrder.user_Id;
-            game.Id = getCurrOrder.Game_Id;
+            game.userId = getCurrOrder.UserId;
+            game.Id = getCurrOrder.GameId;
             return View(game);
         }
 

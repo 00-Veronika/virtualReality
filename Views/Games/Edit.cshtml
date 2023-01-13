@@ -24,9 +24,9 @@
 
         </div>
         <div class="row">
-            <div class="label" for="Manufacturer" id="labelTel">@Html.LabelFor(m => m.manufacturer)</div>
+            <div class="label" for="Manufacturer" id="labelTel">@Html.LabelFor(m => m.Manufacturer)</div>
             <div class="input" id="phone" name="manufacturer" required="required">
-                @Html.TextBoxFor(m => m.manufacturer)
+                @Html.TextBoxFor(m => m.Manufacturer)
             </div>
 
         </div>
@@ -38,13 +38,12 @@
 
         </div>
         <div class="row">
-            <div class="label" for="ReleaseDate" id="labelEmail">@Html.LabelFor(m => m.releaseDate)</div> <br>
+            <div class="label" for="ReleaseDate" id="labelEmail">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
             <div class="input" id="em" name="releseDate" required="required">
-                @Html.TextBoxFor(m => m.releaseDate)
+                @Html.TextBoxFor(m => m.ReleaseDate)
             </div>
 
         </div>
-        @*<input type="hidden" name="id" value="@Model.Id" />*@
         <div class="col-lg-8">
             <div>
                 <button action="Edit" asp-for="Edit" class="btn col-lg-6" type="submit" value="Save" href="/Games/AllGames" style="background:rgba(125,90,254,1)  25%;">Edit</button>

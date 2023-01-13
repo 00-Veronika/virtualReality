@@ -63,7 +63,7 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            if (HttpContext.Session.GetObject<Users>("loggedUser") != null)
+            if (HttpContext.Session.GetObject<User>("loggedUser") != null)
             {
                 return RedirectToAction("Home", "Login");
             }
@@ -77,8 +77,8 @@ namespace virtualReality.Controllers
                 return View(model);
 
             MyDbContext context = new MyDbContext();
-            Users loggedUser = context.Users.Where(u => u.username == model.Username &&
-                                                       u.password == model.Password)
+            User loggedUser = context.Users.Where(u => u.Username == model.Username &&
+                                                       u.Password == model.Password)
                                            .FirstOrDefault();
             if (loggedUser == null)
             {
@@ -106,11 +106,11 @@ namespace virtualReality.Controllers
             }
 
             MyDbContext context = new MyDbContext();
-            Users item = new Users();
-            item.username = model.Username;
-            item.password = model.Password;
-            item.email = model.Email;
-            item.phoneNumber = model.Phone;
+            User item = new User();
+            item.Username = model.Username;
+            item.Password = model.Password;
+            item.Email = model.Email;
+            item.Phone = model.Phone;
 
             context.Users.Add(item);
             context.SaveChanges();
@@ -122,7 +122,7 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
-            if (this.HttpContext.Session.GetObject<Users>("loggedUser") == null)
+            if (this.HttpContext.Session.GetObject<User>("loggedUser") == null)
                 return RedirectToAction("Index", "Home");
 
             this.HttpContext.Session.Remove("loggedUser");

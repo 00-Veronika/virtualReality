@@ -17,7 +17,7 @@ namespace virtualReality.Controllers
 
             MyDbContext context = new MyDbContext();
 
-            model.Items = context.Genre.ToList();
+            model.Items = context.Genres.ToList();
 
             //foreach (var genre in model.Items)
             //{
@@ -43,7 +43,7 @@ namespace virtualReality.Controllers
                 name = model.Name
             };
 
-            context.Genre.Add(genreToCreate);
+            context.Genres.Add(genreToCreate);
             context.SaveChanges();
             return RedirectToAction("AllGenres", "Genre");
         }
@@ -51,11 +51,11 @@ namespace virtualReality.Controllers
         public IActionResult Delete(int id)
         {
             MyDbContext context = new MyDbContext();
-            Genre itemToDelete = context.Genre.Where(g => g.Id == id).FirstOrDefault();
+            Genre itemToDelete = context.Genres.Where(g => g.Id == id).FirstOrDefault();
 
             if (itemToDelete != null)
             {
-                context.Genre.Remove(itemToDelete);
+                context.Genres.Remove(itemToDelete);
                 context.SaveChanges();
             }
 
@@ -67,7 +67,7 @@ namespace virtualReality.Controllers
         public IActionResult Edit(int id)
         {
             MyDbContext context = new MyDbContext();
-            Genre itemToEdit = context.Genre.Where(g => g.Id == id).FirstOrDefault();
+            Genre itemToEdit = context.Genres.Where(g => g.Id == id).FirstOrDefault();
             //itemToEdit = null;
 
             if (itemToEdit == null)
@@ -92,7 +92,7 @@ namespace virtualReality.Controllers
             }
 
             MyDbContext context = new MyDbContext();
-            Genre itemToEdit = context.Genre.Where(g => g.Id == model.Id).FirstOrDefault();
+            Genre itemToEdit = context.Genres.Where(g => g.Id == model.Id).FirstOrDefault();
 
             if (itemToEdit == null)
             {
@@ -102,7 +102,7 @@ namespace virtualReality.Controllers
             itemToEdit.Id = model.Id;
             itemToEdit.name = model.Name;
 
-            context.Genre.Update(itemToEdit);
+            context.Genres.Update(itemToEdit);
             context.SaveChanges();
 
             return RedirectToAction("AllGenres", "Genre");

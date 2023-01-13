@@ -1,15 +1,10 @@
-﻿using EntityFrameworkSample;
+﻿using System.IO;
+using System.Linq;
+using EntityFrameworkSample;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using virtualReality.Entities;
 using virtualReality.Extensions;
-using virtualReality.Services;
 using virtualReality.Services.GameService;
 using virtualReality.Services.OrderService;
 using virtualReality.ViewModels.GamesVM;
@@ -19,10 +14,6 @@ namespace virtualReality.Controllers
 {
     public class GamesController : Controller
     {
-
-        HttpWebResponse response = null;
-        HttpWebRequest request;
-
         private readonly IGameServices gameService;
         private readonly IOrderServices orderService;
 
@@ -32,54 +23,66 @@ namespace virtualReality.Controllers
             this.orderService = orderServices;
 
         }
-        // GET: GamesController
-        public ActionResult AllGames(AllGamesVM model)
+
+        public IActionResult AddToOrder(int id)
         {
-            MyDbContext context = new MyDbContext();
+            var getGame = gameService.GetGameById(id);
+            var orderExists = orderService.GetOrderByGame(getGame);
+            var getUserOrders = orderService.GetAllOrderForLoggedUser(HttpContext);
+            var error = @"<script language='javascript'>alert('Product is already added to cart'); </script>";
 
-            model.Items = context.Games.ToList();
-
-            foreach (Games game in model.Items)
+            if (!getUserOrders.Any(x => x.UserId == orderExists.UserId))
             {
-                model.Genres = context.GameToTypes.Where(i => i.games_Id == game.Id).Select(x => x.genre).ToList();
+                gameService.AddToOrder(id);
+                return RedirectToAction(nameof(ShowCustomerShoes)); // vij tui
+            }
+            else
+            {
+                return RedirectToAction(nameof(ShowCustomerShoes), "Games", new { error }); // vij tui
             }
 
-
-            return View(model);
         }
 
-        // GET: GamesController/Details/5
-        public ActionResult Details(int id)
+        // GET: GamesController/AllGames
+        [HttpGet]
+        public ActionResult AllGames()
         {
-            return View();
+            var context = new MyDbContext();
+            var games = context.Games.ToList();
+
+            var model = new AllGamesVM
+            {
+                Items = games
+            };
+
+            return View(model);
         }
 
         // GET: GamesController/Create
         [HttpGet]
         public IActionResult Create()
         {
-            Users loggedUser = this.HttpContext.Session.GetObject<Users>("loggedUser");
-
-            CreateVM model = new CreateVM();
+            User loggedUser = this.HttpContext.Session.GetObject<User>("loggedUser");
+            var model = new CreateVM();
 
             return View(model);
         }
-
 
         // POST: GamesController/Create
         [HttpPost]
         public IActionResult Create(CreateVM model)
         {
-            Users loggedUser = this.HttpContext.Session.GetObject<Users>("loggedUser");
+            User loggedUser = this.HttpContext.Session.GetObject<User>("loggedUser");
+            var context = new MyDbContext();
 
-            MyDbContext context = new MyDbContext();
-
-            Games item = new Games();
-            item.Name = model.Name;
-            item.Genre = model.Genre;
-            item.Price = model.Price;
-            item.manufacturer = model.Manufacturer;
-            item.releaseDate = model.ReleaseDate;
+            var item = new Game
+            {
+                Name = model.Name,
+                Price = model.Price,
+                Manufacturer = model.Manufacturer,
+                ReleaseDate = model.ReleaseDate,
+                Url = model.Url
+            };
 
             context.Games.Add(item);
             context.SaveChanges();
@@ -87,10 +90,12 @@ namespace virtualReality.Controllers
             return RedirectToAction("AllGames", "Games");
         }
 
+        // DELETE: GamesController/Delete/{id}
+        [HttpDelete]
         public IActionResult Delete(int id)
         {
-            MyDbContext context = new MyDbContext();
-            Games itemToDelete = context.Games.Where(g => g.Id == id).FirstOrDefault();
+            var context = new MyDbContext();
+            Game itemToDelete = context.Games.Where(g => g.Id == id).FirstOrDefault();
 
             if (itemToDelete != null)
             {
@@ -101,12 +106,19 @@ namespace virtualReality.Controllers
             return RedirectToAction("AllGames", "Games");
         }
 
+        // GET: GamesController/Details/{id}
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
 
+        // GET: GamesController/Edit/{id}
         [HttpGet]
         public IActionResult Edit(int id)
         {
             MyDbContext context = new MyDbContext();
-            Games itemToEdit = context.Games.Where(g => g.Id == id).FirstOrDefault();
+            Game itemToEdit = context.Games.Where(g => g.Id == id).FirstOrDefault();
 
             if (itemToEdit == null)
             {
@@ -134,7 +146,7 @@ namespace virtualReality.Controllers
             }
 
             MyDbContext context = new MyDbContext();
-            Games itemToEdit = context.Games.Where(g => g.Id == id).FirstOrDefault();
+            Game itemToEdit = context.Games.Where(g => g.Id == id).FirstOrDefault();
 
             itemToEdit.manufacturer = model.manufacturer;
             itemToEdit.releaseDate = model.releaseDate;
@@ -147,25 +159,6 @@ namespace virtualReality.Controllers
 
             return RedirectToAction("AllGames", "Games");
         }
-
-        public IActionResult AddToOrder(int id)
-        {
-            var getGame = gameService.GetGameById(id);
-            var orderExists = orderService.GetOrderByGame(getGame);
-            var getUserOrders = orderService.GetAllOrderForLoggedUser(HttpContext);
-            var error = @"<script language='javascript'>alert('Product is already added to cart'); </script>";
-            if (!getUserOrders.Any(x => x.user_Id == orderExists.user_Id))
-            {
-                gameService.AddToOrder(id);
-                return RedirectToAction(nameof(ShowCustomerShoes));
-            }
-            else
-            {
-                return RedirectToAction(nameof(ShowCustomerShoes), "Games", new { error });
-            }
-
-        }
-
         public IActionResult ShowCustomerShoes(GamesVM gamemodel, string error)
         {
 

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using virtualReality.Entities;
 
-namespace virtualReality.ViewModels.GamesVM
+namespace virtualReality.ViewModels.GenreVM
 {
-    public class AllGamesVM
+    public class AllGenresVM
     {
         public List<Genre> Genres { get; set; }
-        public List<Game> Games { get; set; }
     }
 }

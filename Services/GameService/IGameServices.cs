@@ -17,12 +17,12 @@ namespace virtualReality.Services.GameService
         void Delete(int Id);
         void AddToOrder(int Id);
         Genre GetTypeByGameVM(GamesVM shoe);
-        Genre GetTypeByGame(Games game);
-        Pictures GetImageByGame(Games game);
-       public Pictures GetImageByGamesVM(GamesVM game);
+        Genre GetTypeByGame(Game game);
+        Picture GetImageByGame(Game game);
+       public Picture GetImageByGamesVM(GamesVM game);
         List<GamesVM> GetAllGames();
         IEnumerable<GenreVM> GetAllTypes();
-        Games GetGameById(int Id);
+        Game GetGameById(int Id);
         GamesVM GetGameByIdAndUserIdVM(int Id, int userId);
     }
 }

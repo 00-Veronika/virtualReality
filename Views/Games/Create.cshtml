@@ -12,40 +12,41 @@
             <div class="label" for="name">
                 @Html.LabelFor(m => m.Name)
             </div>
-            <div class="input" id="username" name="username" required="required">
+            <div class="input" id="name" name="name" required="required">
                 @Html.TextBoxFor(m => m.Name)
             </div>
         </div>
         <div class="row">
-            <div class="label" for="Genre">@Html.LabelFor(m => m.Genre)</div>
-            <div class="input" id="password" name="password" required="required">
+            <div class="label" for="genre">@Html.LabelFor(m => m.Genre)</div>
+            <div class="input" id="genre" name="genre" required="required">
                 @Html.TextBoxFor(m => m.Genre)
             </div>
 
         </div>
         <div class="row">
-            <div class="label" for="Manufacturer" id="labelTel">@Html.LabelFor(m => m.Manufacturer)</div>
-            <div class="input" id="phone" name="telephone" required="required">
+            <div class="label" for="manufacturer" id="labelTel">@Html.LabelFor(m => m.Manufacturer)</div>
+            <div class="input" id="manufacturer" name="manufacturer" required="required">
                 @Html.TextBoxFor(m => m.Manufacturer)
             </div>
 
         </div>
         <div class="row">
-            <div class="label" for="Price" id="labelEmail">@Html.LabelFor(m => m.Price)</div> <br>
-            <div class="input" id="em" name="email" required="required">
+            <div class="label" for="price" id="labelEmail">@Html.LabelFor(m => m.Price)</div> <br>
+            <div class="input" id="em" name="price" required="required">
                 @Html.TextBoxFor(m => m.Price)
             </div>
 
         </div>
         <div class="row">
-            <div class="label" for="ReleaseDate" id="ReleaseDate">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
-            <div class="input" id="em" name="email" required="required">
+            <div class="label" for="releaseDate" id="releaseDate">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
+            <div class="input" id="releaseDate" name="releaseDate" required="required">
                 @Html.TextBoxFor(m => m.ReleaseDate)
             </div>
         </div>
         <div class="row">
-            <div class="input" id="em" name="uri" required="required">
-                @Html.TextBoxFor(m => m.url)
+            <div class="label" for="url" id="url">@Html.LabelFor(m => m.Url)</div> <br>
+            <div class="input" id="url" name="url" required="required">
+                @Html.TextBoxFor(m => m.Url)
             </div>
         </div>
         <div class="col-lg-8">

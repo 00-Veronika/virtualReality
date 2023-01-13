@@ -23,26 +23,26 @@ namespace virtualReality.Services.OrderService
 
         public void Delete(int id)
         {
-            var order = _context.Orders.FirstOrDefault(x => x.user_Id == id);
+            var order = _context.Orders.FirstOrDefault(x => x.UserId == id);
             _context.Orders.Remove(order);
             _context.SaveChanges();
         }
 
-        public IEnumerable<Orders> GetAll()
+        public IEnumerable<Order> GetAll()
         {
             var orders = _context.Orders.ToList();
             return orders;
         }
 
-        public IEnumerable<Games> GetAllOrderedGames()
+        public IEnumerable<Game> GetAllOrderedGames()
         {
             var orders = GetAll();
-            List<Games> orderedGames = new List<Games>();
+            List<Game> orderedGames = new List<Game>();
             using (var _gamesService = new GameService.GameServices(_context))
             {
                 foreach (var game in orders)
                 {
-                    orderedGames.Add(_gamesService.GetGamesById(game.Game_Id));
+                    orderedGames.Add(_gamesService.GetGamesById(game.GameId));
                 }
             }
             return orderedGames;
@@ -52,7 +52,7 @@ namespace virtualReality.Services.OrderService
         public IEnumerable<OrderVM> GetAllOrderForLoggedUser(HttpContext httpContext)
         {
             var userId = GetUserId(httpContext);
-            var userOrders = _context.Orders.Select(MapToOrderVM()).Where(x => x.user_Id == userId).ToList();
+            var userOrders = _context.Orders.Select(MapToOrderVM()).Where(x => x.UserId == userId).ToList();
 
             return userOrders;
         }
@@ -66,7 +66,7 @@ namespace virtualReality.Services.OrderService
             {
                 foreach (var game in userOrders)
                 {
-                    orderedGames.Add(_gameService.GetGameByIdAndUserIdVM(game.games_Id, game.user_Id));
+                    orderedGames.Add(_gameService.GetGameByIdAndUserIdVM(game.games_Id, game.UserId));
                 }
             }
 
@@ -82,39 +82,39 @@ namespace virtualReality.Services.OrderService
             {
                 foreach (var order in orders)
                 {
-                    orderedGames.Add(_gameService.GetGameByIdAndUserIdVM(order.Game_Id, order.Id));
+                    orderedGames.Add(_gameService.GetGameByIdAndUserIdVM(order.GameId, order.Id));
                 }
             }
 
             return orderedGames;
         }
 
-        public Orders GetOrderByGames(Games game)
+        public Order GetOrderByGames(Game game)
         {
-            var order = _context.Orders.FirstOrDefault(x => x.Game_Id == game.Id);
+            var order = _context.Orders.FirstOrDefault(x => x.GameId == game.Id);
             return order;
         }
 
-        public Orders GetOrderById(int id)
+        public Order GetOrderById(int id)
         {
             var order = _context.Orders.FirstOrDefault(x => x.Id == id);
             return order;
         }
-        public Orders GetOrderByGamesVM(GamesVM game)
+        public Order GetOrderByGamesVM(GamesVM game)
         {
-            var order = _context.Orders.FirstOrDefault(x => x.Game_Id == game.Id);
+            var order = _context.Orders.FirstOrDefault(x => x.GameId == game.Id);
             return order;
         }
 
-        public Orders GetOrderByUserId(int userId)
+        public Order GetOrderByUserId(int userId)
         {
-            var order = _context.Orders.FirstOrDefault(x => x.user_Id == userId);
+            var order = _context.Orders.FirstOrDefault(x => x.UserId == userId);
             return order;
         }
 
         public void Edit(int id, string status)
         {
-            var gameStatusToEdit = _context.Orders.FirstOrDefault(x => x.user_Id == id);
+            var gameStatusToEdit = _context.Orders.FirstOrDefault(x => x.UserId == id);
             if (gameStatusToEdit != null)
             {
                 gameStatusToEdit.Status = status;
@@ -123,7 +123,7 @@ namespace virtualReality.Services.OrderService
             }
         }
 
-        private static Expression<Func<Games, GamesVM>> MapToGamesVM()
+        private static Expression<Func<Game, GamesVM>> MapToGamesVM()
         {
             return x => new GamesVM()
             {
@@ -133,24 +133,24 @@ namespace virtualReality.Services.OrderService
             };
         }
 
-        private static Expression<Func<Orders, OrderVM>> MapToOrderVM()
+        private static Expression<Func<Order, OrderVM>> MapToOrderVM()
         {
             return x => new OrderVM()
             {
                 Id = x.Id,
-                user_Id = x.user_Id,
-                games_Id = x.Game_Id
+                UserId = x.UserId,
+                games_Id = x.GameId
             };
         }
 
         private int GetUserId(HttpContext HttpContext)
         {
-            var id = HttpContext.Session.GetObject<Users>("loggedUser").Id;
+            var id = HttpContext.Session.GetObject<User>("loggedUser").Id;
             var result = int.TryParse(id.ToString(), out int intId) ? intId : -1;
             return result;
         }
 
-        public Orders GetOrderByGame(Games game)
+        public Order GetOrderByGame(Game game)
         {
             throw new NotImplementedException();
         }

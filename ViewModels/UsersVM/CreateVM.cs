@@ -1,37 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace virtualReality.ViewModels.UsersVM
 {
     public class CreateVM
     {
-        [DisplayName("Username: ")]
-        [Required(ErrorMessage = "*This field is Required!")]
-        public string Username { get; set; }
-
-        [DisplayName("Password: ")]
-        [Required(ErrorMessage = "*This field is Required!")]
-        public string Password { get; set; }
+        [DisplayName("Email: ")]
+        [Required(ErrorMessage = nameof(Email) + FieldConstants.REQUIRED)]
+        public string Email { get; set; }
 
         [DisplayName("First Name: ")]
-        [Required(ErrorMessage = "*This field is Required!")]
+        [Required(ErrorMessage = nameof(FirstName) + FieldConstants.REQUIRED)]
         public string FirstName { get; set; }
 
         [DisplayName("Last Name: ")]
-        [Required(ErrorMessage = "*This field is Required!")]
+        [Required(ErrorMessage = nameof(LastName) + FieldConstants.REQUIRED)]
         public string LastName { get; set; }
 
+        [DisplayName("Password: ")]
+        [Required(ErrorMessage = nameof(Password) + FieldConstants.REQUIRED)]
+        public string Password { get; set; }
+
         [DisplayName("Phone: ")]
-        [Required(ErrorMessage = "*This field is Required!")]
+        [Required(ErrorMessage = nameof(Phone) + FieldConstants.REQUIRED)]
         public string Phone { get; set; }
 
-        [DisplayName("Email: ")]
-        [Required(ErrorMessage = "*This field is Required!")]
-        public string Email { get; set; }
-
+        [DisplayName("Username: ")]
+        [Required(ErrorMessage = nameof(Username) + FieldConstants.REQUIRED)]
+        public string Username { get; set; }
     }
 }

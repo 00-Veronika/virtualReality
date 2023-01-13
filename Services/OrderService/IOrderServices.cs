@@ -10,14 +10,14 @@ namespace virtualReality.Services.OrderService
     {
         void Delete(int id);
         void Edit(int id, string status);
-        IEnumerable<Orders> GetAll();
-        IEnumerable<Games> GetAllOrderedGames();
+        IEnumerable<Order> GetAll();
+        IEnumerable<Game> GetAllOrderedGames();
         IEnumerable<GamesVM> GetAllOrderedGamesVM();
         IEnumerable<OrderVM> GetAllOrderForLoggedUser(HttpContext httpContext);
         IEnumerable<GamesVM> GetUserOrderedGames(HttpContext httpContext);
-        Orders GetOrderByGame(Games game);
-        Orders GetOrderByGamesVM(GamesVM game);
-        Orders GetOrderById(int id);
-        Orders GetOrderByUserId(int userId);
+        Order GetOrderByGame(Game game);
+        Order GetOrderByGamesVM(GamesVM game);
+        Order GetOrderById(int id);
+        Order GetOrderByUserId(int userId);
     }
 }

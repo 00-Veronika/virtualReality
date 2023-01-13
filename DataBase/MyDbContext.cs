@@ -1,31 +1,24 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using virtualReality.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using virtualReality.Entities;
-using Microsoft.Extensions.Options;
 
 namespace EntityFrameworkSample
 {
     public class MyDbContext : DbContext
     {
-
-        public DbSet<Users> Users { get; set; }
-        public DbSet<Games> Games { get; set; }
-        public DbSet<GameToType> GameToTypes { get; set; }
-        public DbSet<Genre> Genre { get; set; }
-        public DbSet<Orders> Orders { get; set; }
-        public DbSet<Pictures> Pictures { get; set; }
-
         public MyDbContext()
         {
-            Users = this.Set<Users>();
+            Users = this.Set<User>();
         }
+
+        public DbSet<Game> Games { get; set; }
+        public DbSet<GamesInGenre> GamesInGenres { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
+        public DbSet<User> Users { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=localhost;Database=virtualRealityDb;Trusted_Connection=True;");
@@ -33,33 +26,75 @@ namespace EntityFrameworkSample
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Users>().HasData(
-                new Users()
-                {
-                    Id = 1,
-                    username = "nikiv",
-                    password = "nikipass",
-
-                });
-
-            
-            new Genre()
+            var user = new User
             {
-                name = "horror",
                 Id = 1,
+                Username = "nikiv",
+                Password = "nikipass",
+                Email = "test@email.com"
             };
 
-            //modelBuilder.Entity<Games>().HasData(
-            //    new Games()
-            //    {
-            //        Id = 1,
-            //        Name = "test",
-            //        Price = 10,
-            //        Genre = "testGenre",
-            //        manufacturer = "epicgames",
-            //        releaseDate = 2023
-            //    });
+            modelBuilder.Entity<User>().HasData(user);
+
+            var listOfGenres = new List<Genre>
+            {
+                new Genre() { Id = 1, Name = "Horror" },
+                new Genre() { Id = 2, Name = "Action" }
+            };
+
+            modelBuilder.Entity<Genre>().HasData(listOfGenres);
+
+            var listOfGames = new List<Game>
+            {
+                new Game()
+                {
+                    Id = 1,
+                    Name = "Horror Game #1",
+                    Manufacturer = "Chris Games™",
+                    Price = 10.25M,
+                    ReleaseDate = DateTime.Now,
+                    Url = "./wwwroot/css/assets/images/author.jpg"
+                },
+                new Game()
+                {
+                    Id = 2,
+                    Name = "Action Game #1",
+                    Manufacturer = "Chris Games™",
+                    Price = 59.99M,
+                    ReleaseDate = DateTime.Now,
+                    Url = "./wwwroot/css/assets/images/author-02.jpg"
+                },
+                new Game()
+                {
+                    Id = 3,
+                    Name = "Action Game #2",
+                    Manufacturer = "Chris Games™",
+                    Price = 29.99M,
+                    ReleaseDate = DateTime.Now,
+                    Url = "./wwwroot/css/assets/images/banner-01.jpg"
+                },
+                new Game()
+                {
+                    Id = 4,
+                    Name = "Action Game #2",
+                    Manufacturer = "Chris Games™",
+                    Price = 19.99M,
+                    ReleaseDate = DateTime.Now,
+                    Url = "./wwwroot/css/assets/images/banner-02.jpg"
+                }
+            };
+
+            modelBuilder.Entity<Game>().HasData(listOfGames);
+
+            var listOfGamesInGenres = new List<GamesInGenre>
+            {
+                new GamesInGenre {  Id = 1, GameId = 1, GenreId = 1 },
+                new GamesInGenre {  Id = 2, GameId = 2, GenreId = 2 },
+                new GamesInGenre {  Id = 3, GameId = 3, GenreId = 1 },
+                new GamesInGenre {  Id = 4, GameId = 4, GenreId = 2 }
+            };
+
+            modelBuilder.Entity<GamesInGenre>().HasData(listOfGamesInGenres);
         }
-     
     }
 }

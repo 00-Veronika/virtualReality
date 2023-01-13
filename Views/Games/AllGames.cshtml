@@ -5,37 +5,40 @@
     this.ViewData["title"] = "Games";
     this.Layout = "/Views/Shared/_Site.cshtml";
 }
+
 <div class="container mt-4">
     <div class="container mb-2">
-        @foreach (var item in Model.Items)
+        @foreach (var game in Model.Games)
         {
 
             <div class="col-lg-8" style="margin: 150px auto; justify-content: start;">
                 <div class="card" style="width: 16rem;">
                     <div class="card-body" style="border-color: #8c52f1;">
-                        <h5 class="card-title" style="color: #8c52f1;">@item.Name</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Price: @item.Price USD.</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            Genre: @item.Genre
-                        </h6>
+                        <h5 class="card-title" style="color: #8c52f1;">@game.Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Price: @game.Price USD.</h6>
+                        @*<h6 class="card-subtitle mb-2 text-muted">
+                            Genre: @game.Genre
+                        </h6>*@
                         <h6 class="card-subtitle mb-2 text-muted">
                             Manufacturer:
-                            @item.manufacturer
+                            @game.Manufacturer
                         </h6>
                         <h6 class="card-subtitle mb-2 text-muted">
                             Year of release:
-                            @item.releaseDate
+                            @game.ReleaseDate
                         </h6>
                         <div class="card">
-                            <img src="/Pictures/@item.url" style="width:100px ; height:100px" />
+                            <img src="/Pictures/@game.Url" style="width:100px ; height:100px" />
                         </div>
-                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="/Games/Edit?id=@item.Id">Edit</a>
-                        <a class="btn btn-danger" style="color: #fff; margin:20px;" href="/Games/Delete?id=@item.Id">Delete</a>
-                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" asp-action="AddToOrder"  href="/Order/AllOrders?"@item.Id>Add in order</a>
+                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" href="/Games/Edit?id=@game.Id">Edit</a>
+                        <a class="btn btn-danger" style="color: #fff; margin:20px;" href="/Games/Delete?id=@game.Id">Delete</a>
+                        <a class="btn" style="color: #8c52f1; border-color:#8c52f1; margin:20px;" asp-action="AddToOrder"  href="/Order/AllOrders?id=@game.Id">Add to Order</a>
                     </div>
                 </div>
             </div>
         }
+    </div>
+    <div>
         <a class="btn" style="color: #8c52f1; border-color: #8c52f1; margin:20px;" href="/Games/Create">Add Games</a>
     </div>
 </div>

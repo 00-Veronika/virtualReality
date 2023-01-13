@@ -30,7 +30,7 @@ namespace virtualReality.Services.GameService
         {
             //GETS ALL THE PROPERTIES TO DELETE
             var gameToDelete = _context.Games.FirstOrDefault(x => x.Id == Id);
-            var imageToDelete = _context.Pictures.FirstOrDefault(x => x.games_Id == Id);
+            var imageToDelete = _context.Pictures.FirstOrDefault(x => x.GameId == Id);
 
             //IF SUCH Games EXISTS DELETE 
             if (gameToDelete != null)
@@ -46,7 +46,7 @@ namespace virtualReality.Services.GameService
         public void Edit(EditGamesVM gamemodel)
         {
             //GETS SELECTED TAG
-            var getGenre = _context.Genre.FirstOrDefault(x => x.name == gamemodel.Name);
+            var getGenre = _context.Genres.FirstOrDefault(x => x.name == gamemodel.Name);
 
             //CHECKS IF SUCH Games EXISTS
             if (gamemodel.Id == 0)
@@ -54,8 +54,8 @@ namespace virtualReality.Services.GameService
                 //DOWNLOAD TO SPECIFIED FILE PATH
                 var path = Stream(gamemodel.url);
                 //PREPARE OBJECTS TO CREATE
-                var gameToTypes = new GameToType();
-                var gameToCreate = new Games()
+                var gameToTypes = new GamesInGenre();
+                var gameToCreate = new Game()
                 {
 
                     Id = gamemodel.Id,
@@ -63,10 +63,10 @@ namespace virtualReality.Services.GameService
                     manufacturer = gamemodel.manufacturer,
                     releaseDate = gamemodel.releaseDate,
                     Price = gamemodel.Price,
-                    url = new Pictures
+                    url = new Picture
                     {
                         url = path,
-                        games_Id = gamemodel.Id
+                        GameId = gamemodel.Id
                     }
                 };
 
@@ -76,17 +76,17 @@ namespace virtualReality.Services.GameService
                 var getCreatedGames = _context.Games.FirstOrDefault(x => x.Genre == gamemodel.Genre);
 
                 //USES THE ID WE GET FROM ABOVE CODE AND SETS VALUES
-                gameToTypes.genre_Id = getGenre.Id;
-                gameToTypes.games_Id = gamemodel.Id;
+                gameToTypes.GenreId = getGenre.Id;
+                gameToTypes.GameId = gamemodel.Id;
                 _context.GameToTypes.Add(gameToTypes);
             }
             else
             {
                 //GET THE Games AND ALL OF IT PROPERTIES TO EDIT
                 var GamesToEdit = _context.Games.FirstOrDefault(s => s.Id == gamemodel.Id);
-                var GamesImageToEdit = _context.Pictures.FirstOrDefault(x => x.games_Id == gamemodel.Id);
-                var GamesTagToEdit = _context.GameToTypes.FirstOrDefault(x => x.games_Id == gamemodel.Id);
-                var TagToEdit = _context.Genre.FirstOrDefault(x => x.Id == getGenre.Id);
+                var GamesImageToEdit = _context.Pictures.FirstOrDefault(x => x.GameId == gamemodel.Id);
+                var GamesTagToEdit = _context.GameToTypes.FirstOrDefault(x => x.GameId == gamemodel.Id);
+                var TagToEdit = _context.Genres.FirstOrDefault(x => x.Id == getGenre.Id);
 
 
                 //CHECKS IF THERE's a Games TO EDIT
@@ -116,9 +116,9 @@ namespace virtualReality.Services.GameService
                     {
                         _context.GameToTypes.Remove(GamesTagToEdit);
                         _context.SaveChanges();
-                        var GamesToTagUpdate = new GameToType();
-                        GamesToTagUpdate.genre_Id = TagToEdit.Id;
-                        GamesToTagUpdate.games_Id = GamesToEdit.Id;
+                        var GamesToTagUpdate = new GamesInGenre();
+                        GamesToTagUpdate.GenreId = TagToEdit.Id;
+                        GamesToTagUpdate.GameId = GamesToEdit.Id;
                         _context.GameToTypes.Add(GamesToTagUpdate);
                     }
                 }
@@ -134,9 +134,9 @@ namespace virtualReality.Services.GameService
 
             if (getGames != null && userId != null)
             {
-                var orderToAdd = new Orders()
+                var orderToAdd = new Order()
                 {
-                    Game_Id = getGames.Id,
+                    GameId = getGames.Id,
                     //user_Id = userId,
                     Status = "Proccesing"
                 };
@@ -152,7 +152,7 @@ namespace virtualReality.Services.GameService
         }
 
         //MAPPING
-        private static Expression<Func<Games, GamesVM>> MapToGamesVM()
+        private static Expression<Func<Game, GamesVM>> MapToGamesVM()
         {
             return x => new GamesVM()
             {
@@ -186,7 +186,7 @@ namespace virtualReality.Services.GameService
         }
 
         //GETS Games BY ID
-        public Games GetGamesById(int Id)
+        public Game GetGamesById(int Id)
         {
             var Games = _context.Games.FirstOrDefault(x => x.Id == Id);
             return Games;
@@ -196,11 +196,11 @@ namespace virtualReality.Services.GameService
         {
             var Games = _context.Games.FirstOrDefault(x => x.Id == Id);
             Games.url = _context.Pictures.FirstOrDefault(x => x.Id == Games.Id);
-            var GetStatus = _context.Orders.FirstOrDefault(x => x.user_Id == userId);
+            var GetStatus = _context.Orders.FirstOrDefault(x => x.UserId == userId);
             Games.order = GetStatus;
-            var getGenre = _context.GameToTypes.FirstOrDefault(x => x.games_Id == Games.Id);
-            var Genre = _context.Genre.FirstOrDefault(x => x.Id == getGenre.genre_Id);
-            var userName = _context.Users.FirstOrDefault(x => x.Id == userId).username;
+            var getGenre = _context.GameToTypes.FirstOrDefault(x => x.GameId == Games.Id);
+            var Genre = _context.Genres.FirstOrDefault(x => x.Id == getGenre.GenreId);
+            var userName = _context.Users.FirstOrDefault(x => x.Id == userId).Username;
 
             var newGames = new GamesVM()
             {
@@ -218,43 +218,43 @@ namespace virtualReality.Services.GameService
 
         public IEnumerable<GenreVM> GetAllTags()
         {
-            var tags = _context.Genre.Select(MapToTagVM()).ToList();
+            var tags = _context.Genres.Select(MapToTagVM()).ToList();
             return tags;
         }
 
         //METHODS THAT GET PROPERTIES VALUES BY GamesSVIEWMODEL
-        public Pictures GetImageByGamesVM(GamesVM Games)
+        public Picture GetImageByGamesVM(GamesVM Games)
         {
-            var image = _context.Pictures.FirstOrDefault(p => p.games_Id == Games.Id);
+            var image = _context.Pictures.FirstOrDefault(p => p.GameId == Games.Id);
             return image;
         }
 
         public Genre GetTagByGamesVM(GamesVM Games)
         {
-            var GameToTypes = _context.GameToTypes.FirstOrDefault(x => x.games_Id == Games.Id);
+            var GameToTypes = _context.GameToTypes.FirstOrDefault(x => x.GameId == Games.Id);
             if (GameToTypes != null)
             {
-                var GameToType = _context.Genre.FirstOrDefault(x => x.Id == GameToTypes.genre_Id);
+                var GameToType = _context.Genres.FirstOrDefault(x => x.Id == GameToTypes.GenreId);
                 return GameToType;
             }
             return new Genre();
         }
 
         //METHODS THAT GET PROPERTIES VALUES BY GamesS
-        public Genre GetTagByGames(Games Games)
+        public Genre GetTagByGames(Game Games)
         {
-            var GamesToTag = _context.GameToTypes.FirstOrDefault(x => x.games_Id == Games.Id);
+            var GamesToTag = _context.GameToTypes.FirstOrDefault(x => x.GameId == Games.Id);
             if (GamesToTag != null)
             {
-                var genre = _context.Genre.FirstOrDefault(x => x.Id == GamesToTag.genre_Id);
+                var genre = _context.Genres.FirstOrDefault(x => x.Id == GamesToTag.GenreId);
                 return genre;
             }
             return null;
         }
         //RETURNS THE IMAGE OF THE GIVEN Games 
-        public Pictures GetImageByGames(Games Games)
+        public Picture GetImageByGames(Game Games)
         {
-            var image = _context.Pictures.FirstOrDefault(p => p.games_Id == Games.Id);
+            var image = _context.Pictures.FirstOrDefault(p => p.GameId == Games.Id);
             return image;
         }
 
@@ -378,17 +378,17 @@ namespace virtualReality.Services.GameService
             throw new NotImplementedException();
         }
 
-        public Genre GetTagByGame(Games game)
+        public Genre GetTagByGame(Game game)
         {
             throw new NotImplementedException();
         }
 
-        public Pictures GetImageByGame(Games game)
+        public Picture GetImageByGame(Game game)
         {
             throw new NotImplementedException();
         }
 
-        public Pictures GetImageByGamesVM(Games game)
+        public Picture GetImageByGamesVM(Game game)
         {
             throw new NotImplementedException();
         }
@@ -398,7 +398,7 @@ namespace virtualReality.Services.GameService
             throw new NotImplementedException();
         }
 
-        public Games GetGameById(int Id)
+        public Game GetGameById(int Id)
         {
             throw new NotImplementedException();
         }
@@ -418,7 +418,7 @@ namespace virtualReality.Services.GameService
             throw new NotImplementedException();
         }
 
-        public Genre GetTypeByGame(Games game)
+        public Genre GetTypeByGame(Game game)
         {
             throw new NotImplementedException();
         }

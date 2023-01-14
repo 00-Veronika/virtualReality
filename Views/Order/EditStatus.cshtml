@@ -1,15 +1,17 @@
-﻿@model virtualReality.ViewModels.GamesVM.GamesVM
+﻿@model virtualReality.ViewModels.OrdersVM.OrderVM
 
 @{
 
     this.ViewData["title"] = "Orders";
     this.Layout = "/Views/Shared/_Site.cshtml";
 
+    // No need for these statuses
+    // Simply use Confirmed/Cancelled
+    // Single button for all roles
 
     var InProgress = "InProgress";
     var Shipping = "Shipping";
     var Received = "Received";
-
 }
 
 <h1>EditStatus</h1>
@@ -18,39 +20,41 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" asp-action="EditStatus" name="ChangeStatus">
-            <input type="hidden" asp-for="Id" />
+        <form method="post" action="/Order/EditStatus" name="ChangeStatus">
+            @Html.HiddenFor(m => m.Id)
             <div class="form-group">
-                <select id="statusSelect" asp-for="Status">
-                    @if (Model.Status == "Proccesing")
+                @Html.LabelFor(m => m.Status)
+                @Html.TextBoxFor(m => m.Status)
+@*                <select id="statusSelect" asp-for="Status">
+                    @if (Model.Status == "Processing")
                     {
                         <option asp-f" value="@Model.Status"> @Model.Status </option>
-                        <option value="InProgress+@Model.userId"> InProgress </option>
-                        <option value="Shipping+@Model.userId"> Shipping </option>
-                        <option value="Received+@Model.userId"> Received </option>
+                        <option value="InProgress+@Model.UserId"> InProgress </option>
+                        <option value="Shipping+@Model.UserId"> Shipping </option>
+                        <option value="Received+@Model.UserId"> Received </option>
                     }
                     else
                     {
                         @if (Model.Status == InProgress)
                         {
                             <option value="@Model.Status"> @Model.Status </option>
-                            <option value="Shipping+@Model.userId"> Shipping </option>
-                            <option value="Received+@Model.userId"> Received </option>
+                            <option value="Shipping+@Model.UserId"> Shipping </option>
+                            <option value="Received+@Model.UserId"> Received </option>
                         }
                         else if (Model.Status == Shipping)
                         {
                             <option value="@Model.Status"> @Model.Status </option>
-                            <option value="InProgress+@Model.userId"> InProgress </option>
-                            <option value="Received+@Model.userId"> Received </option>
+                            <option value="InProgress+@Model.UserId"> InProgress </option>
+                            <option value="Received+@Model.UserId"> Received </option>
                         }
                         else
                         {
                             <option value="@Model.Status"> @Model.Status </option>
-                            <option value="InProgress+@Model.userId"> InProgress </option>
-                            <option value="Shipping+@Model.userId"> Shipping </option>
+                            <option value="InProgress+@Model.UserId"> InProgress </option>
+                            <option value="Shipping+@Model.UserId"> Shipping </option>
                         }
                     }
-                </select>
+                </select>*@
             </div>
             <div class="form-group">
                 <input type="submit" value="Change Status" class="btn btn-primary" />
@@ -59,11 +63,5 @@
     </div>
 </div>
 <div>
-    <a asp-action="AllOrders">Back to List</a>
+    <a href="./AllOrders">Go back</a>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

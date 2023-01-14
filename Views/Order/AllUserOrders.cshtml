@@ -1,9 +1,8 @@
-﻿@model virtualReality.ViewModels.GamesVM.GamesVM
+﻿@model virtualReality.ViewModels.OrdersVM.OrdersVM
 
 @{
-    this.ViewData["title"] = "AllUserOrders";
+    this.ViewData["title"] = "Orders";
     this.Layout = "/Views/Shared/_Site.cshtml";
-
 }
 
 <h1>Cart</h1>
@@ -12,50 +11,48 @@
     <thead>
         <tr>
             <th>
-                Pictures
+                #
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                OrderId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genres)
+                GameId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                UserId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Status
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Action
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.UserOrderedGames)
+        @{int i = 0;}
+        @foreach (var order in Model.Orders)
         {
+            i++;
             <tr>
                 <td>
-                    <img src="/Pictures/@item.url" style="width:100px ; height:100px" />
+                    @i
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
+                    @order.Id
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @order.GameId
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    @order.UserId
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.order)
+                    @order.Status
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.order.Status)
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.userId">Remove</a>
+                    <a href="./EditStatus?id=@order.Id">Edit Status</a>
                 </td>
             </tr>
         }

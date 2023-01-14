@@ -1,57 +1,59 @@
-﻿using EntityFrameworkSample;
+﻿using System.Linq;
+using EntityFrameworkSample;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using virtualReality.Entities;
 using virtualReality.ViewModels.GenreVM;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace virtualReality.Controllers
 {
     public class GenreController : Controller
     {
-        public ActionResult AllGenres(GenreVM model)
+        // GET: GenreController/AllGenres
+        [HttpGet]
+        public IActionResult AllGenres()
         {
+            var context = new MyDbContext();
+            var genres = context.Genres.ToList();
 
-            MyDbContext context = new MyDbContext();
-
-            model.Items = context.Genres.ToList();
-
-            //foreach (var genre in model.Items)
-            //{
-            //    model.Items = context.GameToTypes.Where(i => i.genre_Id == genre.Id).Select(x => x.genre).ToList();
-            //}
+            var model = new AllGenresVM
+            {
+                Genres = genres
+            };
 
             return View(model);
         }
 
+        // GET: GenreController/Create
         [HttpGet]
         public IActionResult Create()
         {
-            GenreVM model = new GenreVM();
-            return View(model);
+            return View();
         }
 
+        // POST: GenreController/Create/{name}
         [HttpPost]
-        public IActionResult Create(GenreVM model)
+        public IActionResult Create(string name)
         {
-            MyDbContext context = new MyDbContext();
+            var context = new MyDbContext();
             var genreToCreate = new Genre()
             {
-                name = model.Name
+                Name = name
             };
 
             context.Genres.Add(genreToCreate);
             context.SaveChanges();
+
             return RedirectToAction("AllGenres", "Genre");
         }
 
+        // DELETE: GenreController/Delete/{id}
+        [HttpDelete]
         public IActionResult Delete(int id)
         {
-            MyDbContext context = new MyDbContext();
-            Genre itemToDelete = context.Genres.Where(g => g.Id == id).FirstOrDefault();
+            var context = new MyDbContext();
+            Genre itemToDelete = context.Genres
+                .Where(g => g.Id == id)
+                .FirstOrDefault();
 
             if (itemToDelete != null)
             {
@@ -62,27 +64,30 @@ namespace virtualReality.Controllers
             return RedirectToAction("AllGenres", "Genre");
         }
 
-
+        // GET: GenreController/Edit/{id}
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            MyDbContext context = new MyDbContext();
-            Genre itemToEdit = context.Genres.Where(g => g.Id == id).FirstOrDefault();
-            //itemToEdit = null;
+            var context = new MyDbContext();
+            Genre itemToEdit = context.Genres
+                .Where(g => g.Id == id)
+                .FirstOrDefault();
 
             if (itemToEdit == null)
             {
                 return RedirectToAction("AllGenres", "Genre");
             }
 
-            GenreVM model = new GenreVM();
-            model.Id = itemToEdit.Id;
-            model.Name = itemToEdit.name;
+            var model = new GenreVM()
+            {
+                Id = itemToEdit.Id,
+                Name = itemToEdit.Name
+            };
 
             return View(model);
         }
 
-
+        // POST: GenreController/Edit/{model}
         [HttpPost]
         public IActionResult Edit(GenreVM model)
         {
@@ -91,16 +96,17 @@ namespace virtualReality.Controllers
                 return View(model);
             }
 
-            MyDbContext context = new MyDbContext();
-            Genre itemToEdit = context.Genres.Where(g => g.Id == model.Id).FirstOrDefault();
+            var context = new MyDbContext();
+            Genre itemToEdit = context.Genres
+                .Where(g => g.Id == model.Id)
+                .FirstOrDefault();
 
             if (itemToEdit == null)
             {
                 return RedirectToAction("AllGenres", "Genre");
             }
 
-            itemToEdit.Id = model.Id;
-            itemToEdit.name = model.Name;
+            itemToEdit.Name = model.Name;
 
             context.Genres.Update(itemToEdit);
             context.SaveChanges();

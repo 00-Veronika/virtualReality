@@ -3,7 +3,7 @@ using virtualReality.Entities;
 
 namespace virtualReality.ViewModels.OrdersVM
 {
-    public class AllOrdersVM
+    public class OrdersVM
     {
         public List<Order> Orders { get; set; }
     }

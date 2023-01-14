@@ -1,11 +1,12 @@
 ﻿@using virtualReality.Entities
 @using virtualReality.Extensions
+
 @{ 
     User loggedUser = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
     var controller = @ViewContext.RouteData.Values["controller"].ToString();
     var action = @ViewContext.RouteData.Values["action"].ToString();
-
 }
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -49,7 +50,7 @@
                             @if (loggedUser != null)
                             {
                                 <li>
-                                    <a href="/Home/Logout"> Logout </a>
+                                    <a href="/Home/Logout">Logout</a>
                                 </li>
                                 <li>
                                     <a href="/Games/AllGames">Games</a>

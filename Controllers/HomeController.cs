@@ -1,63 +1,47 @@
-﻿using EntityFrameworkSample;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using EntityFrameworkSample;
+using Microsoft.AspNetCore.Mvc;
 using virtualReality.Entities;
 using virtualReality.Extensions;
 using virtualReality.Models;
-using virtualReality.Services.GameService;
-using virtualReality.Services.OrderService;
 using virtualReality.ViewModels;
-using virtualReality.ViewModels.GenreVM;
-
 
 namespace virtualReality.Controllers
 {
     public class HomeController : Controller
     {
-        private int counter = 0;
-        private readonly IOrderServices _orderServices;
-        private readonly IGameServices _gameServices;
-        private readonly ILogger<HomeController> _logger;
-
-
-        public HomeController(ILogger<HomeController> logger, IOrderServices orderServices, IGameServices gameServices)
-        {
-            _logger = logger;
-            _orderServices = orderServices;
-            _gameServices = gameServices;
-
-        }
-
-
-        
-        public IActionResult Index()
-        {
-            return View();
-        }
+        // GET: GenreController/Details
         [HttpGet]
         public IActionResult Details()
         {
             return View();
         }
-        public IActionResult Privacy()
+
+        // GET: GenreController/Error
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
         }
 
+        // GET: GenreController/Games
         public IActionResult Games()
         {
-            return RedirectToAction("AllGames", "Games");
+            return RedirectToAction("AllGames", "Game");
         }
+
 
         [HttpGet]
         public IActionResult Genres()
         {
-            return RedirectToAction("AllGenres","Genre");
+            return RedirectToAction("AllGenres", "Genre");
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -70,24 +54,39 @@ namespace virtualReality.Controllers
 
             return View();
         }
+
         [HttpPost]
         public IActionResult Login(LoginVM model)
         {
-            if (!this.ModelState.IsValid)
-                return View(model);
-
-            MyDbContext context = new MyDbContext();
-            User loggedUser = context.Users.Where(u => u.Username == model.Username &&
-                                                       u.Password == model.Password)
-                                           .FirstOrDefault();
-            if (loggedUser == null)
+            if (!ModelState.IsValid)
             {
-                this.ModelState.AddModelError("authError", "Invalid username or password!");
                 return View(model);
             }
 
-            HttpContext.Session.SetObject("loggedUser", loggedUser);
+            var context = new MyDbContext();
+            User user = context.Users
+                .Where(u => u.UserName == model.Username)
+                .FirstOrDefault();
 
+            if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
+            {
+                ModelState.AddModelError("authError", "Invalid username or password!");
+                return View(model);
+            }
+
+            HttpContext.Session.SetObject("loggedUser", user);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetObject<User>("loggedUser") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            HttpContext.Session.Remove("loggedUser");
             return RedirectToAction("Index", "Home");
         }
 
@@ -105,38 +104,23 @@ namespace virtualReality.Controllers
                 return View();
             }
 
-            MyDbContext context = new MyDbContext();
-            User item = new User();
-            item.Username = model.Username;
-            item.Password = model.Password;
-            item.Email = model.Email;
-            item.Phone = model.Phone;
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
-            context.Users.Add(item);
+            var context = new MyDbContext();
+            var user = new User()
+            {
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Phone = model.Phone,
+                PasswordHash = passwordHash,
+                Role = "user"
+            };
+
+            context.Users.Add(user);
             context.SaveChanges();
 
             return RedirectToAction("Login", "Home");
         }
-
-
-        [HttpGet]
-        public IActionResult Logout()
-        {
-            if (this.HttpContext.Session.GetObject<User>("loggedUser") == null)
-                return RedirectToAction("Index", "Home");
-
-            this.HttpContext.Session.Remove("loggedUser");
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            
-        }
-        
     }
-    
 }

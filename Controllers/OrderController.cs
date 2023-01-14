@@ -1,63 +1,104 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using virtualReality.Services.GameService;
-using virtualReality.Services.OrderService;
-using virtualReality.ViewModels.GamesVM;
+﻿using System.Linq;
+using EntityFrameworkSample;
+using Microsoft.AspNetCore.Mvc;
+using virtualReality.Entities;
+using virtualReality.Extensions;
+using virtualReality.ViewModels.OrdersVM;
 
 namespace virtualReality.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrderServices  _orderServices;
-        private readonly IGameServices _gamesServices;
-
-        public OrderController(IOrderServices orderServices, IGameServices gamesServices)
-        {
-            _orderServices = orderServices;
-            _gamesServices = gamesServices;
-        }
-
-        public IActionResult AllUserOrders(GamesVM allOrderedGames)
-        {
-            allOrderedGames.UserOrderedGames = _orderServices.GetUserOrderedGames(HttpContext);
-            return View(allOrderedGames);
-        }
-
-        public IActionResult AllOrders(GamesVM allOrderedGames)
-        {
-            allOrderedGames.OrderedGames = _orderServices.GetAllOrderedGamesVM();
-            return View(allOrderedGames);
-        }
-
+        // GET: OrderController/AllOrders
         [HttpGet]
-        public IActionResult EditStatus(GamesVM game, int Id)
+        public IActionResult AllOrders()
         {
-            var getCurrOrder = _orderServices.GetOrderByUserId(Id);
-            game.Status = getCurrOrder.Status;
-            game.userId = getCurrOrder.UserId;
-            game.Id = getCurrOrder.GameId;
-            return View(game);
-        }
+            var context = new MyDbContext();
+            var orders = context.Orders.ToList();
 
-        [HttpPost]
-        public IActionResult EditStatus(string Status)
-        {
-            List<string> value = Status.Split("+").ToList();
-
-            if (ModelState.IsValid)
+            var model = new OrdersVM
             {
-                _orderServices.Edit(0, " ");
-            }
+                Orders = orders
+            };
 
-            return RedirectToAction(nameof(AllOrders));
+            return View(model);
         }
 
+        // GET: OrderController/AllUserOrders
+        [HttpGet]
+        public IActionResult AllUserOrders()
+        {
+            var context = new MyDbContext();
+            var id = HttpContext.Session.GetObject<User>("loggedUser").Id;
+            var userOrders = context.Orders
+                .Where(o => o.UserId == id)
+                .ToList();
+
+            var model = new OrdersVM
+            {
+                Orders = userOrders
+            };
+
+            return View(model);
+        }
+
+        // DELETE: OrderController/Delete/{id}
         public IActionResult Delete(int id)
         {
-            _orderServices.Delete(id);
-            return RedirectToAction(nameof(AllUserOrders));
+            var context = new MyDbContext();
+            Order itemToDelete = context.Orders
+                .Where(o => o.Id == id)
+                .FirstOrDefault();
+
+            if (itemToDelete != null)
+            {
+                context.Orders.Remove(itemToDelete);
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("AllUserOrders", "Order");
+        }
+
+        // GET: OrderController/EditStatus
+        [HttpGet]
+        public IActionResult EditStatus(int id)
+        {
+            var context = new MyDbContext();
+            var currentOrder = context.Orders
+                .Where(o => o.Id == id)
+                .FirstOrDefault();
+
+            var model = new OrderVM
+            {
+                Id = id,
+                UserId = currentOrder.UserId,
+                GameId = currentOrder.GameId,
+                Status = currentOrder.Status
+            };
+
+            return View(model);
+        }
+
+        // POST: OrderController/EditStatus
+        [HttpPost]
+        public IActionResult EditStatus(OrderVM model, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var context = new MyDbContext();
+            Order itemToEdit = context.Orders
+                .Where(o => o.Id == id)
+                .FirstOrDefault();
+
+            itemToEdit.Status = model.Status;
+
+            context.Orders.Update(itemToEdit);
+            context.SaveChanges();
+
+            return RedirectToAction("AllUserOrders", "Order");
         }
     }
 }
-

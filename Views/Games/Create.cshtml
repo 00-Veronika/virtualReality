@@ -40,7 +40,8 @@
         <div class="row">
             <div class="label" for="releaseDate" id="releaseDate">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
             <div class="input" id="releaseDate" name="releaseDate" required="required">
-                @Html.TextBoxFor(m => m.ReleaseDate)
+                @*@Html.TextBoxFor(m => m.ReleaseDate)*@
+                @Html.TextBoxFor(model => model.ReleaseDate, new { @type="date", @class = "form-control datepicker",  @Value = Model.ReleaseDate.ToString("yyyy-MM-dd") } )
             </div>
         </div>
         <div class="row">

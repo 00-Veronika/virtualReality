@@ -1,7 +1,7 @@
 ﻿@model virtualReality.ViewModels.OrdersVM.OrdersVM
 
 @{
-    this.ViewData["title"] = "Orders";
+    this.ViewData["title"] = "User Orders";
     this.Layout = "/Views/Shared/_Site.cshtml";
 }
 
@@ -21,12 +21,6 @@
             </th>
             <th>
                 UserId
-            </th>
-            <th>
-                Status
-            </th>
-            <th>
-                Action
             </th>
         </tr>
     </thead>
@@ -49,10 +43,7 @@
                     @order.UserId
                 </td>
                 <td>
-                    @order.Status
-                </td>
-                <td>
-                    <a href="./EditStatus?id=@order.Id">Edit Status</a>
+                    <a asp-action="Delete" asp-route-id="@order.UserId">Remove</a>
                 </td>
             </tr>
         }

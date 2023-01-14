@@ -11,7 +11,6 @@ namespace EntityFrameworkSample
         {
             Users = this.Set<User>();
         }
-
         public DbSet<Game> Games { get; set; }
         public DbSet<GamesInGenre> GamesInGenres { get; set; }
         public DbSet<Genre> Genres { get; set; }
@@ -29,9 +28,13 @@ namespace EntityFrameworkSample
             var user = new User
             {
                 Id = 1,
-                Username = "nikiv",
-                Password = "nikipass",
-                Email = "test@email.com"
+                UserName = "nikiv",
+                PasswordHash = "nikipass",
+                Email = "test@email.com",
+                FirstName = "Nikola",
+                LastName = "Valchanov",
+                Phone = "070018100",
+                Role = "admin"
             };
 
             modelBuilder.Entity<User>().HasData(user);

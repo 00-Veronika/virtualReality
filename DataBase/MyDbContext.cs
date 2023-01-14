@@ -25,11 +25,13 @@ namespace EntityFrameworkSample
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword("nikipass");
+
             var user = new User
             {
                 Id = 1,
                 UserName = "nikiv",
-                PasswordHash = "nikipass",
+                PasswordHash = passwordHash,
                 Email = "test@email.com",
                 FirstName = "Nikola",
                 LastName = "Valchanov",

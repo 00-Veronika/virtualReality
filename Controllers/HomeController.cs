@@ -68,6 +68,8 @@ namespace virtualReality.Controllers
                 .Where(u => u.UserName == model.Username)
                 .FirstOrDefault();
 
+            //string hash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             {
                 ModelState.AddModelError("authError", "Invalid username or password!");

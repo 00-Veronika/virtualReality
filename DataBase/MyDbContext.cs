@@ -56,7 +56,7 @@ namespace EntityFrameworkSample
                     Manufacturer = "Chris Games™",
                     Price = 10.25M,
                     ReleaseDate = DateTime.Now,
-                    Url = "./wwwroot/css/assets/images/author.jpg"
+                    Url = "/css/assets/images/current-01.jpg"
                 },
                 new Game()
                 {
@@ -65,7 +65,7 @@ namespace EntityFrameworkSample
                     Manufacturer = "Chris Games™",
                     Price = 59.99M,
                     ReleaseDate = DateTime.Now,
-                    Url = "./wwwroot/css/assets/images/author-02.jpg"
+                    Url = "/css/assets/images/current-02.jpg"
                 },
                 new Game()
                 {
@@ -74,7 +74,7 @@ namespace EntityFrameworkSample
                     Manufacturer = "Chris Games™",
                     Price = 29.99M,
                     ReleaseDate = DateTime.Now,
-                    Url = "./wwwroot/css/assets/images/banner-01.jpg"
+                    Url = "/css/assets/images/current-03.jpg"
                 },
                 new Game()
                 {
@@ -83,7 +83,7 @@ namespace EntityFrameworkSample
                     Manufacturer = "Chris Games™",
                     Price = 19.99M,
                     ReleaseDate = DateTime.Now,
-                    Url = "./wwwroot/css/assets/images/banner-02.jpg"
+                    Url = "/css/assets/images/current-04.jpg"
                 }
             };
 

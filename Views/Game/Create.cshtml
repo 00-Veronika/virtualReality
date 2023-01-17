@@ -1,13 +1,14 @@
 ﻿@using virtualReality.Entities
+
 @model virtualReality.ViewModels.GamesVM.CreateVM
 
 @{
-    this.ViewData["title"] = "Games";
+    this.ViewData["title"] = "Create a game";
     this.Layout = "/Views/Shared/_Site.cshtml";
 
 }
 <div class="col-lg-8" style="margin: 120px auto;">
-    <form action="/Games/Create" method="post" id="contact">
+    <form action="/Game/Create" method="post" id="contact">
         <div class="row">
             <div class="label" for="name">
                 @Html.LabelFor(m => m.Name)
@@ -17,11 +18,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="label" for="genre">@Html.LabelFor(m => m.Genre)</div>
-            <div class="input" id="genre" name="genre" required="required">
-                @Html.TextBoxFor(m => m.Genre)
-            </div>
-
+            <div class="label" for="genres">@Html.LabelFor(m => m.Genres)</div>
+           
+            @foreach (var genre in Model.Genres)
+            {
+                <div class="input" id="genres" name="SelectedGenreIds" required="required">
+                    @Html.Label(genre.Name)
+                    @Html.CheckBox("SelectedGenreIds", isChecked: false, new {  @value = genre.Id })
+                </div>
+            }
         </div>
         <div class="row">
             <div class="label" for="manufacturer" id="labelTel">@Html.LabelFor(m => m.Manufacturer)</div>
@@ -33,26 +38,34 @@
         <div class="row">
             <div class="label" for="price" id="labelEmail">@Html.LabelFor(m => m.Price)</div> <br>
             <div class="input" id="em" name="price" required="required">
-                @Html.TextBoxFor(m => m.Price)
+                <input type="number" name="price" min="0" oninput="validity.valid||(value='');">
             </div>
 
         </div>
         <div class="row">
             <div class="label" for="releaseDate" id="releaseDate">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
             <div class="input" id="releaseDate" name="releaseDate" required="required">
-                @*@Html.TextBoxFor(m => m.ReleaseDate)*@
-                @Html.TextBoxFor(model => model.ReleaseDate, new { @type="date", @class = "form-control datepicker",  @Value = Model.ReleaseDate.ToString("yyyy-MM-dd") } )
+                @Html.TextBoxFor(model => model.ReleaseDate, new { @type="date", @class = "form-control datepicker" } )
             </div>
         </div>
         <div class="row">
             <div class="label" for="url" id="url">@Html.LabelFor(m => m.Url)</div> <br>
             <div class="input" id="url" name="url" required="required">
-                @Html.TextBoxFor(m => m.Url)
+                @{var listItems = new List<Picture>
+                    {
+                          new Picture { Id = 1, Url = "/css/assets/images/current-01.jpg" },
+                          new Picture { Id = 2, Url = "/css/assets/images/current-02.jpg" },
+                          new Picture { Id = 3, Url = "/css/assets/images/current-03.jpg" },
+                          new Picture { Id = 4, Url = "/css/assets/images/current-04.jpg" }
+                    };
+                }
+
+                @Html.DropDownList("url", new SelectList(listItems, "Url", "Id"))
             </div>
         </div>
         <div class="col-lg-8">
             <div>
-                <button action="Create" asp-for="Create" class="btn col-lg-6" type="submit" value="Save" href="/Games/Create" style="background:rgba(125,90,254,1)  25%;">Create</button>
+                <button action="Create" asp-for="Create" class="btn col-lg-6" type="submit" value="Save" href="/Game/Create" style="background:rgba(125,90,254,1)  25%;">Create</button>
             </div>
         </div>
     </form>

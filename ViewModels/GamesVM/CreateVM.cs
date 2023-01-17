@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using virtualReality.Entities;
 
 namespace virtualReality.ViewModels.GamesVM
 {
     public class CreateVM
     {
-        [Required(ErrorMessage = nameof(Genre) + FieldConstants.REQUIRED)]
-        public string Genre { get; set; }
+        [Required(ErrorMessage = nameof(Genres) + FieldConstants.REQUIRED)]
+        public IEnumerable<Genre> Genres { get; set; }
+        
+        [Required(ErrorMessage = nameof(SelectedGenreIds) + FieldConstants.REQUIRED)]
+        public List<int> SelectedGenreIds { get; set; }
 
         [Required(ErrorMessage = nameof(Manufacturer) + FieldConstants.REQUIRED)]
         public string Manufacturer { get; set; }

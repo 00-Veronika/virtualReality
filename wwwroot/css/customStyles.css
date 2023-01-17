@@ -1,4 +1,15 @@
-﻿.customClass {
-    color: red;
-    background-color: green;
+﻿.genreContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.gameActions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.actionButton {
+    color: #fff !important;
+    margin: 20px;
 }

@@ -2,11 +2,11 @@
 @model virtualReality.ViewModels.GenreVM.GenreVM
 
 @{
-    this.ViewData["title"] = "Genres";
+    this.ViewData["title"] = "Create a genre";
     this.Layout = "/Views/Shared/_Site.cshtml";
 }
 
-<div class="col-lg-8" style="margin: 120px auto;">
+<div class="mainBackground">
     <form action="/Genre/Create" method="post" id="contact">
         <div class="row">
             <div class="label" for="name">
@@ -16,10 +16,10 @@
                 @Html.TextBoxFor(m => m.Name)
             </div>
         </div>
-        <div class="col-lg-8">
-            <div>
-                <button value="Create" class="btn col-lg-6" type="submit" style="background:rgba(125,90,254,1)  25%;">Create</button>
-            </div>
+        <div>
+            <button class="submitButton" type="submit">
+                <i class="fa-solid fa-plus icon"></i>Create Genre
+            </button>
         </div>
     </form>
 </div>

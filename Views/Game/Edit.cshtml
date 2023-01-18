@@ -6,7 +6,7 @@
     this.Layout = "/Views/Shared/_Site.cshtml";
 }
 
-<div class="col-lg-8" style="margin: 120px auto;">
+<div class="mainBackground">
     <form action="/Game/Edit?id=@Model.Id" method="post" id="contact">
         <div class="row">
             <div class="label" for="name">
@@ -49,10 +49,10 @@
             </div>
 
         </div>
-        <div class="col-lg-8">
-            <div>
-                <button action="Edit" asp-for="Edit" class="btn col-lg-6" type="submit" value="Save" href="/Game/AllGames" style="background:rgba(125,90,254,1)  25%;">Edit</button>
-            </div>
+        <div>
+            <button class="submitButton" type="submit">
+                <i class="fa-solid fa-floppy-disk icon"></i>Save
+            </button>
         </div>
     </form>
 </div>

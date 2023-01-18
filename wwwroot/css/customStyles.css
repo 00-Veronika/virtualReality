@@ -1,9 +1,46 @@
-﻿.genreContainer {
+﻿:root {
+    --main-bg-color: #7453fc;
+    --secondary-bg-color: #8c52f1;
+}
+
+.genreContainer {
     display: flex;
     justify-content: center;
 }
 
-.gameActions {
+.genreRow + .genreRow {
+    margin-top: 20px;
+}
+
+.genreLink {
+    color: var(--secondary-bg-color);
+}
+
+.genreLink:hover {
+    filter: brightness(0.85);
+    color: #fff;
+}
+
+.genreRow {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.genre {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: var(--secondary-bg-color) 2px solid;
+    border-radius: 18px;
+    padding: 10px 10px 10px 20px;
+}
+
+.genreHeading {
+    color: var(--secondary-bg-color);
+}
+
+.pageActions {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,4 +49,106 @@
 .actionButton {
     color: #fff !important;
     margin: 20px;
+}
+
+a.actionButton i {
+    margin-right: 3px !important;
+}
+
+a.customButton i.icon {
+    margin-right: 3px !important;
+}
+
+.customButton {
+    margin: 10px 2px;
+    padding: 5px 10px;
+}
+
+ul.nav li a i.icon {
+    margin-right: 3px !important;
+}
+
+.submitButton i.icon {
+    margin-right: 8px;
+}
+
+.submitButton {
+    background-color: var(--main-bg-color);
+    color: #fff;
+    font-size: 1.3em;
+    border-radius: 18px;
+    border: transparent;
+    padding: 5px 0;
+}
+
+.submitButton:hover {
+    filter: brightness(0.85);
+}
+
+.mainBackground form {
+    width: 60%;
+    margin: 60px 0;
+}
+
+form input {
+    border-radius: 18px !important;
+}
+
+.mainBackground {
+    padding-top: 7%;
+    display: flex;
+    justify-content: center;
+    background-image: url(/css/assets/images/dark-bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+}
+
+.addNew i.icon {
+    margin-right: 8px;
+}
+
+.addNew {
+    color: var(--secondary-bg-color);
+    border-color: var(--secondary-bg-color);
+    margin: 20px;
+}
+
+.addNew:hover {
+    background-color: var(--main-bg-color);
+    color: #fff;
+}
+
+.minHeight {
+    min-height: 88vh;
+}
+
+span.released {
+    margin-right: 5px;
+}
+
+.main-nav-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70px !important;
+}
+
+.nav-custom {
+    display: flex !important;
+    justify-content: center !important;
+    flex-basis: unset !important;
+    margin: 0 !important;
+    align-items: center;
+}
+
+.allCentered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.reducedWidth {
+    width: 70% !important;
 }

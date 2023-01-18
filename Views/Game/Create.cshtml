@@ -7,7 +7,7 @@
     this.Layout = "/Views/Shared/_Site.cshtml";
 
 }
-<div class="col-lg-8" style="margin: 120px auto;">
+<div class="mainBackground">
     <form action="/Game/Create" method="post" id="contact">
         <div class="row">
             <div class="label" for="name">
@@ -63,10 +63,10 @@
                 @Html.DropDownList("url", new SelectList(listItems, "Url", "Id"))
             </div>
         </div>
-        <div class="col-lg-8">
-            <div>
-                <button action="Create" asp-for="Create" class="btn col-lg-6" type="submit" value="Save" href="/Game/Create" style="background:rgba(125,90,254,1)  25%;">Create</button>
-            </div>
+        <div>
+            <button class="submitButton" type="submit">
+                <i class="fa-solid fa-plus icon"></i>Create Game
+            </button>
         </div>
     </form>
 </div>

@@ -9,64 +9,82 @@ namespace virtualReality.Controllers
 {
     public class OrderController : Controller
     {
+        private readonly MyDbContext _context;
+        private readonly User _user;
+
+        public OrderController(MyDbContext context)
+        {
+            _context = context;
+            _user = HttpContext.Session.GetObject<User>("loggedUser");
+        }
+
         // GET: OrderController/AllOrders
         [HttpGet]
         public IActionResult AllOrders()
         {
-            var context = new MyDbContext();
-            var orders = context.Orders.ToList();
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
 
             var model = new OrdersVM
             {
-                Orders = orders
+                UserRole = user.Role
             };
 
-            return View(model);
-        }
-
-        // GET: OrderController/AllUserOrders
-        [HttpGet]
-        public IActionResult AllUserOrders()
-        {
-            var context = new MyDbContext();
-            var id = HttpContext.Session.GetObject<User>("loggedUser").Id;
-            var userOrders = context.Orders
-                .Where(o => o.UserId == id)
-                .ToList();
-
-            var model = new OrdersVM
+            // Return all if admin
+            if (string.Equals(user.Role, "admin"))
             {
-                Orders = userOrders
-            };
-
+                model.Orders = _context.Orders.ToList();
+            }
+            else
+            {
+                model.Orders = _context.Orders
+                    .Where(o => o.UserId == user.Id)
+                    .ToList();
+            }
+            
             return View(model);
         }
 
-        // DELETE: OrderController/Delete/{id}
+        // GET: OrderController/Delete/{id}
         public IActionResult Delete(int id)
         {
-            var context = new MyDbContext();
-            Order itemToDelete = context.Orders
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            if (!string.Equals(user.Role, "admin"))
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
+
+            var itemToDelete = _context.Orders
                 .Where(o => o.Id == id)
                 .FirstOrDefault();
 
             if (itemToDelete != null)
             {
-                context.Orders.Remove(itemToDelete);
-                context.SaveChanges();
+                _context.Orders.Remove(itemToDelete);
+                _context.SaveChanges();
             }
 
-            return RedirectToAction("AllUserOrders", "Order");
+            return RedirectToAction("AllOrders", "Order");
         }
 
         // GET: OrderController/EditStatus
         [HttpGet]
         public IActionResult EditStatus(int id)
         {
-            var context = new MyDbContext();
-            var currentOrder = context.Orders
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            var currentOrder = _context.Orders
                 .Where(o => o.Id == id)
                 .FirstOrDefault();
+
+            if (currentOrder == null)
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
+            else if (!int.Equals(user.Id, currentOrder.UserId))
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
 
             var model = new OrderVM
             {
@@ -88,17 +106,37 @@ namespace virtualReality.Controllers
                 return View(model);
             }
 
-            var context = new MyDbContext();
-            Order itemToEdit = context.Orders
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            var itemToEdit = _context.Orders
                 .Where(o => o.Id == id)
                 .FirstOrDefault();
 
+            if (itemToEdit == null)
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
+            else if (!int.Equals(user.Id, itemToEdit.UserId))
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
+
             itemToEdit.Status = model.Status;
 
-            context.Orders.Update(itemToEdit);
-            context.SaveChanges();
+            _context.Orders.Update(itemToEdit);
+            _context.SaveChanges();
 
-            return RedirectToAction("AllUserOrders", "Order");
+            return RedirectToAction("AllOrders", "Order");
+        }
+
+        private IActionResult RedirectIfNotUser()
+        {
+            if (!string.Equals(_user.Role, "admin"))
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
+
+            return Ok();
         }
     }
 }

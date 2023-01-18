@@ -7,21 +7,18 @@ namespace EntityFrameworkSample
 {
     public class MyDbContext : DbContext
     {
-        public MyDbContext()
+        public MyDbContext(DbContextOptions<MyDbContext> options)
+            : base(options)
         {
             Users = this.Set<User>();
         }
+
         public DbSet<Game> Games { get; set; }
         public DbSet<GamesInGenre> GamesInGenres { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<User> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=localhost;Database=virtualRealityDb;Trusted_Connection=True;");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,7 +69,7 @@ namespace EntityFrameworkSample
                 new Game()
                 {
                     Id = 3,
-                    Name = "Action Game #2",
+                    Name = "Horror Game #2",
                     Manufacturer = "Chris Games™",
                     Price = 29.99M,
                     ReleaseDate = DateTime.Now,

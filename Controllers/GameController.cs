@@ -3,19 +3,44 @@ using System.Linq;
 using EntityFrameworkSample;
 using Microsoft.AspNetCore.Mvc;
 using virtualReality.Entities;
+using virtualReality.Extensions;
 using virtualReality.ViewModels.GamesVM;
-using System.Text.Json;
 
 namespace virtualReality.Controllers
 {
     public class GameController : Controller
     {
+        private readonly MyDbContext _context;
+
+        public GameController(MyDbContext context)
+        {
+            _context = context;
+        }
+
         // GET: GameController/AllGames
         [HttpGet]
-        public ActionResult AllGames()
+        public IActionResult AllGames()
         {
-            var context = new MyDbContext();
-            var games = context.Games.ToList();
+            var model = new AllGamesVM
+            {
+                Games = _context.Games.ToList()
+            };
+
+            return View(model);
+        }
+
+        // GET: GameController/AllGames/{genreId}
+        [HttpGet("Game/AllGames/{genreId}")]
+        public IActionResult AllGames(int genreId)
+        {
+            var gameIds = _context.GamesInGenres
+                .Where(x => x.GenreId == genreId)
+                .Select(gig => gig.GameId)
+                .ToList();
+
+            var games = _context.Games
+                .Where(game => gameIds.Contains(game.Id))
+                .ToList();
 
             var model = new AllGamesVM
             {
@@ -29,12 +54,16 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var context = new MyDbContext();
-            var availableGenres = context.Genres.ToList();
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            if (!string.Equals(user.Role, "admin"))
+            {
+                return RedirectToAction("AllGames", "Game");
+            }
 
             var model = new CreateVM
             {
-                Genres = availableGenres
+                Genres = _context.Genres.ToList()
             };
 
             return View(model);
@@ -44,7 +73,13 @@ namespace virtualReality.Controllers
         [HttpPost]
         public IActionResult Create(CreateVM model)
         {
-            var context = new MyDbContext();
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            if (!string.Equals(user.Role, "admin"))
+            {
+                return RedirectToAction("AllGames", "Game");
+            }
+
             var item = new Game
             {
                 Name = model.Name,
@@ -54,8 +89,8 @@ namespace virtualReality.Controllers
                 Url = model.Url
             };
 
-            context.Games.Add(item);
-            context.SaveChanges();
+            _context.Games.Add(item);
+            _context.SaveChanges();
 
             var id = item.Id;
             var listToAdd = new List<GamesInGenre>();
@@ -66,50 +101,57 @@ namespace virtualReality.Controllers
                     new GamesInGenre
                     {
                         GameId = id,
-                        GenreId = gId,
+                        GenreId = gId
                     }
                 );
             }
 
-            context.GamesInGenres.AddRange(listToAdd);
-            context.SaveChanges();
+            _context.GamesInGenres.AddRange(listToAdd);
+            _context.SaveChanges();
 
             return RedirectToAction("AllGames", "Game");
         }
 
-        // DELETE: GameController/Delete/{id}
-        //[HttpDelete]
+        // GET: GameController/Delete/{id}
         public IActionResult Delete(int id)
         {
-            var context = new MyDbContext();
-            Game itemToDelete = context.Games
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            if (!string.Equals(user.Role, "admin"))
+            {
+                return RedirectToAction("AllGames", "Game");
+            }
+
+            var itemToDelete = _context.Games
                 .Where(g => g.Id == id)
                 .FirstOrDefault();
 
             if (itemToDelete != null)
             {
-                // Delete associated genres!
+                var associatedGameForGenres = _context.GamesInGenres
+                    .Where(gig => gig.GameId == id)
+                    .ToList();
 
-                context.Games.Remove(itemToDelete);
-                context.SaveChanges();
+                _context.GamesInGenres.RemoveRange(associatedGameForGenres);
+                _context.Games.Remove(itemToDelete);
+                _context.SaveChanges();
             }
 
             return RedirectToAction("AllGames", "Game");
-        }
-
-        // GET: GameController/Details
-        [HttpGet]
-        public ActionResult Details()
-        {
-            return View();
         }
 
         // GET: GameController/Edit/{id}
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var context = new MyDbContext();
-            Game itemToEdit = context.Games
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            if (!string.Equals(user.Role, "admin"))
+            {
+                return RedirectToAction("AllGames", "Game");
+            }
+
+            var itemToEdit = _context.Games
                 .Where(g => g.Id == id)
                 .FirstOrDefault();
 
@@ -118,9 +160,9 @@ namespace virtualReality.Controllers
                 return RedirectToAction("AllGames", "Game");
             }
 
-            var availableGenres = context.Genres.ToList();
+            var availableGenres = _context.Genres.ToList();
 
-            var selectedIds = context.GamesInGenres
+            var selectedIds = _context.GamesInGenres
                 .Where(gig => gig.GameId == id)
                 .Select(g => g.GenreId)
                 .ToList();
@@ -144,13 +186,19 @@ namespace virtualReality.Controllers
         [HttpPost]
         public IActionResult Edit(EditGamesVM model, int id)
         {
+            User user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            if (!string.Equals(user.Role, "admin"))
+            {
+                return RedirectToAction("AllGames", "Game");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var context = new MyDbContext();
-            Game itemToEdit = context.Games
+            var itemToEdit = _context.Games
                 .Where(g => g.Id == id)
                 .FirstOrDefault();
 
@@ -158,13 +206,14 @@ namespace virtualReality.Controllers
             itemToEdit.ReleaseDate = model.ReleaseDate;
             itemToEdit.Price = model.Price;
             itemToEdit.Name = model.Name;
+            itemToEdit.Url = model.Url;
 
             var listToAdd = new List<GamesInGenre>();
-            var genresToDecouple = context.GamesInGenres
+            var genresToDecouple = _context.GamesInGenres
                 .Where(gig => gig.GameId == id)
                 .ToList();
 
-            context.GamesInGenres.RemoveRange(genresToDecouple);
+            _context.GamesInGenres.RemoveRange(genresToDecouple);
 
             foreach (var gId in model.SelectedGenreIds)
             {
@@ -177,10 +226,10 @@ namespace virtualReality.Controllers
                 );
             }
 
-            context.GamesInGenres.AddRange(listToAdd);
+            _context.GamesInGenres.AddRange(listToAdd);
 
-            context.Games.Update(itemToEdit);
-            context.SaveChanges();
+            _context.Games.Update(itemToEdit);
+            _context.SaveChanges();
 
             return RedirectToAction("AllGames", "Game");
         }

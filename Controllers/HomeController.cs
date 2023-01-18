@@ -11,14 +11,14 @@ namespace virtualReality.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: GenreController/Details
-        [HttpGet]
-        public IActionResult Details()
+        private readonly MyDbContext _context;
+
+        public HomeController(MyDbContext context)
         {
-            return View();
+            _context = context;
         }
 
-        // GET: GenreController/Error
+        // GET: HomeController/Error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -26,24 +26,26 @@ namespace virtualReality.Controllers
 
         }
 
-        // GET: GenreController/Games
+        // GET: GameController/Games
         public IActionResult Games()
         {
             return RedirectToAction("AllGames", "Game");
         }
 
-
+        // GET: GenreController/Games
         [HttpGet]
         public IActionResult Genres()
         {
             return RedirectToAction("AllGenres", "Genre");
         }
 
+        // GET: HomeController/
         public IActionResult Index()
         {
             return View();
         }
 
+        // GET: HomeController/Login
         [HttpGet]
         public IActionResult Login()
         {
@@ -55,6 +57,7 @@ namespace virtualReality.Controllers
             return View();
         }
 
+        // POST: HomeController/Login
         [HttpPost]
         public IActionResult Login(LoginVM model)
         {
@@ -63,12 +66,9 @@ namespace virtualReality.Controllers
                 return View(model);
             }
 
-            var context = new MyDbContext();
-            User user = context.Users
+            User user = _context.Users
                 .Where(u => u.UserName == model.Username)
                 .FirstOrDefault();
-
-            //string hash = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             {
@@ -80,6 +80,7 @@ namespace virtualReality.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // GET: HomeController/Logout
         [HttpGet]
         public IActionResult Logout()
         {
@@ -92,12 +93,14 @@ namespace virtualReality.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // GET: HomeController/Registration
         [HttpGet]
         public IActionResult Registration()
         {
             return View();
         }
 
+        // POST: HomeController/Registration
         [HttpPost]
         public IActionResult Registration(RegistrationVM model)
         {
@@ -108,7 +111,6 @@ namespace virtualReality.Controllers
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
-            var context = new MyDbContext();
             var user = new User()
             {
                 Email = model.Email,
@@ -119,8 +121,8 @@ namespace virtualReality.Controllers
                 Role = "user"
             };
 
-            context.Users.Add(user);
-            context.SaveChanges();
+            _context.Users.Add(user);
+            _context.SaveChanges();
 
             return RedirectToAction("Login", "Home");
         }

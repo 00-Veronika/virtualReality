@@ -2,10 +2,10 @@
 
 @{
     Layout = "/Views/Shared/_Site.cshtml";
-    ViewData["title"] = "Registration";
+    ViewData["title"] = "Register";
 }
 
-<div class="col-lg-8" style="margin: 120px auto;">
+<div class="mainBackground">
     <form action="/Home/Registration" method="post" id="contact">
         <div class="row">
             <div class="label" for="username">
@@ -39,10 +39,10 @@
             @Html.ValidationMessageFor(m => m.Email)
             </div>
         </div>
-        <div class="col-lg-8">
-            <div>
-                <button class="btn col-lg-6" type="submit" value="Save" href="/Home/Login" style="background:rgba(125,90,254,1)  25%;">Register</button>
-            </div>
+        <div>
+            <button class="submitButton" type="submit">
+                <i class="fa-solid fa-user-plus icon"></i>Register
+            </button>
         </div>
     </form>
 </div>

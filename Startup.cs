@@ -1,6 +1,7 @@
 using EntityFrameworkSample;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,7 +50,7 @@ namespace virtualReality
         {
             services.AddSession();
             services.AddControllersWithViews();
-            services.AddDbContext<MyDbContext>();
+            services.AddDbContext<MyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
         }
     }
 }

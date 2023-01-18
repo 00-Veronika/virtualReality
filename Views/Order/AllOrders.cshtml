@@ -1,60 +1,80 @@
 ﻿@model virtualReality.ViewModels.OrdersVM.OrdersVM
 
 @{
-    this.ViewData["title"] = "Orders";
+    var isAdmin = string.Equals(Model.UserRole, "admin");
+
+    this.ViewData["title"] = isAdmin ? "Orders" : "User Orders";
     this.Layout = "/Views/Shared/_Site.cshtml";
 }
 
-<h1>Cart</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                #
-            </th>
-            <th>
-                OrderId
-            </th>
-            <th>
-                GameId
-            </th>
-            <th>
-                UserId
-            </th>
-            <th>
-                Status
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @{int i = 0;}
-        @foreach (var order in Model.Orders)
-        {
-            i++;
-            <tr>
-                <td>
-                    @i
-                </td>
-                <td>
-                    @order.Id
-                </td>
-                <td>
-                    @order.GameId
-                </td>
-                <td>
-                    @order.UserId
-                </td>
-                <td>
-                    @order.Status
-                </td>
-                <td>
-                    <a href="./EditStatus?id=@order.Id">Edit Status</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="mainBackground minHeight">
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="card-subtitle mb-2">Orders</h2>
+                    <p>Admin: @isAdmin</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="background-color: white;">
+                    <div class="table-wrap">
+                        <table class="table table-striped">
+                            <thead>
+                                @{int i = 0;}
+                                @foreach (var order in Model.Orders)
+                                {
+                                    i++;
+                                    <tr>
+                                        <th>Invoice</th>
+                                        <th>Customer</th>
+                                        <th>Games</th>
+                                        <th>Product (images)</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@order.Id</th>
+                                        <td>@order.UserId</td>
+                                        <td>@order.GameId</td>
+                                        <td>Image</td>
+                                        <td>$1200</td>
+                                        <td>
+                                            @order.Status
+                                            <a href="#" class="btn btn-success">Progress</a>
+                                            <a href="./EditStatus?id=@order.Id">Edit Status</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@order.Id</th>
+                                        <td> @order.UserId</td>
+                                        <td>  @order.GameId</td>
+                                        <td>Image</td>
+                                        <td>$1200</td>
+                                        <td>
+                                            @order.Status
+                                            <a href="#" class="btn btn-warning">Open</a>
+                                            <a href="./EditStatus?id=@order.Id">Edit Status</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@order.Id</th>
+                                        <td> @order.UserId</td>
+                                        <td>  @order.GameId</td>
+                                        <td>Image</td>
+                                        <td>$1200</td>
+                                        <td>
+                                            @order.Status
+                                            <a href="#" class="btn btn-danger">On hold</a>
+                                            <a href="./EditStatus?id=@order.Id">Edit Status</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

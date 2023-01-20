@@ -3,6 +3,7 @@ using EntityFrameworkSample;
 using Microsoft.AspNetCore.Mvc;
 using virtualReality.Entities;
 using virtualReality.Extensions;
+using virtualReality.Helpers;
 using virtualReality.ViewModels.GenreVM;
 
 namespace virtualReality.Controllers
@@ -32,9 +33,10 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGenres", "Genre");
             }
@@ -46,9 +48,10 @@ namespace virtualReality.Controllers
         [HttpPost]
         public IActionResult Create(string name)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGenres", "Genre");
             }
@@ -67,9 +70,10 @@ namespace virtualReality.Controllers
         // GET: GenreController/Delete/{id}
         public IActionResult Delete(int id)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGenres", "Genre");
             }
@@ -96,9 +100,10 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGenres", "Genre");
             }
@@ -125,9 +130,10 @@ namespace virtualReality.Controllers
         [HttpPost]
         public IActionResult Edit(GenreVM model)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGenres", "Genre");
             }

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EntityFrameworkSample;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using virtualReality.Entities;
 using virtualReality.Extensions;
+using virtualReality.Helpers;
 using virtualReality.ViewModels.GamesVM;
 
 namespace virtualReality.Controllers
@@ -54,9 +56,10 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGames", "Game");
             }
@@ -73,9 +76,10 @@ namespace virtualReality.Controllers
         [HttpPost]
         public IActionResult Create(CreateVM model)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGames", "Game");
             }
@@ -115,9 +119,10 @@ namespace virtualReality.Controllers
         // GET: GameController/Delete/{id}
         public IActionResult Delete(int id)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGames", "Game");
             }
@@ -144,9 +149,10 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGames", "Game");
             }
@@ -186,9 +192,10 @@ namespace virtualReality.Controllers
         [HttpPost]
         public IActionResult Edit(EditGamesVM model, int id)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllGames", "Game");
             }

@@ -1,9 +1,15 @@
 ﻿@using virtualReality.Entities
+@using virtualReality.Helpers
+@using virtualReality.Extensions
+
 @model virtualReality.ViewModels.GamesVM.AllGamesVM
 
 @{
     Layout = "/Views/Shared/_Site.cshtml";
     ViewData["title"] = "Games";
+    
+    var user = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
+    var isAdmin = Utilities.IsUserAdmin(user.Role);
 }
 
 <div class="item-details-page">
@@ -33,18 +39,23 @@
                                             <em>@game.Price BGN</em>
                                         </h6>
                                         <span class="released">Released:</span>
-                                        <span class="date">@game.ReleaseDate.ToString("dd/MM/yyyy")</span>
+                                        <span class="date spaceAfter">@game.ReleaseDate.ToString("dd/MM/yyyy")</span>
                                         <div class="pageActions">
-                                            <a class="btn btn-warning actionButton allCentered" href="/Game/Edit?id=@game.Id">
-                                                <i class="fa-solid fa-pencil"></i>Edit
-                                            </a>
-                                            <a class="btn btn-danger actionButton allCentered" href="/Game/Delete?id=@game.Id">
-                                                <i class="fa-solid fa-trash"></i>Delete
-                                            </a>
-                                            <a class="btn btn-success actionButton allCentered" href="/Order/AllOrders?id=@game.Id">
-                                                <i class="fa-solid fa-money-bill"></i>Order
+                                            <a class="btn btn-success actionButton allCentered fullWidth" href="/Order/Create?gameId=@game.Id">
+                                                <i class="fa-solid fa-cart-shopping"></i>Order
                                             </a>
                                         </div>
+                                        @if (isAdmin)
+                                        {
+                                            <div class="pageActions">
+                                                <a class="btn btn-warning actionButton allCentered" href="/Game/Edit?id=@game.Id">
+                                                    <i class="fa-solid fa-pencil"></i>Edit
+                                                </a>
+                                                <a class="btn btn-danger actionButton allCentered" href="/Game/Delete?id=@game.Id">
+                                                    <i class="fa-solid fa-trash"></i>Delete
+                                                </a>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

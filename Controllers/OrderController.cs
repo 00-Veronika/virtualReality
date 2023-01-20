@@ -3,53 +3,118 @@ using EntityFrameworkSample;
 using Microsoft.AspNetCore.Mvc;
 using virtualReality.Entities;
 using virtualReality.Extensions;
+using virtualReality.Helpers;
 using virtualReality.ViewModels.OrdersVM;
+using virtualReality.ViewModels;
+using System.Collections.Generic;
 
 namespace virtualReality.Controllers
 {
     public class OrderController : Controller
     {
         private readonly MyDbContext _context;
-        private readonly User _user;
 
         public OrderController(MyDbContext context)
         {
             _context = context;
-            _user = HttpContext.Session.GetObject<User>("loggedUser");
         }
 
         // GET: OrderController/AllOrders
         [HttpGet]
         public IActionResult AllOrders()
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
             var model = new OrdersVM
             {
                 UserRole = user.Role
             };
 
+
             // Return all if admin
-            if (string.Equals(user.Role, "admin"))
+            if (isAdmin)
             {
-                model.Orders = _context.Orders.ToList();
+                var allOrders = _context.Orders.ToList();
+
+                foreach (var order in allOrders)
+                {
+                    var customer = _context.Users
+                        .Where(u => u.Id == order.UserId)
+                        .Select(x => new { x.FirstName, x.LastName })
+                        .FirstOrDefault();
+
+                    var customerFullName = $"{customer.FirstName} {customer.LastName}";
+
+                    var gamesForOrder = _context.Games
+                        .Where(g => g.Id == order.GameId)
+                        .ToList();
+
+                    model.Orders.Add(new OrderVM
+                        {
+                            Id = order.Id,
+                            Status = order.Status,
+                            UserId = order.UserId,
+                            UserFullName = customerFullName,
+                            Games = gamesForOrder
+                        }
+                    );
+                }
             }
             else
             {
-                model.Orders = _context.Orders
+                var fullName = $"{user.FirstName} {user.LastName}";
+                var allUserOrders = _context.Orders
                     .Where(o => o.UserId == user.Id)
                     .ToList();
+
+                foreach (var userOrder in allUserOrders)
+                {
+                    var gamesForOrder = _context.Games
+                        .Where(g => g.Id == userOrder.GameId)
+                        .ToList();
+
+                    model.Orders.Add(new OrderVM
+                        {
+                            Id = userOrder.Id,
+                            Status = userOrder.Status,
+                            UserId = userOrder.UserId,
+                            UserFullName = fullName,
+                            Games = gamesForOrder
+                        }
+                    );
+                }
             }
-            
+
             return View(model);
+        }
+
+        // GET: OrderController/Create/{id}
+        public IActionResult Create(int gameId)
+        {
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var ordered = Enums.OrderStatus.Ordered.ToString();
+
+            var order = new Order
+            {
+                GameId = gameId,
+                UserId = user.Id,
+                Status = ordered
+            };
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            return RedirectToAction("AllOrders", "Order");
         }
 
         // GET: OrderController/Delete/{id}
         public IActionResult Delete(int id)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+            var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-            if (!string.Equals(user.Role, "admin"))
+            if (!isAdmin)
             {
                 return RedirectToAction("AllOrders", "Order");
             }
@@ -71,7 +136,7 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult EditStatus(int id)
         {
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
 
             var currentOrder = _context.Orders
                 .Where(o => o.Id == id)
@@ -90,7 +155,6 @@ namespace virtualReality.Controllers
             {
                 Id = id,
                 UserId = currentOrder.UserId,
-                GameId = currentOrder.GameId,
                 Status = currentOrder.Status
             };
 
@@ -106,7 +170,7 @@ namespace virtualReality.Controllers
                 return View(model);
             }
 
-            User user = HttpContext.Session.GetObject<User>("loggedUser");
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
 
             var itemToEdit = _context.Orders
                 .Where(o => o.Id == id)
@@ -127,16 +191,6 @@ namespace virtualReality.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("AllOrders", "Order");
-        }
-
-        private IActionResult RedirectIfNotUser()
-        {
-            if (!string.Equals(_user.Role, "admin"))
-            {
-                return RedirectToAction("AllOrders", "Order");
-            }
-
-            return Ok();
         }
     }
 }

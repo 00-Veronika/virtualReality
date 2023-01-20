@@ -51,6 +51,7 @@ namespace virtualReality.Controllers
         {
             if (HttpContext.Session.GetObject<User>("loggedUser") != null)
             {
+                HttpContext.Session.Remove("loggedUser");
                 return RedirectToAction("Home", "Login");
             }
 
@@ -104,21 +105,22 @@ namespace virtualReality.Controllers
         [HttpPost]
         public IActionResult Registration(RegistrationVM model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
             var user = new User()
             {
+                UserName = model.Username,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Phone = model.Phone,
                 PasswordHash = passwordHash,
-                Role = "user"
+                Role = "user" // default
             };
 
             _context.Users.Add(user);

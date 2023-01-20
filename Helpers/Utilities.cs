@@ -15,5 +15,10 @@ namespace virtualReality.Helpers
 
             return returnActive ? "active" : "";
         }
+
+        public static bool IsUserAdmin(string role)
+        {
+            return string.Equals(role, "admin");
+        }
     }
 }

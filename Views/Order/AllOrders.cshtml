@@ -7,70 +7,64 @@
     this.Layout = "/Views/Shared/_Site.cshtml";
 }
 
-<div class="mainBackground minHeight">
+<div class="mainBackground pt-0">
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center mb-5">
                     <h2 class="card-subtitle mb-2">Orders</h2>
-                    <p>Admin: @isAdmin</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12" style="background-color: white;">
+            <div>
+                <div>
                     <div class="table-wrap">
-                        <table class="table table-striped">
-                            <thead>
+                        <table class="table table-striped table-hover">
+                            <thead class="tableWhite">
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Customer</th>
+                                    <th>Game Name</th>
+                                    <th>Game Price</th>
+                                    <th>Game Banner</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tableWhite">
                                 @{int i = 0;}
                                 @foreach (var order in Model.Orders)
                                 {
                                     i++;
                                     <tr>
-                                        <th>Invoice</th>
-                                        <th>Customer</th>
-                                        <th>Games</th>
-                                        <th>Product (images)</th>
-                                        <th>Price</th>
-                                        <th>Status</th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">@order.Id</th>
-                                        <td>@order.UserId</td>
-                                        <td>@order.GameId</td>
-                                        <td>Image</td>
-                                        <td>$1200</td>
+                                        <td>@order.Id</td>
+                                        <td>@order.UserFullName</td>
+
+                                        @if (order.Games?.Count == 0)
+                                        {
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        }
+
+                                        @foreach (var g in order.Games)
+                                            {
+                                                <td>@g.Name</td>
+                                                <td>@g.Price</td>
+                                                <td class="imgContainer">
+                                                    <img src="@g.Url" alt="Placeholder for: @g.Name">
+                                                </td>
+                                            }
+                                        <td>@order.Total</td>
                                         <td>
-                                            @order.Status
-                                            <a href="#" class="btn btn-success">Progress</a>
-                                            <a href="./EditStatus?id=@order.Id">Edit Status</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">@order.Id</th>
-                                        <td> @order.UserId</td>
-                                        <td>  @order.GameId</td>
-                                        <td>Image</td>
-                                        <td>$1200</td>
-                                        <td>
-                                            @order.Status
-                                            <a href="#" class="btn btn-warning">Open</a>
-                                            <a href="./EditStatus?id=@order.Id">Edit Status</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">@order.Id</th>
-                                        <td> @order.UserId</td>
-                                        <td>  @order.GameId</td>
-                                        <td>Image</td>
-                                        <td>$1200</td>
-                                        <td>
-                                            @order.Status
-                                            <a href="#" class="btn btn-danger">On hold</a>
-                                            <a href="./EditStatus?id=@order.Id">Edit Status</a>
+                                            <span class="btn btn-success">@order.Status</span>
+                                            @if (isAdmin)
+                                            {
+                                                <a href="./EditStatus?id=@order.Id">Edit Status</a>
+                                            }
                                         </td>
                                     </tr>
                                 }
-                            </thead>
+                            </tbody>
                         </table>
                     </div>
                 </div>

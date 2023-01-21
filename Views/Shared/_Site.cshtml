@@ -25,6 +25,9 @@
 
     <!-- Custom CSS -->
     <link href="/css/customStyles.css" rel="stylesheet">
+    
+    <!-- Get the minified jQuery! -->
+    <script src="/css/vendor/jquery/jquery.js"></script>
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="/css/assets/css/fontawesome.css">
@@ -32,6 +35,9 @@
     <link rel="stylesheet" href="/css/assets/css/owl.css">
     <link rel="stylesheet" href="/css/assets/css/animate.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    @RenderSection("Styles", false)
+    @RenderSection("Scripts", false)
 </head>
 <body>
     <!-- Header area start -->
@@ -113,7 +119,6 @@
 
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
-    <script src="/css/vendor/jquery/jquery.min.js"></script>
     <script src="/css/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="/css/assets/js/isotope.min.js"></script>
@@ -122,6 +127,5 @@
     <script src="/css/assets/js/tabs.js"></script>
     <script src="/css/assets/js/popup.js"></script>
     <script src="/css/assets/js/custom.js"></script>
-
 </body>
 </html>

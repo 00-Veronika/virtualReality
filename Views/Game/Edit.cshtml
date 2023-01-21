@@ -4,6 +4,18 @@
 @{
     this.ViewData["title"] = "Edit a game";
     this.Layout = "/Views/Shared/_Site.cshtml";
+
+    var urlList = new List<string>
+    {
+        "/css/assets/images/current-01.jpg",
+        "/css/assets/images/current-02.jpg",
+        "/css/assets/images/current-03.jpg",
+        "/css/assets/images/current-04.jpg"
+    };
+
+    var selectedValue = urlList.Where(u => u.Equals(Model.Url)).FirstOrDefault();
+    var indexedPaths = urlList.Select((url, index) => new { Id = $"Preset Logo #{index+1}", Name = url } );    
+    var list = new SelectList(indexedPaths, "Name", "Id", selectedValue);
 }
 
 <div class="mainBackground">
@@ -38,16 +50,21 @@
         <div class="row">
             <div class="label" for="Price" id="labelEmail">@Html.LabelFor(m => m.Price)</div> <br>
             <div class="input" id="em" name="price" required="required">
-                <input type="number" name="price" min="0" oninput="validity.valid||(value='');">
+                <input type="number" step=".01" value="@Model.Price" name="price" min="0" oninput="validity.valid||(value='');">
             </div>
 
         </div>
         <div class="row">
-            <div class="label" for="ReleaseDate" id="labelEmail">@Html.LabelFor(m => m.ReleaseDate)</div> <br>
+            <div class="label" for="ReleaseDate" id="labelEmail">@Html.Label("Release Date")</div> <br>
             <div class="input" id="em" name="releseDate" required="required">
-                @Html.TextBoxFor(model => model.ReleaseDate, new { @type="date", @class = "form-control datepicker" } )
+                @Html.TextBox("releasedate", Model.ReleaseDate.ToString("yyyy-MM-dd"), "{0:yyyy-MM-dd}", new { @type="date", @class = "form-control datepicker", @valueAsDate = Model.ReleaseDate } )
             </div>
-
+        </div>
+        <div class="row">
+            <div class="label" for="url" id="url">@Html.Label("Game Banner")</div> <br>
+            <div class="input" id="url" name="url" required="required">
+                @Html.DropDownList("url", list, new { @class = "customSelect" })
+            </div>
         </div>
         <div>
             <button class="submitButton" type="submit">

@@ -16,13 +16,28 @@
     <div class="container">  
             <div class="col-lg-12">
                 <div class="current-bid mt-0">
-                    <h1 class="text-center">Total Games: @Model.Games.Count</h1>
-                    <div class="pageActions">
-                        <a class="btn addNew" href="/Game/Create">
-                            <i class="fa-solid fa-plus icon"></i>Add Games
-                        </a>
-                    </div>
+                    @if (isAdmin)
+                    {
+                        <div class="pageActions">
+                            <a class="btn addNew" href="/Game/Create">
+                                <i class="fa-solid fa-plus icon"></i>Add Games
+                            </a>
+                        </div>
+                    }
                     <div class="row">
+                        @if (Model.Games?.Count == 0)
+                        {
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center mb-4">
+                                    <h3 class="card-subtitle mb-2">No Games yet :(</h3>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h1 class="text-center">Total Games: @Model.Games.Count</h1>
+                        }
+
                         @foreach (var game in Model.Games)
                         {
                             <div class="col-lg-6 col-md-6">
@@ -40,11 +55,6 @@
                                         </h6>
                                         <span class="released">Released:</span>
                                         <span class="date spaceAfter">@game.ReleaseDate.ToString("dd/MM/yyyy")</span>
-                                        <div class="pageActions">
-                                            <a class="btn btn-success actionButton allCentered fullWidth" href="/Order/Create?gameId=@game.Id">
-                                                <i class="fa-solid fa-cart-shopping"></i>Order
-                                            </a>
-                                        </div>
                                         @if (isAdmin)
                                         {
                                             <div class="pageActions">
@@ -56,8 +66,25 @@
                                                 </a>
                                             </div>
                                         }
-                                    </div>
+                                        else
+                                        {
+                                            <div class="pageActions">
+                                                <a data-id="@game.Id" class="btn btn-success actionButton allCentered fullWidth addGameToBasket" href=""> <!--/Order/Create?gameId=@game.Id-->
+                                                    <i class="fa-solid fa-cart-shopping"></i>Add to basket
+                                                </a>
+                                            </div>
+                                        }
                                 </div>
+                                </div>
+                            </div>
+                        }
+                        @if (!isAdmin)
+                        {
+                            <div class="basketContainer">
+                                <a id="makeOrder" href="#" class="btn">
+                                    <i class="fa-solid fa-cart-shopping marginRight"></i>Make Order
+                                    <span id="counter" class="badge bg-warning customBadge visually-hidden">0</span>
+                                </a>
                             </div>
                         }
                     </div>
@@ -67,3 +94,70 @@
     </div>
 </div>
 
+@section Scripts
+{
+    <script>
+        $(function() {
+            var submit = $('#makeOrder');
+            var counter = $('#counter');
+            console.log('Button el:', submit);
+            
+            var arrToSubmit = [];
+            var index = 0;
+
+            var buttons = document.querySelectorAll(".addGameToBasket");
+
+            buttons.forEach(function(el) {
+                console.log("El:", el);
+
+                el.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    var currId = el.dataset.id;
+                    var key = arrToSubmit.indexOf(currId);
+                    var exists = key !== -1;
+
+                    if (exists) {
+                        return;
+                    }
+
+                    index++;
+                    console.log("Event:", event);
+
+                    var classToRemove = 'visually-hidden';
+                    counter.removeClass(classToRemove);
+
+                    counter.text(index);
+
+                    arrToSubmit.push(currId);
+                });
+            });
+
+            submit.click(function(event) {
+                console.log("Submit Event:", event);
+                event.preventDefault();
+
+                var actionUrl = "/Order/CreateBundle";
+                var data = {
+                    ids: arrToSubmit
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: actionUrl,
+                    data: data,
+                    success: function (data)
+                    {
+                        console.log("Success: ", data);
+
+                        window.location.href = '@Url.Action("AllOrders", "Order")';
+                    },
+                    error: function (err)
+                    {
+                        console.log("Error: ", err);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -4,7 +4,6 @@ namespace virtualReality.Entities
 {
     public class Order
     {
-        public int GameId { get; set; }
         public int Id { get; set; }
         public string Status { get; set; }
 

@@ -50,7 +50,12 @@ namespace virtualReality
         {
             services.AddSession();
             services.AddControllersWithViews();
-            services.AddDbContext<MyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("Default"));
+                    options.EnableSensitiveDataLogging();
+                }
+            );
         }
     }
 }

@@ -10,28 +10,41 @@
 
     var user = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
     var isAdmin = Utilities.IsUserAdmin(user.Role);
+
+    var userClass = !isAdmin ? "justify-content-center" : "";
 }
 
 <div class="item-details-page minHeight">
     <div class="container">  
             <div class="col-lg-12">
                 <div class="current-bid mt-0">
-                    <h1 class="text-center">Total Genres: @Model.Genres?.Count</h1>
-                    <div class="pageActions">
-                        <a class="btn addNew" href="/Genre/Create">
-                            <i class="fa-solid fa-plus icon"></i>Add Genres
-                        </a>
-                    </div>
-                    <div>
-                        @if (Model?.Genres != null)
+                    @if (isAdmin)
+                    {
+                        <div class="pageActions">
+                            <a class="btn addNew" href="/Genre/Create">
+                                <i class="fa-solid fa-plus icon"></i>Add Genres
+                            </a>
+                        </div>
+                    }
+                    <div class="mt-5">
+                        @if (Model.Genres?.Count == 0)
                         {
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center mb-4">
+                                    <h3 class="card-subtitle mb-2">No Genres yet :(</h3>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h1 class="text-center mb-5">Total Genres: @Model.Genres?.Count</h1>
                             @foreach (var genre in Model.Genres)
                             {
                                 @if (!string.IsNullOrEmpty(genre.Name))
                                 {
-                                    <div class="genreRow">
-                                        <div>
-                                            <div class="genre">
+                                <div class="genreRow">
+                                    <div>
+                                            <div class="genre @userClass">
                                                 <h2 class="genreHeading">
                                                     <a class="genreLink" href="/Game/AllGames/@genre.Id">
                                                         @genre.Name

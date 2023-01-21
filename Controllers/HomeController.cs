@@ -98,6 +98,12 @@ namespace virtualReality.Controllers
         [HttpGet]
         public IActionResult Registration()
         {
+            if (HttpContext.Session.GetObject<User>("loggedUser") != null)
+            {
+                HttpContext.Session.Remove("loggedUser");
+                return RedirectToAction("Home", "Login");
+            }
+
             return View();
         }
 

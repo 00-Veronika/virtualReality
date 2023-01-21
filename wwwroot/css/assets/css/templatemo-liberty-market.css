@@ -822,7 +822,7 @@ Categories & Collections Style
 }
 
 .categories-collections:after {
-  background-image: url(/assets/images/category-collection-dec.png);
+  background-image: url(/css/assets/images/category-collection-dec.png);
   width: 300px;
   height: 282px;
   position: absolute;
@@ -1630,7 +1630,7 @@ Details Page Style
 }
 
 .item-details-page:after {
-  background-image: url(/assets/images/category-collection-dec.png);
+  background-image: url(/css/assets/images/category-collection-dec.png);
   width: 300px;
   height: 282px;
   position: absolute;

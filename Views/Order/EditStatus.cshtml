@@ -1,66 +1,34 @@
-﻿@model virtualReality.ViewModels.OrdersVM.OrderVM
+﻿@using static virtualReality.ViewModels.Enums;
+
+@model virtualReality.ViewModels.OrdersVM.EditOrderVM
 
 @{
 
     this.ViewData["title"] = "Edit Status";
     this.Layout = "/Views/Shared/_Site.cshtml";
 
-    // No need for these statuses
-    // Simply use Confirmed/Cancelled
-    // Single button for all roles
-
-    var InProgress = "InProgress";
-    var Shipping = "Shipping";
-    var Received = "Received";
+    var statuses = from OrderStatus s in Enum.GetValues(typeof(OrderStatus))
+            where s.ToString() != Model.Status
+            select new { Id = s, Name = s.ToString() };
+    
+    var list = new SelectList(statuses, "Id", "Name");
 }
 
-<h1>EditStatus</h1>
-
-<h4>OrderStatus</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" action="/Order/EditStatus" name="ChangeStatus">
+<div class="mainBackground">
+        <form method="post" action="/Order/EditStatus" name="ChangeStatus" id="contact">
             @Html.HiddenFor(m => m.Id)
             <div class="form-group">
-                @Html.LabelFor(m => m.Status)
-                @Html.TextBoxFor(m => m.Status)
-@*                <select id="statusSelect" asp-for="Status">
-                    @if (Model.Status == "Processing")
-                    {
-                        <option asp-f" value="@Model.Status"> @Model.Status </option>
-                        <option value="InProgress+@Model.UserId"> InProgress </option>
-                        <option value="Shipping+@Model.UserId"> Shipping </option>
-                        <option value="Received+@Model.UserId"> Received </option>
-                    }
-                    else
-                    {
-                        @if (Model.Status == InProgress)
-                        {
-                            <option value="@Model.Status"> @Model.Status </option>
-                            <option value="Shipping+@Model.UserId"> Shipping </option>
-                            <option value="Received+@Model.UserId"> Received </option>
-                        }
-                        else if (Model.Status == Shipping)
-                        {
-                            <option value="@Model.Status"> @Model.Status </option>
-                            <option value="InProgress+@Model.UserId"> InProgress </option>
-                            <option value="Received+@Model.UserId"> Received </option>
-                        }
-                        else
-                        {
-                            <option value="@Model.Status"> @Model.Status </option>
-                            <option value="InProgress+@Model.UserId"> InProgress </option>
-                            <option value="Shipping+@Model.UserId"> Shipping </option>
-                        }
-                    }
-                </select>*@
+                @Html.Label("Current Status")
+                @Html.TextBoxFor(m => m.Status, new { @disabled = true })
+                @Html.Label("New Status")
+                @Html.DropDownList("Status", list, new { @class = "customSelect" })
             </div>
-            <div class="form-group">
-                <input type="submit" value="Change Status" class="btn btn-primary" />
+            <div>
+                <button class="submitButton" type="submit">
+                    <i class="fa-solid fa-floppy-disk icon"></i>Save
+                </button>
             </div>
         </form>
-    </div>
 </div>
 <div>
     <a href="./AllOrders">Go back</a>

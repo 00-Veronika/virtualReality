@@ -8,8 +8,6 @@ namespace virtualReality.ViewModels.OrdersVM
         public List<Game> Games { get; set; }
         public int Id { get; set; }
         public string Status { get; set; }
-        public string UserFullName { get; set; }
-        public int UserId { get; set; }
         public decimal Total
         {
             get
@@ -24,5 +22,7 @@ namespace virtualReality.ViewModels.OrdersVM
                 return total;
             }
         }
+        public string UserFullName { get; set; }
+        public int UserId { get; set; }
     }
 }

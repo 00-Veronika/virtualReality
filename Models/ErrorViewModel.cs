@@ -1,5 +1,3 @@
-using System;
-
 namespace virtualReality.Models
 {
     public class ErrorViewModel

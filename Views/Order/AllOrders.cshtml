@@ -5,165 +5,167 @@
 @model virtualReality.ViewModels.OrdersVM.OrdersVM
 
 @{
-    var user = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
-    var isAdmin = Utilities.IsUserAdmin(user.Role);
+	var user = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
+	var isAdmin = Utilities.IsUserAdmin(user.Role);
 
-    this.ViewData["title"] = isAdmin ? "Orders" : "User Orders";
-    this.Layout = "/Views/Shared/_Site.cshtml";
+	this.ViewData["title"] = isAdmin ? "Orders" : "User Orders";
+	this.Layout = "/Views/Shared/_Site.cshtml";
 
-    string GetLabelClass(string status)
-    {
-        string className = string.Empty;
+	string GetLabelClass(string status)
+	{
+		string className = string.Empty;
 
-        switch (status)
-        {
-            case "Ordered":
-                className = "primary";
-                break;
-            case "Dispatched":
-                className = "info";
-                break;
-            case "Delivered":
-                className = "success";
-                break;
-            case "Cancelled":
-                className = "danger";
-                break;
-            default:
-                break;
-        }
+		switch (status)
+		{
+			case "Ordered":
+				className = "primary";
+				break;
+			case "Dispatched":
+				className = "info";
+				break;
+			case "Delivered":
+				className = "success";
+				break;
+			case "Cancelled":
+				className = "danger";
+				break;
+			default:
+				break;
+		}
 
-        return className;
-    }
+		return className;
+	}
 
-    string GetIconClass(string status)
-    {
-        string className = string.Empty;
+	string GetIconClass(string status)
+	{
+		string className = string.Empty;
 
-        switch (status)
-        {
-            case "Ordered":
-                className = "hourglass-start";
-                break;
-            case "Dispatched":
-                className = "truck";
-                break;
-            case "Delivered":
-                className = "check";
-                break;
-            case "Cancelled":
-                className = "times";
-                break;
-            default:
-                break;
-        }
+		switch (status)
+		{
+			case "Ordered":
+				className = "hourglass-start";
+				break;
+			case "Dispatched":
+				className = "truck";
+				break;
+			case "Delivered":
+				className = "check";
+				break;
+			case "Cancelled":
+				className = "times";
+				break;
+			default:
+				break;
+		}
 
-        return className;
-    }
+		return className;
+	}
 }
 
 <div class="mainBackground pt-0">
-    <section class="ftco-section">
-        <div class="container">
-            @if (Model.Orders.Count == 0)
-            {
-                <div class="row justify-content-center customMargin">
-                    <div class="text-center">
-                        <h3 class="card-subtitle">No orders yet :(</h3>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="row justify-content-center">
-                    <div class="text-center mb-4">
-                        <h2 class="card-subtitle">Total Orders: @Model.Orders.Count</h2>
-                    </div>
-                </div>
-                <div class="tableSpacing">
-                    <div>
-                        <div class="table-wrap">
-                            <table class="table table-striped table-hover mb-5">
-                                <thead class="tableWhite">
-                                    <tr>
-                                        <th>Invoice</th>
-                                        <th>Customer</th>
-                                        <th>Game Name</th>
-                                        <th>Price</th>
-                                        <th>Logo</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="tableWhite">
-                                    @{int i = 0;}
-                                    @foreach (var order in Model.Orders)
-                                    {
-                                        i++;
-                                        <tr>
-                                            <td class="firstCell">@order.Id</td>
-                                            <td>@order.UserFullName</td>
+	<section class="ftco-section">
+		<div class="container">
+			@if (Model.Orders.Count == 0)
+			{
+				<div class="row justify-content-center customMargin">
+					<div class="text-center">
+						<h3 class="card-subtitle">No orders yet :(</h3>
+					</div>
+				</div>
+			}
+			else
+			{
+				<div class="row justify-content-center">
+					<div class="text-center mb-4">
+						<h2 class="card-subtitle">Total Orders: @Model.Orders.Count</h2>
+					</div>
+				</div>
+				<div class="tableSpacing">
+					<div>
+						<div class="table-wrap">
+							<table class="table table-striped table-hover mb-5">
+								<thead class="tableWhite">
+									<tr>
+										<th>Invoice</th>
+										<th>Customer</th>
+										<th>Game Name</th>
+										<th>Price</th>
+										<th>Logo</th>
+										<th>Total</th>
+										<th>Status</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody class="tableWhite">
+									@{
+										int i = 0;
+									}
+									@foreach (var order in Model.Orders)
+									{
+										i++;
+										<tr>
+											<td class="firstCell">@order.Id</td>
+											<td>@order.UserFullName</td>
 
-                                            @if (order.Games?.Count == 0)
-                                            {
-                                                <td>N/A</td>
-                                                <td>N/A</td>
-                                                <td>N/A</td>
-                                            }
+											@if (order.Games?.Count == 0)
+											{
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+											}
 
-                                            <td>
-                                            @foreach (var g in order.Games)
-                                            {
-                                                @g.Name <br />
-                                            }
-                                            </td>
+											<td>
+												@foreach (var g in order.Games)
+												{
+													@g.Name <br />
+												}
+											</td>
 
-                                            <td>
-                                            @foreach (var g in order.Games)
-                                            {
-                                                @g.Price <br />
-                                            }
-                                            </td>
+											<td>
+												@foreach (var g in order.Games)
+												{
+													@g.Price <br />
+												}
+											</td>
 
-                                            <td class="imgContainer">
-                                            @foreach (var g in order.Games)
-                                            {
-                                                <img src="@g.Url" alt="Placeholder for: @g.Name">
-                                            }
-                                            </td>
+											<td class="imgContainer">
+												@foreach (var g in order.Games)
+												{
+													<img src="@g.Url" alt="Placeholder for: @g.Name">
+												}
+											</td>
 
-                                            <td>@order.Total BGN</td>
-                                            <td class="labelsAligned">
-                                                <span class="btn btn-outline-@GetLabelClass(order.Status)">
-                                                    <i class="fa-solid fa-@GetIconClass(order.Status) marginRight"></i>@order.Status
-                                                </span>
-                                            </td>
-                                            <td class="labelsAligned">
-                                                @if (isAdmin)
-                                                {
-                                                    <a class="btn btn-warning" href="./EditStatus?id=@order.Id">
-                                                        <i class="fa-solid fa-pencil marginRight"></i>Edit
-                                                    </a>
-                                                    <a class="btn btn-danger customButton" href="./Delete?id=@order.Id">
-                                                        <i class="fa-solid fa-trash icon"></i>Delete
-                                                    </a>
-                                                }
-                                                else if (user.Id == order.UserId && order.Status != "Cancelled" &&  order.Status != "Delivered")
-                                                {
-                                                    <a class="btn btn-danger" href="./CancelOrder?id=@order.Id">
-                                                        <i class="fa-solid fa-ban marginRight"></i>Cancel
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </section>
+											<td>@order.Total BGN</td>
+											<td class="labelsAligned">
+												<span class="btn btn-outline-@GetLabelClass(order.Status)">
+													<i class="fa-solid fa-@GetIconClass(order.Status) marginRight"></i>@order.Status
+												</span>
+											</td>
+											<td class="labelsAligned">
+												@if (isAdmin)
+												{
+													<a class="btn btn-warning" href="./EditStatus?id=@order.Id">
+														<i class="fa-solid fa-pencil marginRight"></i>Edit
+													</a>
+													<a class="btn btn-danger customButton" href="./Delete?id=@order.Id">
+														<i class="fa-solid fa-trash icon"></i>Delete
+													</a>
+												}
+												else if (user.Id == order.UserId && order.Status != "Cancelled" && order.Status != "Delivered")
+												{
+													<a class="btn btn-danger" href="./CancelOrder?id=@order.Id">
+														<i class="fa-solid fa-ban marginRight"></i>Cancel
+													</a>
+												}
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</section>
 </div>

@@ -84,6 +84,12 @@ namespace virtualReality.Controllers
                 return RedirectToAction("AllGames", "Game");
             }
 
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return View(model);
+            }
+
             var item = new Game
             {
                 Name = model.Name,
@@ -202,6 +208,7 @@ namespace virtualReality.Controllers
 
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
                 return View(model);
             }
 

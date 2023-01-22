@@ -1,66 +1,66 @@
 ﻿@model virtualReality.ViewModels.UsersVM.CreateVM
 
 @{
-    Layout = "/Views/Shared/_Site.cshtml";
-    ViewData["title"] = "Register";
+	Layout = "/Views/Shared/_Site.cshtml";
+	ViewData["title"] = "Register";
 }
 
 <div class="mainBackground">
-    <form action="/Home/Registration" method="post" id="contact">
-        <div class="row">
-            <div class="label" for="FirstName">
-                @Html.LabelFor(m => m.FirstName)
-            </div>
-            <div class="input" id="Firstname" name="FirstName" required="required">
-                @Html.TextBoxFor(m => m.FirstName)
-            </div>
-            <div class="input">@Html.ValidationMessageFor(m => m.FirstName)</div>
-        </div>
-        <div class="row">
-            <div class="label" for="LastName">
-                @Html.LabelFor(m => m.LastName)
-            </div>
-            <div class="input" id="LastName" name="LastName" required="required">
-                @Html.TextBoxFor(m => m.LastName)
-            </div>
-            <div class="input">@Html.ValidationMessageFor(m => m.LastName)</div>
-        </div>
-        <div class="row">
-            <div class="label" for="username">
-                @Html.LabelFor(m => m.Username)
-            </div>
-            <div class="input" id="username" name="username" required="required">
-                @Html.TextBoxFor(m => m.Username)
-            </div>
-            <div class="input">@Html.ValidationMessageFor(m => m.Username)</div>
-        </div>
-        <div class="row">
-            <div class="label" for="password">@Html.LabelFor(m => m.Password)</div>
-            <div class="input" id="password" name="password" required="required">
-                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Password", @type = "password" } )
-            </div>
-            <div class="input">@Html.ValidationMessageFor(m => m.Password)</div>
-        </div>
-        <div class="row">
-            <div class="label" for="phone" id="labelTel">@Html.LabelFor(m => m.Phone)</div>
-            <div class="input" id="phone" name="telephone" required="required" pattern="[0-9]{3}-[0-9{3}-[0-9]{4}">
-                @Html.TextBoxFor(m => m.Phone)
-            </div>
-            <div class="input">@Html.ValidationMessageFor(m => m.Phone)</div>
-        </div>
-        <div class="row">
-        <div class="label" for="email" id="labelEmail">@Html.LabelFor(m => m.Email)</div> <br>
-        <div class="input" id="em" name="email" required="required">
-            @Html.TextBoxFor(m => m.Email)
-        </div>
-        <div class="input">
-            @Html.ValidationMessageFor(m => m.Email)
-            </div>
-        </div>
-        <div>
-            <button class="submitButton" type="submit">
-                <i class="fa-solid fa-user-plus icon"></i>Register
-            </button>
-        </div>
-    </form>
+	<form action="/Home/Registration" method="post" id="contact">
+		<div class="row">
+			<div class="label" for="FirstName">
+				@Html.LabelFor(m => m.FirstName)
+			</div>
+			<div class="input" id="Firstname" name="FirstName" required="required">
+				@Html.TextBoxFor(m => m.FirstName)
+			</div>
+			<div class="input">@Html.ValidationMessageFor(m => m.FirstName)</div>
+		</div>
+		<div class="row">
+			<div class="label" for="LastName">
+				@Html.LabelFor(m => m.LastName)
+			</div>
+			<div class="input" id="LastName" name="LastName" required="required">
+				@Html.TextBoxFor(m => m.LastName)
+			</div>
+			<div class="input">@Html.ValidationMessageFor(m => m.LastName)</div>
+		</div>
+		<div class="row">
+			<div class="label" for="username">
+				@Html.LabelFor(m => m.Username)
+			</div>
+			<div class="input" id="username" name="username" required="required">
+				@Html.TextBoxFor(m => m.Username)
+			</div>
+			<div class="input">@Html.ValidationMessageFor(m => m.Username)</div>
+		</div>
+		<div class="row">
+			<div class="label" for="password">@Html.LabelFor(m => m.Password)</div>
+			<div class="input" id="password" name="password" required="required">
+				@Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Password", @type = "password" } )
+			</div>
+			<div class="input">@Html.ValidationMessageFor(m => m.Password)</div>
+		</div>
+		<div class="row">
+			<div class="label" for="phone" id="labelTel">@Html.LabelFor(m => m.Phone)</div>
+			<div class="input" id="phone" name="telephone" required="required" pattern="[0-9]{3}-[0-9{3}-[0-9]{4}">
+				@Html.TextBoxFor(m => m.Phone)
+			</div>
+			<div class="input">@Html.ValidationMessageFor(m => m.Phone)</div>
+		</div>
+		<div class="row">
+			<div class="label" for="email" id="labelEmail">@Html.LabelFor(m => m.Email)</div> <br>
+			<div class="input" id="em" name="email" required="required">
+				@Html.TextBoxFor(m => m.Email)
+			</div>
+			<div class="input">
+				@Html.ValidationMessageFor(m => m.Email)
+			</div>
+		</div>
+		<div>
+			<button class="submitButton" type="submit">
+				<i class="fa-solid fa-user-plus icon"></i>Register
+			</button>
+		</div>
+	</form>
 </div>

@@ -3,129 +3,114 @@
 @using virtualReality.Helpers
 
 @{
-    User loggedUser = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
-    var controller = @ViewContext.RouteData.Values["controller"].ToString();
-    var action = @ViewContext.RouteData.Values["action"].ToString();
-    var author = "Project_VirtualReality - Вероника Пенева - 2101681046";
+	User loggedUser = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
+	var controller = @ViewContext.RouteData.Values["controller"].ToString();
+	var action = @ViewContext.RouteData.Values["action"].ToString();
+	var author = "Project_VirtualReality - Вероника Пенева - 2101681046";
 }
 
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="author" content="templatemo">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="icon" type="image/png" href="/css/assets/images/vr-icon.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-
-    <title>Virtual Reality | @ViewData["title"]</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="/css/customStyles.css" rel="stylesheet">
-    
-    <!-- Get the minified jQuery! -->
-    <script src="/css/vendor/jquery/jquery.js"></script>
-
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="/css/assets/css/fontawesome.css">
-    <link rel="stylesheet" href="/css/assets/css/templatemo-liberty-market.css">
-    <link rel="stylesheet" href="/css/assets/css/owl.css">
-    <link rel="stylesheet" href="/css/assets/css/animate.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-
-    @RenderSection("Styles", false)
-    @RenderSection("Scripts", false)
-</head>
-<body>
-    <!-- Header area start -->
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav main-nav-custom">
-                        <!-- Menu start -->
-                        <ul class="nav nav-custom">
-                            <li>
-                                <a class="@Html.IsActive("Home", "Index")" href="/Home/Index">
-                                    <i class="fa-solid fa-house icon"></i>Home
-                                </a>
-                            </li>
-
-                            @if (loggedUser != null)
-                            {
-                                <li>
-                                    <a class="@Html.IsActive("Game", "AllGames")" href="/Game/AllGames">
-                                        <i class="fa-solid fa-gamepad icon"></i>Games
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="@Html.IsActive("Genre", "AllGenres")" href="/Genre/AllGenres">
-                                        <i class="fa-solid fa-list icon"></i>Genres
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="@Html.IsActive("Order", "AllOrders")" href="/Order/AllOrders">
-                                        <i class="fa-solid fa-bag-shopping icon"></i>Orders
-                                    </a>
-                                </li>
-                                <li>
-                                    <!-- No need to set active class here -->
-                                    <a href="/Home/Logout">
-                                        <i class="fa-solid fa-right-from-bracket icon"></i>Logout
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li>
-                                    <a class="@Html.IsActive("Home", "Login")" href="/Home/Login">
-                                        <i class="fa-solid fa-right-to-bracket icon"></i>Login
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="@Html.IsActive("Home", "Registration")" href="/Home/Registration">
-                                        <i class="fa-solid fa-user-plus icon"></i>Register
-                                    </a>
-                                </li>
-                            }
-
-                        </ul>
-                        <!--  Menu end -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- Header area end -->
-
-    <div>
-        @RenderBody()
-    </div>
-
-    <!-- Footer-->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>@author</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer end -->
-
-    <!-- Scripts -->
-    <!-- Bootstrap core JavaScript -->
-    <script src="/css/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="/css/assets/js/isotope.min.js"></script>
-    <script src="/css/assets/js/owl-carousel.js"></script>
-
-    <script src="/css/assets/js/tabs.js"></script>
-    <script src="/css/assets/js/popup.js"></script>
-    <script src="/css/assets/js/custom.js"></script>
-</body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="templatemo">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="icon" type="image/png" href="/css/assets/images/vr-icon.png" />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+		<title>Virtual Reality | @ViewData["title"]</title>
+		<!-- Bootstrap core CSS -->
+		<link href="/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="/css/customStyles.css" rel="stylesheet">
+		<!-- Get the minified jQuery! -->
+		<script src="/css/vendor/jquery/jquery.js"></script>
+		<!-- Additional CSS Files -->
+		<link rel="stylesheet" href="/css/assets/css/fontawesome.css">
+		<link rel="stylesheet" href="/css/assets/css/templatemo-liberty-market.css">
+		<link rel="stylesheet" href="/css/assets/css/owl.css">
+		<link rel="stylesheet" href="/css/assets/css/animate.css">
+		<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+		@RenderSection("Styles", false)
+		@RenderSection("Scripts", false)
+	</head>
+	<body>
+		<!-- Header area start -->
+		<header class="header-area header-sticky">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<nav class="main-nav main-nav-custom">
+							<!-- Menu start -->
+							<ul class="nav nav-custom">
+								<li>
+									<a class="@Html.IsActive(" Home", "Index" )" href="/Home/Index">
+										<i class="fa-solid fa-house icon"></i>Home
+									</a>
+								</li> @if (loggedUser != null)
+								{
+									<li>
+										<a class="@Html.IsActive(" Game", "AllGames" )" href="/Game/AllGames">
+											<i class="fa-solid fa-gamepad icon"></i>Games
+										</a>
+									</li>
+									<li>
+										<a class="@Html.IsActive(" Genre", "AllGenres" )" href="/Genre/AllGenres">
+											<i class="fa-solid fa-list icon"></i>Genres
+										</a>
+									</li>
+									<li>
+										<a class="@Html.IsActive(" Order", "AllOrders" )" href="/Order/AllOrders">
+											<i class="fa-solid fa-bag-shopping icon"></i>Orders
+										</a>
+									</li>
+									<li>
+										<!-- No need to set active class here -->
+										<a href="/Home/Logout">
+											<i class="fa-solid fa-right-from-bracket icon"></i>Logout
+										</a>
+									</li>
+								}
+								else
+								{
+									<li>
+										<a class="@Html.IsActive(" Home", "Login" )" href="/Home/Login">
+											<i class="fa-solid fa-right-to-bracket icon"></i>Login
+										</a>
+									</li>
+									<li>
+										<a class="@Html.IsActive(" Home", "Registration" )" href="/Home/Registration">
+											<i class="fa-solid fa-user-plus icon"></i>Register
+										</a>
+									</li>
+								}
+							</ul>
+							<!--  Menu end -->
+						</nav>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- Header area end -->
+		<div>
+			@RenderBody()
+		</div>
+		<!-- Footer-->
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<p>@author</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- Footer end -->
+		<!-- Scripts -->
+		<!-- Bootstrap core JavaScript -->
+		<script src="/css/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/css/assets/js/isotope.min.js"></script>
+		<script src="/css/assets/js/owl-carousel.js"></script>
+		<script src="/css/assets/js/tabs.js"></script>
+		<script src="/css/assets/js/popup.js"></script>
+		<script src="/css/assets/js/custom.js"></script>
+	</body>
 </html>

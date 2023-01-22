@@ -3,26 +3,26 @@
 @model virtualReality.ViewModels.GenreVM.GenreVM
 
 @{
-    this.ViewData["title"] = "Edit a genre";
-    this.Layout = "/Views/Shared/_Site.cshtml";
+	this.ViewData["title"] = "Edit a genre";
+	this.Layout = "/Views/Shared/_Site.cshtml";
 
 }
 
 <div class="mainBackground">
-    <form action="/Genre/Edit" method="post" id="contact">
-        @Html.HiddenFor(m => m.Id)
-        <div class="row">
-            <div class="label" for="name">
-                @Html.LabelFor(m => m.Name)
-            </div>
-            <div class="input" id="name" name="name" required="required">
-                @Html.TextBoxFor(m => m.Name)
-            </div>
-        </div>
-        <div>
-            <button class="submitButton" type="submit">
-                <i class="fa-solid fa-floppy-disk icon"></i>Save
-            </button>
-        </div>
-    </form>
+	<form action="/Genre/Edit" method="post" id="contact">
+		@Html.HiddenFor(m => m.Id)
+		<div class="row">
+			<div class="label" for="name">
+				@Html.LabelFor(m => m.Name)
+			</div>
+			<div class="input" id="name" name="name" required="required">
+				@Html.TextBoxFor(m => m.Name)
+			</div>
+		</div>
+		<div>
+			<button class="submitButton" type="submit">
+				<i class="fa-solid fa-floppy-disk icon"></i>Save
+			</button>
+		</div>
+	</form>
 </div>

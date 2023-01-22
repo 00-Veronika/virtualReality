@@ -1,6 +1,8 @@
 using EntityFrameworkSample;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +52,11 @@ namespace virtualReality
         {
             services.AddSession();
             services.AddControllersWithViews();
+            services.Configure<MvcViewOptions>(options =>
+            {
+                // Disable hidden checkboxes
+                options.HtmlHelperOptions.CheckBoxHiddenInputRenderMode = CheckBoxHiddenInputRenderMode.None;
+            });
             services.AddDbContext<MyDbContext>(options =>
                 {
                     options.UseSqlServer(Configuration.GetConnectionString("Default"));

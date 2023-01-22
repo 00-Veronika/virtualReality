@@ -7,11 +7,7 @@ namespace virtualReality.ViewModels.GamesVM
 {
     public class EditGamesVM
     {
-        [Required(ErrorMessage = nameof(Genres) + FieldConstants.REQUIRED)]
         public IEnumerable<Genre> Genres { get; set; }
-
-        [Required(ErrorMessage = nameof(SelectedGenreIds) + FieldConstants.REQUIRED)]
-        public List<int> SelectedGenreIds { get; set; }
 
         public int Id { get; set; }
 
@@ -26,6 +22,9 @@ namespace virtualReality.ViewModels.GamesVM
 
         [Required(ErrorMessage = nameof(ReleaseDate) + FieldConstants.REQUIRED)]
         public DateTime ReleaseDate { get; set; }
+
+        [Required(ErrorMessage = nameof(SelectedGenreIds) + FieldConstants.REQUIRED)]
+        public List<int> SelectedGenreIds { get; set; }
 
         [Required(ErrorMessage = nameof(Url) + FieldConstants.REQUIRED)]
         public string Url { get; set; }

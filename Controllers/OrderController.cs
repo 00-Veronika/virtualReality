@@ -99,6 +99,39 @@ namespace virtualReality.Controllers
             return View(model);
         }
 
+        // GET: OrderController/EditStatus
+        [HttpGet]
+        public IActionResult CancelOrder(int id)
+        {
+            var currentOrder = _context.Orders
+                .Where(o => o.Id == id)
+                .FirstOrDefault();
+
+            var itemToEdit = _context.Orders
+                .Where(o => o.Id == id)
+                .FirstOrDefault();
+
+            if (itemToEdit == null)
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
+
+            var user = HttpContext.Session.GetObject<User>("loggedUser");
+
+            if (!int.Equals(user.Id, itemToEdit.UserId))
+            {
+                return RedirectToAction("AllOrders", "Order");
+            }
+
+            var cancelled = OrderStatus.Cancelled.ToString();
+            itemToEdit.Status = cancelled;
+
+            _context.Update(itemToEdit);
+            _context.SaveChanges();
+
+            return RedirectToAction("AllOrders", "Order");
+        }
+
         public IActionResult CreateBundle(int[] ids)
         {
             if (ids?.Length == 0)
@@ -169,39 +202,6 @@ namespace virtualReality.Controllers
                 _context.Orders.Remove(itemToDelete);
                 _context.SaveChanges();
             }
-
-            return RedirectToAction("AllOrders", "Order");
-        }
-
-        // GET: OrderController/EditStatus
-        [HttpGet]
-        public IActionResult CancelOrder(int id)
-        {
-            var currentOrder = _context.Orders
-                .Where(o => o.Id == id)
-                .FirstOrDefault();
-
-            var itemToEdit = _context.Orders
-                .Where(o => o.Id == id)
-                .FirstOrDefault();
-
-            if (itemToEdit == null)
-            {
-                return RedirectToAction("AllOrders", "Order");
-            }
-
-            var user = HttpContext.Session.GetObject<User>("loggedUser");
-
-            if (!int.Equals(user.Id, itemToEdit.UserId))
-            {
-                return RedirectToAction("AllOrders", "Order");
-            }
-
-            var cancelled = OrderStatus.Cancelled.ToString();
-            itemToEdit.Status = cancelled;
-
-            _context.Update(itemToEdit);
-            _context.SaveChanges();
 
             return RedirectToAction("AllOrders", "Order");
         }

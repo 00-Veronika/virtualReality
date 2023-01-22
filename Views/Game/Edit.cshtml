@@ -1,75 +1,72 @@
 ﻿@using virtualReality.Entities
+
 @model virtualReality.ViewModels.GamesVM.EditGamesVM
 
 @{
-    this.ViewData["title"] = "Edit a game";
-    this.Layout = "/Views/Shared/_Site.cshtml";
+	this.ViewData["title"] = "Edit a game";
+	this.Layout = "/Views/Shared/_Site.cshtml";
 
-    var urlList = new List<string>
-    {
-        "/css/assets/images/current-01.jpg",
-        "/css/assets/images/current-02.jpg",
-        "/css/assets/images/current-03.jpg",
-        "/css/assets/images/current-04.jpg"
-    };
+	var urlList = new List<string>
+	{
+		"/css/assets/images/current-01.jpg",
+		"/css/assets/images/current-02.jpg",
+		"/css/assets/images/current-03.jpg",
+		"/css/assets/images/current-04.jpg"
+	};
 
-    var selectedValue = urlList.Where(u => u.Equals(Model.Url)).FirstOrDefault();
-    var indexedPaths = urlList.Select((url, index) => new { Id = $"Preset Logo #{index+1}", Name = url } );    
-    var list = new SelectList(indexedPaths, "Name", "Id", selectedValue);
+	var selectedValue = urlList.Where(u => u.Equals(Model.Url)).FirstOrDefault();
+	var indexedPaths = urlList.Select((url, index) => new { Id = $"Preset Logo #{index + 1}", Name = url });
+	var list = new SelectList(indexedPaths, "Name", "Id", selectedValue);
 }
 
 <div class="mainBackground">
-    <form action="/Game/Edit?id=@Model.Id" method="post" id="contact">
-        <div class="row">
-            <div class="label" for="name">
-                @Html.LabelFor(m => m.Name)
-            </div>
-            <div class="input" id="username" name="name" required="required">
-                @Html.TextBoxFor(m => m.Name)
-            </div>
-        </div>
-        <div class="row">
-            <div class="label" for="genre">@Html.LabelFor(m => m.Genres)</div>
-            <div class="input" id="genre" name="genre" required="required">
-            @foreach (var genre in Model.Genres)
-            {
-                <div class="genreContainer" id="genres" name="SelectedGenreIds" required="required">
-                    @Html.Label(genre.Name)
-                    @Html.CheckBox("SelectedGenreIds", isChecked: Model.SelectedGenreIds.Contains(genre.Id), new {  @value = genre.Id })
-                </div>
-            }
-            </div>
-        </div>
-        <div class="row">
-            <div class="label" for="Manufacturer" id="labelTel">@Html.LabelFor(m => m.Manufacturer)</div>
-            <div class="input" id="phone" name="manufacturer" required="required">
-                @Html.TextBoxFor(m => m.Manufacturer)
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="label" for="Price" id="labelEmail">@Html.LabelFor(m => m.Price)</div> <br>
-            <div class="input" id="em" name="price" required="required">
-                <input type="number" step=".01" value="@Model.Price" name="price" min="0" oninput="validity.valid||(value='');">
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="label" for="ReleaseDate" id="labelEmail">@Html.Label("Release Date")</div> <br>
-            <div class="input" id="em" name="releseDate" required="required">
-                @Html.TextBox("releasedate", Model.ReleaseDate.ToString("yyyy-MM-dd"), "{0:yyyy-MM-dd}", new { @type="date", @class = "form-control datepicker", @valueAsDate = Model.ReleaseDate } )
-            </div>
-        </div>
-        <div class="row">
-            <div class="label" for="url" id="url">@Html.Label("Game Banner")</div> <br>
-            <div class="input" id="url" name="url" required="required">
-                @Html.DropDownList("url", list, new { @class = "customSelect" })
-            </div>
-        </div>
-        <div>
-            <button class="submitButton" type="submit">
-                <i class="fa-solid fa-floppy-disk icon"></i>Save
-            </button>
-        </div>
-    </form>
+	<form action="/Game/Edit?id=@Model.Id" method="post" id="contact">
+		<div class="row">
+			<div class="label" for="name">
+				@Html.LabelFor(m => m.Name)
+			</div>
+			<div class="input" id="username" name="name" required="required">
+				@Html.TextBoxFor(m => m.Name)
+			</div>
+		</div>
+		<div class="row">
+			<div class="label" for="genre">@Html.LabelFor(m => m.Genres)</div>
+			@foreach (var genre in Model.Genres)
+			{
+				<div class="input genreCheckboxContainer" id="genres" name="SelectedGenreIds" required="required">
+					@Html.Label(genre.Name)
+					@Html.CheckBox("SelectedGenreIds", isChecked: Model.SelectedGenreIds.Contains(genre.Id), new {  @value = genre.Id, @class = "customCheckbox m-0" })
+				</div>
+			}
+		</div>
+		<div class="row">
+			<div class="label" for="Manufacturer" id="labelTel">@Html.LabelFor(m => m.Manufacturer)</div>
+			<div class="input" id="phone" name="manufacturer" required="required">
+				@Html.TextBoxFor(m => m.Manufacturer)
+			</div>
+		</div>
+		<div class="row">
+			<div class="label" for="Price" id="labelEmail">@Html.LabelFor(m => m.Price)</div> <br>
+			<div class="input" id="em" name="price" required="required">
+				<input type="number" step=".01" value="@Model.Price" name="price" min="0" oninput="validity.valid||(value='');">
+			</div>
+		</div>
+		<div class="row">
+			<div class="label" for="ReleaseDate" id="labelEmail">@Html.Label("Release Date")</div> <br>
+			<div class="input" id="em" name="releseDate" required="required">
+				@Html.TextBox("releasedate", Model.ReleaseDate.ToString("yyyy-MM-dd"), "{0:yyyy-MM-dd}", new { @type="date", @class = "form-control datepicker", @valueAsDate = Model.ReleaseDate } )
+			</div>
+		</div>
+		<div class="row">
+			<div class="label" for="url" id="url">@Html.Label("Game Banner")</div> <br>
+			<div class="input" id="url" name="url" required="required">
+				@Html.DropDownList("url", list, new { @class = "customSelect" })
+			</div>
+		</div>
+		<div>
+			<button class="submitButton" type="submit">
+				<i class="fa-solid fa-floppy-disk icon"></i>Save
+			</button>
+		</div>
+	</form>
 </div>

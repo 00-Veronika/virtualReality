@@ -1,25 +1,26 @@
 ﻿@using virtualReality.Entities
+
 @model virtualReality.ViewModels.GenreVM.GenreVM
 
 @{
-    this.ViewData["title"] = "Create a genre";
-    this.Layout = "/Views/Shared/_Site.cshtml";
+	this.ViewData["title"] = "Create a genre";
+	this.Layout = "/Views/Shared/_Site.cshtml";
 }
 
 <div class="mainBackground">
-    <form action="/Genre/Create" method="post" id="contact">
-        <div class="row">
-            <div class="label" for="name">
-                @Html.LabelFor(m => m.Name)
-            </div>
-            <div class="input" name="name" required="required">
-                @Html.TextBoxFor(m => m.Name)
-            </div>
-        </div>
-        <div>
-            <button class="submitButton" type="submit">
-                <i class="fa-solid fa-plus icon"></i>Create Genre
-            </button>
-        </div>
-    </form>
+	<form action="/Genre/Create" method="post" id="contact">
+		<div class="row">
+			<div class="label" for="name">
+				@Html.LabelFor(m => m.Name)
+			</div>
+			<div class="input" name="name" required="required">
+				@Html.TextBoxFor(m => m.Name)
+			</div>
+		</div>
+		<div>
+			<button class="submitButton" type="submit">
+				<i class="fa-solid fa-plus icon"></i>Create Genre
+			</button>
+		</div>
+	</form>
 </div>

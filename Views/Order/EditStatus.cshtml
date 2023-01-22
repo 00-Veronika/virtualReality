@@ -4,32 +4,32 @@
 
 @{
 
-    this.ViewData["title"] = "Edit Status";
-    this.Layout = "/Views/Shared/_Site.cshtml";
+	this.ViewData["title"] = "Edit Status";
+	this.Layout = "/Views/Shared/_Site.cshtml";
 
-    var statuses = from OrderStatus s in Enum.GetValues(typeof(OrderStatus))
-            where s.ToString() != Model.Status
-            select new { Id = s, Name = s.ToString() };
-    
-    var list = new SelectList(statuses, "Id", "Name");
+	var statuses = from OrderStatus s in Enum.GetValues(typeof(OrderStatus))
+							where s.ToString() != Model.Status
+							select new { Id = s, Name = s.ToString() };
+
+	var list = new SelectList(statuses, "Id", "Name");
 }
 
 <div class="mainBackground">
-        <form method="post" action="/Order/EditStatus" name="ChangeStatus" id="contact">
-            @Html.HiddenFor(m => m.Id)
-            <div class="form-group">
-                @Html.Label("Current Status")
-                @Html.TextBoxFor(m => m.Status, new { @disabled = true })
-                @Html.Label("New Status")
-                @Html.DropDownList("Status", list, new { @class = "customSelect" })
-            </div>
-            <div>
-                <button class="submitButton" type="submit">
-                    <i class="fa-solid fa-floppy-disk icon"></i>Save
-                </button>
-            </div>
-        </form>
+	<form method="post" action="/Order/EditStatus" name="ChangeStatus" id="contact">
+		@Html.HiddenFor(m => m.Id)
+		<div class="form-group">
+			@Html.Label("Current Status")
+			@Html.TextBoxFor(m => m.Status, new { @disabled = true })
+			@Html.Label("New Status")
+			@Html.DropDownList("Status", list, new { @class = "customSelect" })
+		</div>
+		<div>
+			<button class="submitButton" type="submit">
+				<i class="fa-solid fa-floppy-disk icon"></i>Save
+			</button>
+		</div>
+	</form>
 </div>
 <div>
-    <a href="./AllOrders">Go back</a>
+	<a href="./AllOrders">Go back</a>
 </div>
